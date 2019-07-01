@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: dflowutil
+Version: 0.1
+Summary: Utilities for Delft3D Flow Flexible Mesh
+Home-page: https://github.com/RSchueder/dflowutil
+Author: Rudy Schueder
+Author-email: rudy.schueder@gmail.com
+License: UNKNOWN
+Description: # dflowutil
+        Utilities for Delft3D FLOW Flexible Mesh in python
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
