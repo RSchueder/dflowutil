@@ -1,7 +1,0 @@
-README.md
-dflowutil.py
-setup.py
-dflowutil.egg-info/PKG-INFO
-dflowutil.egg-info/SOURCES.txt
-dflowutil.egg-info/dependency_links.txt
-dflowutil.egg-info/top_level.txt
