@@ -367,3 +367,116 @@ def read_lsp(lspfile, procfile, tablefile, latexfile):
                     subs[sub] = sub
                     ltx.write("\\\\ \n")
             ltx.write('\\end{longtable}')
+
+def pdistf(X1, Y1, X2, Y2):
+    return np.sqrt((X2 - X1)**2 + (Y2 - Y1)**2)
+
+
+def read_pli(var):
+    '''
+    reads a pli boundary into an array
+    '''
+    with open(var) as plifile:
+        lines = plifile.readlines()
+        X = []
+        Y = []
+        for ind, row in enumerate(lines):
+            if '.' in row:
+                line = row.split(' ')
+                try:
+                    X.append(float(line[0]))
+                    Y.append(float(line[2]))
+                except(ValueError):
+                    X.append(float(line[1]))
+                    Y.append(float(line[3]))
+    return np.array([X, Y]).T
+
+
+def row2array(line):
+    line = line.split(' ')
+    arr = []
+    for ch in line:
+        try:
+            val = float(ch)
+            arr.append(val)
+        except:
+            pass
+    return np.array(arr)
+
+
+def read_bc(pli_file, bc_file):
+    '''
+    plots a cross section of a bc file
+    '''    
+    non_data = ['ame', 'orcing', 'unction', 'ertical', 'ime', 'uantity', 'nit']
+    pli = read_pli(pli_file)
+    data = {}
+    # create an array of distances
+    dist = np.zeros((len(pli)))
+    for position in range(1, len(pli)):
+        dist[position] = dist[position - 1] + np.abs(pdistf(pli[position, 0], pli[position, 1], pli[position - 1, 0], pli[position - 1, 1]))
+    
+    with open(bc_file, 'r') as bc:
+        ind = []
+        page = bc.readlines()
+        for row, line in enumerate(page):
+            # first pass, obtain metadata
+            if '[forcing]' in line:
+                ind.append(row)
+            if 'Vertical position type          = zdatum' in line:
+                data['vertical position type'] = 'zdatum'
+            if 'Vertical position specification' in line:
+                line = line.replace('Vertical position specification =','')
+                arr = row2array(line)
+                data['zprofile'] = arr  
+            if 'uantity' in line and 'time' not in line:
+                data['quantity'] = line.replace('Quantity','').replace('quantity','').replace('=','').strip()      
+            if 'nit' in line:
+                data['unit'] = line.replace('Unit','').replace('unit','').replace('=','').strip()  
+        
+    assert(len(ind) == len(pli))
+    if 'vertical position type' not in data.keys():
+        print('ERROR: vertical specification is not zdatum, bc file zprofile not self describing')    
+        return None
+    else:
+        with open(bc_file, 'r') as bc:
+            # second pass, load data into memory
+            page = bc.readlines()
+            # estimate number of times based on first position
+            # purpose is for allocation of array
+            times = []
+            for row in np.arange(ind[0], ind[1]):
+                line = page[row]
+                chk = sum([word in line for word in non_data])
+                if chk == 0 and '.' in line:               
+                    arr = row2array(line)
+                    times.append(arr[0])
+
+            data['distance'] = dist
+            data['times'] = np.array(times)
+            data[data['quantity']] = np.zeros(( len(data['zprofile']), len(ind), len(times) ))
+
+            for position in range(0,len(ind)):
+                tt = 0
+                if position + 1 == len(ind):
+                    curr_data = page[ind[position]:] 
+                else:
+                    curr_data = page[ind[position]: ind[position+1]]
+                for line in curr_data:
+                    chk = sum([word in line for word in non_data])
+                    if chk == 0 and '.' in line:
+                        arr = row2array(line)
+                        data[data['quantity']][:,position,tt] = arr[1:]
+                        tt += 1
+
+        return data
+
+
+
+
+
+            
+
+
+    
+

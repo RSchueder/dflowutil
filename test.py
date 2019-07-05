@@ -1,30 +1,14 @@
 from dflowutil import *
+import numpy as np
 import matplotlib.pyplot as plt
 
-plt.close('all')
+pli_file = r'p:\1204257-dcsmzuno\2013-2017\3D-DCSM-FM\A08_newrgh_steric_dicoww_nest2\CMEMS\test_out\OB_all_20181108OXY.pli'
+bc_file = r'p:\1204257-dcsmzuno\2013-2017\3D-DCSM-FM\A08_newrgh_steric_dicoww_nest2\CMEMS\test_out\OXY.bc'
 
-seg = seg = {
-'module_3 (1)':  9832,
-'module_3 (2)':  21855,
-'module_3 (3)':  33878,
-'module_3 (4)':  45901,
-'module_3 (5)':  57924,
-'module_3 (6)':  69947,
-'module_3 (7)':  81970,
-'module_3 (8)':  93993,
-'module_3 (9)':  106016,
-'module_3 (10)':  118039,
-'module_3 (11)':  130062,
-'module_3 (12)':  142085,
-'module_3 (13)':  154108,
-'module_3 (14)':  166131,
-'module_3 (15)':  178154,
-'module_3 (16)':  190177,
-'module_3 (17)':  202200,
-'module_3 (18)':  214223,
-'module_3 (19)':  226246,
-'module_3 (20)':  238269}
-nolay = 20
-grd = r'p:\11202512-h2020_impaqt\02_flow\02_modelSetup\C03\DFM_DELWAQ_NZB\NZB_waqgeom.nc'
+data = read_bc(pli_file, bc_file)
 
-show_waq_segment(grd,nolay, seg)
+tt = 5
+
+meshX, meshY = np.meshgrid(data['distance'], data['zprofile'])
+C = np.squeeze(data['tracerbnd'][:,:,tt])
+plt.pcolormesh(meshX, meshY, C)
