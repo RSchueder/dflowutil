@@ -226,6 +226,41 @@ def find_limit_cell(mapdir):
         plt.text(xnode[tind[0]],ynode[tind[0]],('%.2e' % newvar[ind]))
         plt.gca().set_aspect('equal', adjustable='box')
 
+
+def boundary_from_ext(var):
+    '''
+    extracts the boundary name and type from a boundary definition .ext file
+    '''
+    boundaries = {}
+    with open(var,'r') as nmf:
+        page = nmf.readlines()
+        ext_type = 'old'
+        for line,text in enumerate(page):
+            if '[boundary]' in text:
+                ext_type = 'new'
+        if ext_type == 'new':
+            for line,text in enumerate(page):
+                if '*' not in text:
+                    if '[boundary]' in text:
+                        name = page[line+2].replace('locationfile=','').replace('.pli','').replace('\n','')
+                        if '/' in name:    
+                            name = name[find_last(name,'/'):]
+                        boundaries[name] = {}
+                        boundaries[name]['type'] = page[line+1].replace('quantity=','').replace('\n','')
+                        boundaries[name]['pli_loc'] = change_os(page[line+2].replace('locationfile=','').replace('\n',''))
+                        boundaries[name]['data_loc'] = page[line+3].replace('forcingfile=','').replace('\n','')
+        else:
+            for line,text in enumerate(page):
+                if '*' not in text:
+                    if 'QUANTITY=' in text:
+                        name = page[line+1].replace('FILENAME=','').replace('.pli','').replace('\n','')
+                        boundaries[name] = {}
+                        boundaries[name]['type'] = text.replace('QUANTITY=','')
+                        boundaries[name]['location'] = name + '.pli'
+                        boundaries[name]['data'] = name + '.tim'
+    return boundaries
+    
+
 def show_waq_segment(grd,nolay,segments):
     '''
     visualize the location of a delwaq segment in x,y given the segment number
@@ -266,10 +301,24 @@ def show_waq_segment(grd,nolay,segments):
         plt.text(np.mean(xi),np.mean(yi),ss)
 
 
-def read_lsp(lspfile, procfile, tablefile, latexfile):
+def read_sub_file(file):
     '''
-    Creates a readable table from an lsp file and a proc_def
-    added Jul 2019
+    outputs the substances in a sub file
+    '''
+    with open(file,'r') as subs:
+        sub = []
+        lines = subs.readlines()
+        for line in lines:
+            if line[0:9] == 'substance':
+                tmp = line.split(' ')
+                sub.append(tmp[1].replace("'",''))
+    return sub
+
+
+def write_lsp_table(lspfile, procfile, tablefile, latexfile = None):
+    '''
+    Creates a readable table from an lsp file and a proces(m).asc file
+    also produces a file for inclusion in latex documents
     '''
     import pandas as pd
 
@@ -334,41 +383,47 @@ def read_lsp(lspfile, procfile, tablefile, latexfile):
                             table.write(',NOUNIT,%s\n' % (parDescript.replace(',','')))                        
                     else:
                         table.write(',%s,%s\n' % ('(gC/m3/d)', parDescript.replace(',','')))
+    
+    # create latex table
+    if latexfile is not None:
+        dat = pd.read_csv(tablefile)
+        if isinstance(latexfile, str):
+            dat.drop('Unnamed: 6',axis = 1,inplace = True)
+            bc = ['process', 'process description']
+            with open(latexfile,'w') as ltx:
+                ltx.write('\\\begin{longtable}{')
+                for cc in dat.columns:
+                    if cc not in bc:
+                        ltx.write('|l')
+                ltx.write('|')
+                ltx.write('}\n')
+                for ii,cc in enumerate(dat.columns):
+                    if cc not in bc and ii != len(dat.columns):
+                        ltx.write('\\\textbf{' + cc + '} & ')
+                    elif cc not in bc:
+                        ltx.write('\\\textbf{' + cc + '} ')
                         
-    dat = pd.read_csv(tablefile)
-    if isinstance(latexfile, str):
-        dat.drop('Unnamed: 6',axis = 1,inplace = True)
-        bc = ['process', 'process description']
-        with open(latexfile,'w') as ltx:
-            ltx.write('\\\begin{longtable}{')
-            for cc in dat.columns:
-                if cc not in bc:
-                    ltx.write('|l')
-            ltx.write('|')
-            ltx.write('}\n')
-            for ii,cc in enumerate(dat.columns):
-                if cc not in bc and ii != len(dat.columns):
-                    ltx.write('\\\textbf{' + cc + '} & ')
-                elif cc not in bc:
-                    ltx.write('\\\textbf{' + cc + '} ')
-                    
-            ltx.write("\\\\ \n")
-            subs = {}
-            for ii,ser in enumerate(dat[dat.columns[3]]):
-                sub = dat['parameter'].iloc[ii]
-                if sub not in subs.keys() and 'Using' not in dat['value'].iloc[ii]:
-                    for ind,val in enumerate(dat.iloc[ii]):
-                        if dat.columns[ind] not in bc:
-                            if ind != len(dat.iloc[ii])-1:
-                                ltx.write(str(val).replace('_','') + ' & ')
-                            else:
-                                ltx.write(str(val).replace('_',''))
-                    
-                    subs[sub] = sub
-                    ltx.write("\\\\ \n")
-            ltx.write('\\end{longtable}')
+                ltx.write("\\\\ \n")
+                subs = {}
+                for ii, ser in enumerate(dat[dat.columns[3]]):
+                    sub = dat['parameter'].iloc[ii]
+                    if sub not in subs.keys() and 'Using' not in dat['value'].iloc[ii]:
+                        for ind,val in enumerate(dat.iloc[ii]):
+                            if dat.columns[ind] not in bc:
+                                if ind != len(dat.iloc[ii])-1:
+                                    ltx.write(str(val).replace('_','') + ' & ')
+                                else:
+                                    ltx.write(str(val).replace('_',''))
+                        
+                        subs[sub] = sub
+                        ltx.write("\\\\ \n")
+                ltx.write('\\end{longtable}')
+
 
 def pdistf(X1, Y1, X2, Y2):
+    '''
+    returns array of euclidean distances between a point and an array
+    '''
     return np.sqrt((X2 - X1)**2 + (Y2 - Y1)**2)
 
 
@@ -393,6 +448,9 @@ def read_pli(var):
 
 
 def row2array(line):
+    '''
+    takes a string of space seperated floats and returns an array
+    '''
     line = line.split(' ')
     arr = []
     for ch in line:
@@ -406,7 +464,15 @@ def row2array(line):
 
 def read_bc(pli_file, bc_file):
     '''
-    plots a cross section of a bc file
+    reads a bc file into a format useful for plotting a cross sections
+    plotting is expected to look as follows:
+
+    data = read_bc(pli_file, bc_file)
+
+    meshX, meshY = np.meshgrid(data['distance'], data['zprofile'])
+    C = np.squeeze(data['salinitybnd'][:,:0])
+    plt.pcolormesh(meshX, meshY, C)
+   
     '''    
     non_data = ['ame', 'orcing', 'unction', 'ertical', 'ime', 'uantity', 'nit']
     pli = read_pli(pli_file)
