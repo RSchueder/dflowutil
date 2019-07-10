@@ -11,6 +11,41 @@ import matplotlib.pyplot as plt
 import glob
 import netCDF4
 
+def find_last(var,ss):
+    '''
+    returns index of last instance of char 'ss' in string 'var'
+    '''
+    ind = 0
+    lstInd = ind
+    it = 0
+    while ind >= 0:
+        ind = var.find(ss,ind + it,len(var))
+        it = 1
+        if ind < 0:
+            return lstInd + 1
+        lstInd = ind
+
+
+def change_os(var):
+    '''
+    returns linux path if fed windows and vice versa
+    '''
+    osys = []
+    for ch in var:
+        if ':' in ch:
+            osys = 'windows'
+        if ch == '\\':
+            osys = 'windows'
+    if len(osys) == 0:
+        osys = 'linux'
+    if '/p/' in var and osys == 'linux':
+        return var.replace('/p/','p:\\').replace('/','\\')
+    elif osys == 'linux':
+        return var.replace('/','\\')
+    elif ':\\' in var and osys == 'windows':
+        return var.replace(':\\','/').replace('\\','/')
+
+
 def nc_format(grd):
     '''
     returns grid variables depending on net type
@@ -284,8 +319,9 @@ def boundary_from_ext(var):
                         boundaries[name] = {}
                         boundaries[name]['type'] = page[line+1].replace('quantity=','').replace('\n','')
                         boundaries[name]['pli_loc'] = change_os(page[line+2].replace('locationfile=','').replace('\n',''))
-                        boundaries[name]['data_loc'] = page[line+3].replace('forcingfile=','').replace('\n','')
+                        boundaries[name]['data_loc'] = change_os(page[line+3].replace('forcingfile=','').replace('\n',''))
         else:
+            # is local, no paths
             for line,text in enumerate(page):
                 if '*' not in text:
                     if 'QUANTITY=' in text:
