@@ -227,6 +227,42 @@ def find_limit_cell(mapdir):
         plt.gca().set_aspect('equal', adjustable='box')
 
 
+def read_polygon(file):
+    '''
+    imports a polygon as nx2 array
+    '''
+    with open(file) as ldbfile:
+        lines = ldbfile.readlines()
+        X = []
+        Y = []
+        for ind, row in enumerate(lines):
+            if '.' in row:
+                line = row2array(row)
+                X.append(float(line[0]))
+                Y.append(float(line[1]))            
+            elif len(row.replace('\n','')) > 0:
+                X.append(np.nan)
+                Y.append(np.nan)
+            else:
+                pass
+    return np.array([X, Y]).T
+
+
+def read_pli(var):
+    '''
+    reads a pli boundary into an array
+    '''
+    with open(var) as plifile:
+        lines = plifile.readlines()
+        X = []
+        Y = []
+        for ind, row in enumerate(lines):
+            if '.' in row:
+                line = row2array(row)
+                X.append(float(line[0]))
+                Y.append(float(line[1]))
+    return np.array([X, Y]).T
+
 def boundary_from_ext(var):
     '''
     extracts the boundary name and type from a boundary definition .ext file
@@ -259,7 +295,7 @@ def boundary_from_ext(var):
                         boundaries[name]['location'] = name + '.pli'
                         boundaries[name]['data'] = name + '.tim'
     return boundaries
-    
+
 
 def show_waq_segment(grd,nolay,segments):
     '''
@@ -425,26 +461,6 @@ def pdistf(X1, Y1, X2, Y2):
     returns array of euclidean distances between a point and an array
     '''
     return np.sqrt((X2 - X1)**2 + (Y2 - Y1)**2)
-
-
-def read_pli(var):
-    '''
-    reads a pli boundary into an array
-    '''
-    with open(var) as plifile:
-        lines = plifile.readlines()
-        X = []
-        Y = []
-        for ind, row in enumerate(lines):
-            if '.' in row:
-                line = row.split(' ')
-                try:
-                    X.append(float(line[0]))
-                    Y.append(float(line[2]))
-                except(ValueError):
-                    X.append(float(line[1]))
-                    Y.append(float(line[3]))
-    return np.array([X, Y]).T
 
 
 def row2array(line):
