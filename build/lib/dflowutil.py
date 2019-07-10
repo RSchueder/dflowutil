@@ -302,12 +302,13 @@ def boundary_from_ext(var):
     '''
     extracts the boundary name and type from a boundary definition .ext file
     '''
+    root = var[:find_last(var,'\\')]    
     boundaries = {}
     with open(var,'r') as nmf:
         page = nmf.readlines()
         ext_type = 'old'
         for line,text in enumerate(page):
-            if '[boundary]' in text:
+            if '[boundary]' in text or '.bc' in text:
                 ext_type = 'new'
         if ext_type == 'new':
             for line,text in enumerate(page):
@@ -325,22 +326,42 @@ def boundary_from_ext(var):
                         boundaries[name][bnd_type]['type'] = bnd_type
                         boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+2].replace('locationfile=','').replace('\n',''))
                         boundaries[name][bnd_type]['data_loc'] = change_os(page[line+3].replace('forcingfile=','').replace('\n',''))
+
+                        if '\\' not in boundaries[name][bnd_type]['pli_loc']:
+                            # is local
+                            boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
+                        
+                        if '\\' not in boundaries[name][bnd_type]['data_loc']:
+                            # is local
+                            boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
+
         else:
             # old style
             for line,text in enumerate(page):
                 if '*' not in text:
                     if 'QUANTITY=' in text:
                         name = page[line+1].replace('FILENAME=','').replace('.pli','').replace('\n','')
+                        if '/' in name or '\\' in name:
+                            # is a path and we need to extract the name
+                            name = name[find_last(name,'/'):]
                         if name not in boundaries.keys():
                             boundaries[name] = {}
                         
                         bnd_type =  text.replace('QUANTITY=','')
                         boundaries[name][bnd_type] = {}
                         boundaries[name][bnd_type]['type'] = bnd_type
-                        boundaries[name][bnd_type]['location'] = name + '.pli'
-                        boundaries[name][bnd_type]['data'] = name + '.tim'
-    return boundaries
+                        boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+1].replace('FILENAME=','').replace('\n',''))
+                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+1].replace('FILENAME=','').replace('\n','').replace('.pli','.tim'))
 
+                        if '\\' not in boundaries[name][bnd_type]['pli_loc']:
+                            # is local
+                            boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
+
+                        if '\\' not in boundaries[name][bnd_type]['data_loc']:
+                            # is local
+                            boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
+
+    return boundaries
 
 def show_waq_segment(grd,nolay,segments):
     '''
