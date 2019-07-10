@@ -38,12 +38,13 @@ def change_os(var):
             osys = 'windows'
     if len(osys) == 0:
         osys = 'linux'
+
     if '/p/' in var and osys == 'linux':
         return var.replace('/p/','p:\\').replace('/','\\')
     elif osys == 'linux':
         return var.replace('/','\\')
     elif ':\\' in var and osys == 'windows':
-        return var.replace(':\\','/').replace('\\','/')
+        return '/' + var.replace(':\\','/').replace('\\','/')
 
 
 def nc_format(grd):
@@ -300,7 +301,8 @@ def read_pli(var):
 
 def boundary_from_ext(var):
     '''
-    extracts the boundary name and type from a boundary definition .ext file
+    returns a dictionary containing the boundary names, types, location files and data files 
+    from a boundary definition .ext file
     '''
     root = var[:find_last(var,'\\')]    
     boundaries = {}
@@ -314,18 +316,18 @@ def boundary_from_ext(var):
             for line,text in enumerate(page):
                 if '*' not in text:
                     if '[boundary]' in text:
-                        name = page[line+2].replace('locationfile=','').replace('.pli','').replace('\n','')
+                        name = page[line+2].replace('locationfile','').replace('=','').replace('.pli','').replace('\n','').strip()
                         if '/' in name:    
                             name = name[find_last(name,'/'):]
                         if name not in boundaries.keys():
                             boundaries[name] = {}
 
-                        bnd_type = page[line+1].replace('quantity=','').replace('\n','')
+                        bnd_type = page[line+1].replace('quantity','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type] = {}
 
                         boundaries[name][bnd_type]['type'] = bnd_type
-                        boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+2].replace('locationfile=','').replace('\n',''))
-                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+3].replace('forcingfile=','').replace('\n',''))
+                        boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+2].replace('locationfile','').replace('=','').replace('\n','')).strip()
+                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+3].replace('forcingfile','').replace('=','').replace('\n','')).strip()
 
                         if '\\' not in boundaries[name][bnd_type]['pli_loc']:
                             # is local
@@ -339,19 +341,22 @@ def boundary_from_ext(var):
             # old style
             for line,text in enumerate(page):
                 if '*' not in text:
-                    if 'QUANTITY=' in text:
-                        name = page[line+1].replace('FILENAME=','').replace('.pli','').replace('\n','')
+                    if 'QUANTITY' in text and '=' in text:
+                        name = page[line+1].replace('FILENAME','').replace('=','').replace('.pli','').replace('\n','').strip()
                         if '/' in name or '\\' in name:
                             # is a path and we need to extract the name
                             name = name[find_last(name,'/'):]
                         if name not in boundaries.keys():
                             boundaries[name] = {}
                         
-                        bnd_type =  text.replace('QUANTITY=','')
+                        bnd_type =  text.replace('QUANTITY','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type] = {}
                         boundaries[name][bnd_type]['type'] = bnd_type
-                        boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+1].replace('FILENAME=','').replace('\n',''))
-                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+1].replace('FILENAME=','').replace('\n','').replace('.pli','.tim'))
+                        boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+1].replace('FILENAME','').replace('=','').replace('\n','')).strip()
+                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+1].replace('FILENAME','').replace('=','').replace('\n','').replace('.pli','.tim')).strip()
+                        boundaries[name][bnd_type]['FILETYPE'] = page[line+2].replace('FILETYPE','').replace('=','').replace('\n','').strip()
+                        boundaries[name][bnd_type]['METHOD'] = page[line+3].replace('METHOD','').replace('=','').replace('\n','').strip()
+                        boundaries[name][bnd_type]['OPERAND'] = page[line+4].replace('OPERAND','').replace('=','').replace('\n','').strip()
 
                         if '\\' not in boundaries[name][bnd_type]['pli_loc']:
                             # is local
