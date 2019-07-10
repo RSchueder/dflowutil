@@ -316,22 +316,33 @@ def boundary_from_ext(var):
                         name = page[line+2].replace('locationfile=','').replace('.pli','').replace('\n','')
                         if '/' in name:    
                             name = name[find_last(name,'/'):]
-                        boundaries[name] = {}
-                        boundaries[name]['type'] = page[line+1].replace('quantity=','').replace('\n','')
-                        boundaries[name]['pli_loc'] = change_os(page[line+2].replace('locationfile=','').replace('\n',''))
-                        boundaries[name]['data_loc'] = change_os(page[line+3].replace('forcingfile=','').replace('\n',''))
+                        if name not in boundaries.keys():
+                            boundaries[name] = {}
+
+                        bnd_type = page[line+1].replace('quantity=','').replace('\n','')
+                        boundaries[name][bnd_type] = {}
+
+                        boundaries[name][bnd_type]['type'] = bnd_type
+                        boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+2].replace('locationfile=','').replace('\n',''))
+                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+3].replace('forcingfile=','').replace('\n',''))
         else:
-            # is local, no paths
+            # old style
             for line,text in enumerate(page):
                 if '*' not in text:
                     if 'QUANTITY=' in text:
                         name = page[line+1].replace('FILENAME=','').replace('.pli','').replace('\n','')
-                        boundaries[name] = {}
-                        boundaries[name]['type'] = text.replace('QUANTITY=','')
-                        boundaries[name]['location'] = name + '.pli'
-                        boundaries[name]['data'] = name + '.tim'
+                        if '/' in name or '\\' in name:
+                            # is a path and we need to extract the name
+                            name = name[find_last(name,'/'):]
+                        if name not in boundaries.keys():
+                            boundaries[name] = {}
+                        
+                        bnd_type =  text.replace('QUANTITY=','')
+                        boundaries[name][bnd_type] = {}
+                        boundaries[name][bnd_type]['type'] = bnd_type
+                        boundaries[name][bnd_type]['location'] = name + '.pli'
+                        boundaries[name][bnd_type]['data'] = name + '.tim'
     return boundaries
-
 
 def show_waq_segment(grd,nolay,segments):
     '''
