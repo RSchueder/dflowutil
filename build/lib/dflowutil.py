@@ -10,7 +10,144 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import netCDF4
+import os
+import pandas as pd
+import shutil as sh
 
+class SubFile():
+    '''
+    delwaq substance file class
+    '''
+
+    def __init__(self, path):
+        self.path = path
+
+        with open(self.path,'r') as subs:
+            sub = []
+            lines = subs.readlines()
+            for line in lines:
+                if line[0:9] == 'substance':
+                    tmp = line.split(' ')
+                    sub.append(tmp[1].replace("'",''))
+
+        self.substances = sub
+
+class LspFile():
+    '''
+    Creates a readable table from an lsp file and a proces(m).asc file
+    also produces a file for inclusion in latex documents
+    '''
+    def __init__(self, lspfile, procfile):
+        self.path = lspfile
+        self.proc = procfile
+        self.get_units()
+
+    def lsp_extract(self, var):
+        ind = [ii for ii,jj in enumerate(var) if jj == '[' or jj == ']']
+        name = var[ind[0]+1:ind[1]].strip()
+        descript = var[ind[1]+1:-1].strip()
+        return name, descript
+    
+    def get_units(self):
+        with open(self.proc,'r') as proc:
+            unit = {}
+            page = proc.readlines()
+            for ind,line in enumerate(page):
+                if line[0:10].strip() not in unit.keys():
+                    print(line)
+                    unit[line[0:10].strip()] = line[85:].strip()
+                    print(line[85:].strip())
+        self.units = unit
+
+    def lsp_to_table(self, tablefile):         
+        self.tablefile = tablefile
+        with open(self.path,'r') as lsp:
+            with open(self.tablefile,'w') as table:
+                table.write('process,process description,parameter,value,unit,description,\n')
+                page = lsp.readlines()
+                procInd = []
+                sectName = []
+                sectInd = []
+                for ind,line in enumerate(page):
+                    if '#' in line:
+                        sectName.append(line)
+                        sectInd.append(ind)
+                sectInd0 = [ii for ii,jj in enumerate(page) if 'determining the input for the processes' in jj]
+                for ind,line in enumerate(page):  
+                    if "Input for [" in line and ind > sectInd0[0]:
+                        procInd.append(ind)
+                for proc in range(0,len(procInd)-1):
+                    locProc = page[procInd[proc]:procInd[proc+1]]
+                    procName,procDescript = self.lsp_extract(locProc[0])
+                    for ll in range(1,len(locProc)-2,2):    
+                        if ll == 1:
+                            table.write(('%s,%s,') % (procName.replace(',',''), procDescript.replace(',','')))
+                        else:
+                            table.write(' , ,')
+                        parName,parDescript = self.lsp_extract(locProc[ll])
+                        table.write(('%s,') % (parName))
+                        valLine = locProc[ll+1]
+                        if 'using output from' in valLine:
+                            table.write(('%s') % valLine.replace(',','').replace('\n','').strip())
+                        elif 'using substance' in valLine:
+                            table.write(valLine.replace('Using ','').replace(',','').replace('\n','').strip())
+                        elif 'using constant nr' in valLine:
+                            col = [ii for ii,jj in enumerate(valLine) if jj == ':']
+                            table.write(('%s') % valLine[col[0]+2:].replace(',','').replace('\n','').strip())
+                        elif ':' in valLine:
+                            col = [ii for ii,jj in enumerate(valLine) if jj == ':']
+                            table.write(('%s') % valLine[col[0]+2:].replace(',','').replace('\n','').strip())
+                        else:
+                            table.write(valLine.replace('\n','').strip())
+                        if parName != 'fcPPGreeN':
+                            try:
+                                table.write(',%s,%s\n' % (self.units[parName], parDescript.replace(',','')))
+                            except:
+                                print('No unit found for %s in given process library' % parName)
+                                table.write(',NOUNIT,%s\n' % (parDescript.replace(',','')))                        
+                        else:
+                            table.write(',%s,%s\n' % ('(gC/m3/d)', parDescript.replace(',','')))
+        
+    # create latex table
+    def lsp_to_latex(self, latexfile):
+        self.latexfile = latexfile
+        dat = pd.read_csv(self.tablefile)
+        if isinstance(self.latexfile, str):
+            dat.drop('Unnamed: 6',axis = 1,inplace = True)
+            bc = ['process', 'process description']
+            with open(latexfile,'w') as ltx:
+                ltx.write('\\\begin{longtable}{')
+                for cc in dat.columns:
+                    if cc not in bc:
+                        ltx.write('|l')
+                ltx.write('|')
+                ltx.write('}\n')
+                for ii,cc in enumerate(dat.columns):
+                    if cc not in bc and ii != len(dat.columns):
+                        ltx.write('\\\textbf{' + cc + '} & ')
+                    elif cc not in bc:
+                        ltx.write('\\\textbf{' + cc + '} ')
+                        
+                ltx.write("\\\\ \n")
+                subs = {}
+                for ii, ser in enumerate(dat[dat.columns[3]]):
+                    sub = dat['parameter'].iloc[ii]
+                    if sub not in subs.keys() and 'Using' not in dat['value'].iloc[ii]:
+                        for ind,val in enumerate(dat.iloc[ii]):
+                            if dat.columns[ind] not in bc:
+                                if ind != len(dat.iloc[ii])-1:
+                                    ltx.write(str(val).replace('_','') + ' & ')
+                                else:
+                                    ltx.write(str(val).replace('_',''))
+                        
+                        subs[sub] = sub
+                        ltx.write("\\\\ \n")
+                ltx.write('\\end{longtable}')
+
+
+####################################
+#          MODULES
+####################################
 def find_last(var,ss):
     '''
     returns index of last instance of char 'ss' in string 'var'
@@ -72,6 +209,7 @@ def nc_format(grd):
     'cellnodes':'mesh2d_face_nodes' , 
     'domain_number':'mesh2d_flowelem_domain',
     'salinity':'mesh2d_sa1'}
+
     try: 
         ds.variables['NetNode_x']
         varnames = map1   
@@ -272,15 +410,16 @@ def read_polygon(file):
         X = []
         Y = []
         for ind, row in enumerate(lines):
-            if '.' in row:
-                line = row2array(row)
-                X.append(float(line[0]))
-                Y.append(float(line[1]))            
-            elif len(row.replace('\n','')) > 0:
-                X.append(np.nan)
-                Y.append(np.nan)
-            else:
-                pass
+            if '*' not in row:
+                if '.' in row and '999.' not in row and '-999' not in row:
+                    line = row2array(row)
+                    X.append(float(line[0]))
+                    Y.append(float(line[1]))            
+                elif len(row.replace('\n','')) > 0:
+                    X.append(np.nan)
+                    Y.append(np.nan)
+                else:
+                    pass
     return np.array([X, Y]).T
 
 
@@ -299,6 +438,7 @@ def read_pli(var):
                 Y.append(float(line[1]))
     return np.array([X, Y]).T
 
+
 def boundary_from_ext(var):
     '''
     returns a dictionary containing the boundary names, types, location files and data files 
@@ -316,33 +456,33 @@ def boundary_from_ext(var):
             for line,text in enumerate(page):
                 if '*' not in text:
                     if '[boundary]' in text:
-                        name = page[line+2].replace('locationfile','').replace('=','').replace('.pli','').replace('\n','').strip()
-                        if '/' in name:    
+                        name = page[line+2].replace('locationfile','').replace('=','').replace('.pliz','').replace('.pli','').replace('\n','').strip()
+                        if '/' in name: 
+                            # if it is a path   
                             name = name[find_last(name,'/'):]
                         if name not in boundaries.keys():
+                            # append if new boundary
                             boundaries[name] = {}
 
                         bnd_type = page[line+1].replace('quantity','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type] = {}
 
                         boundaries[name][bnd_type]['type'] = bnd_type
+                        # change the os to make it windows readable for later processing
+                        boundaries[name][bnd_type]['pli_loc_orig'] = page[line+2].replace('locationfile','').replace('=','').replace('\n','').strip()
+                        boundaries[name][bnd_type]['data_loc_orig'] = page[line+3].replace('forcingfile','').replace('=','').replace('\n','').strip()
+
                         boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+2].replace('locationfile','').replace('=','').replace('\n','')).strip()
                         boundaries[name][bnd_type]['data_loc'] = change_os(page[line+3].replace('forcingfile','').replace('=','').replace('\n','')).strip()
-
-                        if '\\' not in boundaries[name][bnd_type]['pli_loc']:
-                            # is local
-                            boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
                         
-                        if '\\' not in boundaries[name][bnd_type]['data_loc']:
-                            # is local
-                            boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
+                        boundaries = check_data_path(boundaries, root, name, bnd_type)
 
         else:
             # old style
             for line,text in enumerate(page):
                 if '*' not in text:
                     if 'QUANTITY' in text and '=' in text:
-                        name = page[line+1].replace('FILENAME','').replace('=','').replace('.pli','').replace('\n','').strip()
+                        name = page[line+1].replace('FILENAME','').replace('=','').replace('.pliz','').replace('.pli','').replace('\n','').strip()
                         if '/' in name or '\\' in name:
                             # is a path and we need to extract the name
                             name = name[find_last(name,'/'):]
@@ -352,21 +492,58 @@ def boundary_from_ext(var):
                         bnd_type =  text.replace('QUANTITY','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type] = {}
                         boundaries[name][bnd_type]['type'] = bnd_type
+                        boundaries[name][bnd_type]['pli_loc_orig'] = page[line+1].replace('FILENAME','').replace('=','').replace('\n','').strip()
+                        boundaries[name][bnd_type]['data_loc_orig'] = page[line+1].replace('FILENAME','').replace('=','').replace('\n','').replace('.pliz','.pli').replace('.pli','.tim').strip()
+                        
                         boundaries[name][bnd_type]['pli_loc'] = change_os(page[line+1].replace('FILENAME','').replace('=','').replace('\n','')).strip()
-                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+1].replace('FILENAME','').replace('=','').replace('\n','').replace('.pli','.tim')).strip()
+                        boundaries[name][bnd_type]['data_loc'] = change_os(page[line+1].replace('FILENAME','').replace('=','').replace('\n','').replace('.pliz','.pli').replace('.pli','.tim')).strip()
+                        
                         boundaries[name][bnd_type]['FILETYPE'] = page[line+2].replace('FILETYPE','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type]['METHOD'] = page[line+3].replace('METHOD','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type]['OPERAND'] = page[line+4].replace('OPERAND','').replace('=','').replace('\n','').strip()
-
-                        if '\\' not in boundaries[name][bnd_type]['pli_loc']:
-                            # is local
-                            boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
-
-                        if '\\' not in boundaries[name][bnd_type]['data_loc']:
-                            # is local
-                            boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
+                        
+                        boundaries = check_data_path(boundaries, root, name, bnd_type)
 
     return boundaries
+
+
+def check_data_path(boundaries, root, name, bnd_type):
+    '''
+    makes all paths os accessible via literal absolute string path
+    acts on strings that have already been converted to windows
+    does not touch if absolute path is found
+    '''
+    os.chdir(root)
+    orig = os.getcwd()
+
+    if '..' in boundaries[name][bnd_type]['pli_loc']:
+        # is relative, need to navigate
+        up = boundaries[name][bnd_type]['pli_loc'].count('..')
+        for jump in range(0, up):
+            os.chdir('..\\')
+        new_root = os.getcwd()
+        boundaries[name][bnd_type]['pli_loc']  = new_root + '\\' + boundaries[name][bnd_type]['pli_loc'].replace('..\\','')
+        os.chdir(orig)
+
+    elif '\\' not in boundaries[name][bnd_type]['pli_loc']:
+        # is local
+        boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
+    
+    if '..' in boundaries[name][bnd_type]['data_loc']:
+        # is relative, need to navigate
+        up = boundaries[name][bnd_type]['data_loc'].count('..')
+        for jump in range(0, up):
+            os.chdir('..\\')
+        new_root = os.getcwd()
+        boundaries[name][bnd_type]['data_loc']  = new_root + '\\' + boundaries[name][bnd_type]['data_loc'].replace('..\\','')
+        os.chdir(orig)
+
+    elif '\\' not in boundaries[name][bnd_type]['data_loc']:
+        # is local
+        boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
+
+    return boundaries
+
 
 def show_waq_segment(grd,nolay,segments):
     '''
@@ -406,125 +583,6 @@ def show_waq_segment(grd,nolay,segments):
         yi = y[ind]
         plt.scatter(np.mean(xi),np.mean(yi),30,'r')
         plt.text(np.mean(xi),np.mean(yi),ss)
-
-
-def read_sub_file(file):
-    '''
-    outputs the substances in a sub file
-    '''
-    with open(file,'r') as subs:
-        sub = []
-        lines = subs.readlines()
-        for line in lines:
-            if line[0:9] == 'substance':
-                tmp = line.split(' ')
-                sub.append(tmp[1].replace("'",''))
-    return sub
-
-
-def write_lsp_table(lspfile, procfile, tablefile, latexfile = None):
-    '''
-    Creates a readable table from an lsp file and a proces(m).asc file
-    also produces a file for inclusion in latex documents
-    '''
-    import pandas as pd
-
-    def Extract(var):
-        ind = [ii for ii,jj in enumerate(var) if jj == '[' or jj == ']']
-        name = var[ind[0]+1:ind[1]].strip()
-        descript = var[ind[1]+1:-1].strip()
-        return name, descript
-   
-    with open(procfile,'r') as proc:
-        unit = {}
-        page = proc.readlines()
-        for ind,line in enumerate(page):
-            if line[0:10].strip() not in unit.keys():
-                print(line)
-                unit[line[0:10].strip()] = line[85:].strip()
-                print(line[85:].strip())
-                
-    with open(lspfile,'r') as lsp:
-        with open(tablefile,'w') as table:
-            table.write('process,process description,parameter,value,unit,description,\n')
-            page = lsp.readlines()
-            procInd = []
-            sectName = []
-            sectInd = []
-            for ind,line in enumerate(page):
-                if '#' in line:
-                    sectName.append(line)
-                    sectInd.append(ind)
-            sectInd0 = [ii for ii,jj in enumerate(page) if 'determining the input for the processes' in jj]
-            for ind,line in enumerate(page):  
-                if "Input for [" in line and ind > sectInd0[0]:
-                    procInd.append(ind)
-            for proc in range(0,len(procInd)-1):
-                locProc = page[procInd[proc]:procInd[proc+1]]
-                procName,procDescript = Extract(locProc[0])
-                for ll in range(1,len(locProc)-2,2):    
-                    if ll == 1:
-                        table.write(('%s,%s,') % (procName.replace(',',''), procDescript.replace(',','')))
-                    else:
-                        table.write(' , ,')
-                    parName,parDescript = Extract(locProc[ll])
-                    table.write(('%s,') % (parName))
-                    valLine = locProc[ll+1]
-                    if 'using output from' in valLine:
-                        table.write(('%s') % valLine.replace(',','').replace('\n','').strip())
-                    elif 'using substance' in valLine:
-                        table.write(valLine.replace('Using ','').replace(',','').replace('\n','').strip())
-                    elif 'using constant nr' in valLine:
-                        col = [ii for ii,jj in enumerate(valLine) if jj == ':']
-                        table.write(('%s') % valLine[col[0]+2:].replace(',','').replace('\n','').strip())
-                    elif ':' in valLine:
-                        col = [ii for ii,jj in enumerate(valLine) if jj == ':']
-                        table.write(('%s') % valLine[col[0]+2:].replace(',','').replace('\n','').strip())
-                    else:
-                        table.write(valLine.replace('\n','').strip())
-                    if parName != 'fcPPGreeN':
-                        try:
-                            table.write(',%s,%s\n' % (unit[parName], parDescript.replace(',','')))
-                        except:
-                            print('No unit found for %s in given process library' % parName)
-                            table.write(',NOUNIT,%s\n' % (parDescript.replace(',','')))                        
-                    else:
-                        table.write(',%s,%s\n' % ('(gC/m3/d)', parDescript.replace(',','')))
-    
-    # create latex table
-    if latexfile is not None:
-        dat = pd.read_csv(tablefile)
-        if isinstance(latexfile, str):
-            dat.drop('Unnamed: 6',axis = 1,inplace = True)
-            bc = ['process', 'process description']
-            with open(latexfile,'w') as ltx:
-                ltx.write('\\\begin{longtable}{')
-                for cc in dat.columns:
-                    if cc not in bc:
-                        ltx.write('|l')
-                ltx.write('|')
-                ltx.write('}\n')
-                for ii,cc in enumerate(dat.columns):
-                    if cc not in bc and ii != len(dat.columns):
-                        ltx.write('\\\textbf{' + cc + '} & ')
-                    elif cc not in bc:
-                        ltx.write('\\\textbf{' + cc + '} ')
-                        
-                ltx.write("\\\\ \n")
-                subs = {}
-                for ii, ser in enumerate(dat[dat.columns[3]]):
-                    sub = dat['parameter'].iloc[ii]
-                    if sub not in subs.keys() and 'Using' not in dat['value'].iloc[ii]:
-                        for ind,val in enumerate(dat.iloc[ii]):
-                            if dat.columns[ind] not in bc:
-                                if ind != len(dat.iloc[ii])-1:
-                                    ltx.write(str(val).replace('_','') + ' & ')
-                                else:
-                                    ltx.write(str(val).replace('_',''))
-                        
-                        subs[sub] = sub
-                        ltx.write("\\\\ \n")
-                ltx.write('\\end{longtable}')
 
 
 def pdistf(X1, Y1, X2, Y2):
