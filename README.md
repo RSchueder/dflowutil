@@ -1,10 +1,16 @@
 # dflowutil
 Utilities for Delft3D FLOW Flexible Mesh in python. It contains 
-utilities useful for hydrodynamic and water quality simulations
+utilities useful for both hydrodynamic and water quality simulations
 
+A list of implemented classes is as follows:
+ * DFMWAQModel()
+ * LspFile()
+ * SubFile()
+ 
 A list of implemented functions is as follows:
  * boundary_from_ext()
  * change_os()
+ * check_data_path()
  * dflow_grid_2_tri()
  * find_last()
  * find_limit_cell()
@@ -18,4 +24,3 @@ A list of implemented functions is as follows:
  * read_sub_file()
  * row2array()
  * show_waq_segment()
- * write_lsp_table()

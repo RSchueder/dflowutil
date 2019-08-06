@@ -147,8 +147,10 @@ class LspFile():
 
 class DFMWAQModel():
     '''
-    DFMWAQ model initialized form DFM model inputs
+    DFMWAQ model initialized from DFM model inputs
     Note: currently mdu referenced assets are not copied automatically to the new directory
+
+    call DFMWAQModel.build() to build an initialized model
     '''
     def __init__(self, mdu, ext, subfile, new_dir, ini, v, cores):
         
@@ -171,29 +173,44 @@ class DFMWAQModel():
                     elif 'ExtForceFile' in line:
                         mdu_file.write('ExtForceFile = FlowFM_DFMWAQ.ext \n')    
                     elif 'NetFile' in line:
-                        os.chdir(self.out)
                         orig = os.getcwd()
                         grid = line[:line.find('#')].replace('NetFile','').replace('=','').strip()
                         if '..' in grid:
-                            # is relative, need to navigate
+                            os.chdir(mdu[:find_last(mdu, '\\')])
+                            # is relative to old mdu path, need to navigate to where it is pointing
                             up = grid.count('..')
                             for jump in range(0, up):
                                 os.chdir('..\\')
                             new_root = os.getcwd()
-                            self.grid = new_root + '\\' + grid.replace('..\\','')
+                            # replace all 'up dir' commands
+                            grid = grid.replace('..\\','').replace('../','')
+                            grid = change_os(grid)
+                            # copy to new directory
+                            sh.copyfile(new_root + '\\' + grid, self.out + grid[find_last(grid,'\\'):])
+                            #refer to new directory
+                            self.grid = self.out + grid[find_last(grid,'\\'):]
                             os.chdir(orig)
 
                         elif '\\' not in grid:
                             # is local
+                            # must obtain from original mdu directory, copy, and reference new local
+                            sh.copyfile(mdu[:find_last(mdu, '\\')] + grid, self.out + grid) 
                             self.grid = self.out + grid 
-                        mdu_file.write('NetFile = %s \n' % change_os(self.grid))    
 
+                        else:
+                            # is absolute, linux
+                            # copy from -> to
+                            sh.copyfile(grid, self.out + grid[find_last(grid,'/'):])
+                            self.grid = self.out + grid[find_last(grid,'/'):]
+
+                        # must write local reference for partitioning purposes
+                        mdu_file.write('                           = %s \n' % self.grid[find_last(self.grid,'\\'):]) 
                     else:    
                         mdu_file.write(line)
                     
             mdu_file.write('\n')
             mdu_file.write('[processes]\n')
-            mdu_file.write('SubstanceFile                     = %s \n' % change_os(subfile.path))                                                                                                                                                                                                                                                           #
+            mdu_file.write('SubstanceFile = %s \n' % change_os(subfile.path))                                                                                                                                                                                                                                                           #
             mdu_file.write('AdditionalHistoryOutputFile       =                                         \n')                                                                                                                                                                                                                       #
             mdu_file.write('ProcesDataBaseFile                = proc_def.dat\n')
             mdu_file.write('DtProcesses                       = 600.                  # waq processes time step\n')
@@ -215,18 +232,28 @@ class DFMWAQModel():
             print('ERROR: *.ext must be passed as a list of files')
      
 
+    def build(self):
+        '''
+        builds model based solely on attributes from initialization
+        '''
+        self.soursin()
+        self.open_bnd()
+        self.multi_ext_file()
+        self.merge_ext_files()
+        self.run_set_file()
+
     def soursin(self, fill = None):
         '''
-        concatenates additional substances to a copy of a sourcin file
+        concatenates additional substances to a local copy of a sourcin file
         '''
         for boundaries in self.boundaries:
             for ind, name in enumerate(boundaries.keys()):
                 # source sink tim files
                 for bndtype in boundaries[name].keys():
-                    if  'discharge_salinity_temperature_sorsin' in bndtype :
-                        with open(self.out + '%s.tim' % (name) ,'w') as tim:
+                    if  'discharge_salinity_temperature_sorsin' in bndtype:# and 'Precipitation' not in name and 'Fakeeva' not in name:
+                        data = boundaries[name][bndtype]['data_loc']
+                        with open(self.out + '%s' % data[find_last(data, '\\'):] ,'w') as tim:
                             # should be one matching tim for each sors pli
-                            data = boundaries[name][bndtype]['data_loc']
                             # parse the original data file for flows, substances will be concatenated
                             with open(data,'r') as flow:
                                 arr = []
@@ -277,7 +304,6 @@ class DFMWAQModel():
     def open_bnd(self, fill = None):
         '''
         creates a unique pli and tim file for each substance at each unique open boundary
-        also copies the actual forcing boundary
         '''
         for boundaries in self.boundaries:
             for ind, name in enumerate(boundaries.keys()):
@@ -294,10 +320,11 @@ class DFMWAQModel():
                                     val = np.ones(len(t)) 
                 
                                 # pli
-                                with open(self.out + '%s%s' % (pli[find_last(pli,'\\'):], sub) ,'w') as pli_file:
+                                pli = boundaries[name][bndtype]['pli_loc']
+                                file_name = pli[find_last(pli,'\\'):]
+                                point = file_name.find('.')
+                                with open(self.out + '%s%s%s' % (file_name[:point], sub, file_name[point:]) ,'w') as pli_file:
                                     # copy the existing pli
-                                    pli = boundaries[name][bndtype]['pli_loc']
-    
                                     with open(pli, 'r') as bndFile:
                                         lines = bndFile.readlines()
                                         for line in lines:
@@ -352,7 +379,7 @@ class DFMWAQModel():
                                                 nmfo.write('OPERAND=O\n')
                                                 nmfo.write('\n')
                                                 
-                                    elif 'discharge_salinity_temperature_sorsin' in bndtype:
+                                    elif 'discharge_salinity_temperature_sorsin' in bndtype:# and 'Precipitation' not in name and 'Fakeeva' not in name:
                                         # simply rewrite the boundaries, as they are either not relevant or have been silently edited/copied
                                         # reference the local copy
                                         nmfs.write('QUANTITY=%s\n' % bndtype)
@@ -364,7 +391,6 @@ class DFMWAQModel():
                                         nmfs.write('\n')
                                     else:
                                         if 'FILETYPE' in boundaries[name][bndtype].keys():
-                                            print(name)
                                             nmfe.write('QUANTITY=%s\n' % bndtype)
                                             # refer to original, not copied
                                             nmfe.write('FILENAME=%s\n' % change_os(boundaries[name][bndtype]['pli_loc']))
@@ -380,8 +406,7 @@ class DFMWAQModel():
                                             nmfn.write('forcingfile=%s\n' % change_os(boundaries[name][bndtype]['data_loc']))
                                             nmfn.write('\n')                                            
 
-                                
-                        # initials
+                    # initials
                     grd = netCDF4.Dataset(self.grid)
                     x_min = np.min(grd.variables['mesh2d_node_x'][:])
                     x_max = np.max(grd.variables['mesh2d_node_x'][:])
@@ -396,24 +421,26 @@ class DFMWAQModel():
                         pol.write('%.4e    %.4e\n' % (x_max, y_max))
                         pol.write('%.4e    %.4e\n' % (x_max, y_min))
 
-
-                        for sub in self.substances:
-                            if 'S1' not in sub and 'SOD' not in sub:            
-                                nmfo.write('QUANTITY=initialtracer%s\n' % sub)
-                            else:
-                                nmfo.write('QUANTITY=initialwaqbot%s\n' % sub)
-                            nmfo.write('FILENAME=domain.pol\n')
-                            nmfo.write('FILETYPE=10\n')
-                            nmfo.write('METHOD=4\n')
-                            nmfo.write('OPERAND=O\n')
-                            if sub in self.ini.keys():
-                                nmfo.write('VALUE=%.4e\n' % self.ini[sub])
-                            else:
-                                nmfo.write('VALUE=0.0\n')
-                            nmfo.write('\n')
+                    for sub in self.substances:
+                        if 'S1' not in sub and 'SOD' not in sub:            
+                            nmfo.write('QUANTITY=initialtracer%s\n' % sub)
+                        else:
+                            nmfo.write('QUANTITY=initialwaqbot%s\n' % sub)
+                        nmfo.write('FILENAME=domain.pol\n')
+                        nmfo.write('FILETYPE=10\n')
+                        nmfo.write('METHOD=4\n')
+                        nmfo.write('OPERAND=O\n')
+                        if sub in self.ini.keys():
+                            nmfo.write('VALUE=%.4e\n' % self.ini[sub])
+                        else:
+                            nmfo.write('VALUE=0.0\n')
+                        nmfo.write('\n')
 
 
     def merge_ext_files(self):
+        '''
+        merge temporary partial ext files into master file
+        '''
         with open(self.out + 'FlowFM_DFMWAQ.ext','w') as nmff: # new model file final
             with open(self.out + 'FlowFM_DFMWAQ_extra.ext','r') as cpfile:
                 lines = cpfile.readlines()
@@ -433,18 +460,22 @@ class DFMWAQModel():
         os.remove(self.out + 'FlowFM_DFMWAQ_open.ext')
 
     def run_set_file(self):
+        '''
+        write the shell script to run the model
+        '''
         with open(self.mdu[:find_last(self.mdu, '\\')] + 'run_set.sh', 'w') as shfile:
             shfile.write('#!/bin/bash\n')
             shfile.write('module load dflowfm\n')
             shfile.write('run_dflowfm.sh -v %s --partition:ndomains=%i:icgsolver=6 %s\n' % (self.version, self.nodes * self.threads, self.mdu[find_last(self.mdu, '\\'):]))
             shfile.write('#Start qsub \n')
-            shfile.write('submit_dflowfm.sh -v %s -m Grevelingen-FM.mdu -n %i -c %i --processlibrary proc_def.dat -j %s\n' % (self.version, self.nodes, self.threads, self.mdu[find_last(self.mdu, '\\'):]))
+            shfile.write('submit_dflowfm.sh -v %s -m %s -n %i -c %i --processlibrary proc_def.dat -j %s\n' % (self.version, self.mdu[find_last(self.mdu, '\\'):], self.nodes, self.threads, self.mdu[find_last(self.mdu, '\\'):]))
 
 
 class Grevelingen(DFMWAQModel):
+    # example subclass
     def __init__(self):
         # mdu to copy
-        mdu = r'p:\11203715-006-d-hydro-grevelingen\communicatie\201908XX_verzonden_aan_RWS\model\2008\computations\run01\Grevelingen-FM.mdu'
+        mdu = r'p:\11203715-006-d-hydro-grevelingen\communicatie\201908XX_verzonden_aan_RWS\model\2008\computations\run01\Grevelingen-FM_save.mdu'
         # boundaries for that mdu
         ext = [r'p:\11203715-006-d-hydro-grevelingen\WAQ\DFMWAQ\model_2008\computations\run01\Grevelingen-FM_bnd.ext']
         # location of new model
@@ -460,6 +491,7 @@ class Grevelingen(DFMWAQModel):
         super().__init__(mdu, ext, subfile, new_bnd_dir, ini, v, cores)
 
 class Guayaquil(DFMWAQModel):
+    # example subclass
     def __init__(self):
         mdu = r'p:\11201302-guayaquil\02_flow\03_baseCase\R26\guayas.mdu'
         ext = [r'p:\11201302-guayaquil\02_flow\03_baseCase\R26\plant_loads_current_local.ext', r'p:\11201302-guayaquil\02_flow\03_baseCase\R26\sea_riv_boundary_local_bc.ext']
