@@ -1,6 +1,6 @@
 # dflowutil
 Utilities for Delft3D FLOW Flexible Mesh in python. It contains 
-utilities useful for both hydrodynamic and water quality simulations
+utilities useful for both hydrodynamic and water quality simulations.
 
 A list of implemented classes is as follows:
  * DFMWAQModel()
