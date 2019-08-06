@@ -23,4 +23,5 @@ A list of implemented functions is as follows:
  * read_polygon()
  * read_sub_file()
  * row2array()
+ * rst_to_xyz()
  * show_waq_segment()
