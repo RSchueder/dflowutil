@@ -635,7 +635,7 @@ def dflow_grid_2_tri(mesh2d_face_nodes):
            
     return{'triangles':tri,'index':index}
         
-def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
+def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None, c_map = 'jet'):
     '''
     plots a 2D patch plot of a variable in a certain layer or depth
     
@@ -667,7 +667,18 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
             tri=tridata['triangles']
             xnode=ds.variables[varnames['xnode']][:]
             ynode=ds.variables[varnames['ynode']][:]
-            name = varnames[elem]
+            try:
+                name = varnames[elem]
+            except(KeyError):
+                # not a standard constituent, try WAQ convention
+                if ('mesh2d_' + elem) in ds.variables.keys():
+                    name = 'mesh2d_' + elem
+                else:
+                    if (elem) in ds.variables.keys():
+                        name = elem
+                    else:
+                        print('ERROR: cannot guess element name')
+                        raise
 
             if layer is not None:
                 if layer != 0:
@@ -675,8 +686,6 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
                 else:
                     var=ds.variables[name][time, :] 
                 
-                print('plotting layer')
-
             elif depth is not None:
                 wd =  ds.variables['mesh2d_waterdepth'][time,:]
                 wd = wd.reshape((-1,1))
@@ -705,7 +714,7 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
                 # will give the desired depth
     
                 # get indicies for each position's depth
-
+               
                 var=ds.variables[name][time,:,:]
                 # this does not reduce the dimensions for some reason...
                 #var = var[ind]
@@ -717,8 +726,6 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
                 var = arr   
                 var[too_deep] = np.nan
      
-                print('plotting depth')
-
             newvar=var[index.astype(np.int64)]
             tri2=tri-1
 
@@ -730,12 +737,18 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
                 newvar=newvar[totalselected]
 
             # append partition to the image
-            print('plotting')
+            time_unit = ds.variables['time'].units
+            mod_ref = pd.Timestamp(time_unit.replace('seconds since ',''))
+            times = ds.variables['time'][:]
+            times = np.array([mod_ref + pd.Timedelta(seconds = tt) for tt in times])
+            print('plotting time = %s ' % times[time])           
             nmask = np.isnan(newvar.ravel())
-            plt.tripcolor(xnode, ynode, tri2, facecolors=newvar.ravel(), edgecolors='none', cmap='jet', mask = nmask)
+            plt.tripcolor(xnode, ynode, tri2, facecolors=newvar.ravel(), edgecolors='none', cmap= c_map, mask = nmask)#, shading = 'gouraud')
             if lim is not None:
                 plt.clim(lim)
             plt.gca().set_aspect('equal', adjustable='box')
+    
+    return plt.gcf()
 
                  
 def nc_station(stations):
@@ -781,7 +794,10 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
     varnames = nc_format(files[0])
     with open(out + 'ini.ext', 'w') as ext:
         for sub in sublist:
-            ext.write('QUANTITY=initialtracer%s\n' % sub)
+            if 'S1' not in sub and 'SOD' not in sub:
+                ext.write('QUANTITY=initialtracer%s\n' % sub)
+            else:
+                ext.write('QUANTITY=initialwaqbot%s\n' % sub)
             ext.write('FILENAME=ini_%s.xyz\n' % sub)
             ext.write('FILETYPE=7\n')
             ext.write('METHOD=6\n')
@@ -798,6 +814,9 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
                     # time, space, depth
                     #print(sub)
                     #print(filei)
+                    if tind < 0:
+                        tmp_times = ds.variables['time'][:]
+                        tind = len(tmp_times) - 1
                     if 'S1' not in sub and 'SOD' not in sub:
                         print(ds.variables['mesh2d_' + sub])
                         s1 = ds.variables['mesh2d_' + sub][tind, :, :]
@@ -809,7 +828,7 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
                     #print(mn_s1.shape)
                     for pos, xx in enumerate(x):
                         # depth averaged
-                        ini.write('%.6f  %.6f  %.4f\n' % (x[pos], y[pos], mn_s1[pos]))
+                        ini.write('%.6f  %.6f  %.4e\n' % (x[pos], y[pos], mn_s1[pos]))
 
                 print('finished substance ' + sub)
         
