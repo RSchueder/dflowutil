@@ -635,59 +635,107 @@ def dflow_grid_2_tri(mesh2d_face_nodes):
            
     return{'triangles':tri,'index':index}
         
-def plot_nc_map(mapdir, elem, time, layer,lim = None):
+def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None):
     '''
-    plots a 2D patch plot of a variable in a certain layer
+    plots a 2D patch plot of a variable in a certain layer or depth
     
     mapdir = location of the mapfiles, a directory (str)
     elem  = name of constituent, such as 'salinity', must be in map1 and map4 dictionary  (str)
     time  = time index (int)
-    layer = layer index (int), 
+    layer = layer index (int), or depth (float), negative down 
     clim  = color limits (tuple) 
     '''
-    map1, map4 = nc_format()
-
-    print(glob.glob(mapdir + '*_map.nc'))
-    for imap,filei in enumerate(glob.glob(mapdir + '*_map.nc')):
-        mapid=filei[filei.index('_map.nc')-4:filei.index('_map.nc')]
-        ds = netCDF4.Dataset(filei)
-        if imap == 0:
-            varnames = nc_format(filei)
-        print('processing domain ' + str(mapid))                        
-        mesh2d_face_nodes=ds.variables[varnames['cellnodes']][:]
-        try:
-            domainno=ds.variables[varnames['domain_number']][:]
-            ghost = True
-        except:
-            ghost = False
-            print('missing extra information, ghost cells not cleaned')
-
-
-        tridata= dflow_grid_2_tri(mesh2d_face_nodes)
-        index = tridata['index']
-        tri=tridata['triangles']
-        xnode=ds.variables[varnames['xnode']][:]
-        ynode=ds.variables[varnames['ynode']][:]
-        name = varnames[elem]
-        if layer != 0:
-            var=ds.variables[name][time,:,layer-1] 
-        else:
-            var=ds.variables[name][time,:] 
+    if depth is None and layer is None:
+        print('Error: depth or layer must be specified')
+    else:
+        for imap,filei in enumerate(glob.glob(mapdir + '*_map.nc')):
+            mapid= filei[filei.index('_map.nc')-4:filei.index('_map.nc')]
+            ds = netCDF4.Dataset(filei)
+            if imap == 0:
+                varnames = nc_format(filei)
+            print('processing domain ' + str(mapid))                        
+            mesh2d_face_nodes = ds.variables[varnames['cellnodes']][:]
+            try:
+                domainno=ds.variables[varnames['domain_number']][:]
+                ghost = True
+            except:
+                ghost = False
+                print('missing extra information, ghost cells not cleaned')
             
-        newvar=var[index.astype(np.int64)]
-        tri2=tri-1
+            tridata= dflow_grid_2_tri(mesh2d_face_nodes)
+            index = tridata['index']
+            tri=tridata['triangles']
+            xnode=ds.variables[varnames['xnode']][:]
+            ynode=ds.variables[varnames['ynode']][:]
+            name = varnames[elem]
 
-        if ghost:
-            selectcells=(domainno==np.int(mapid))
-            selectcellstri=selectcells[index.astype(np.int64)]
-            totalselected=np.array([selectcellstri]).squeeze()
-            tri2=tri2[totalselected,:]
-            newvar=newvar[totalselected]
+            if layer is not None:
+                if layer != 0:
+                    var=ds.variables[name][time, :, layer-1] 
+                else:
+                    var=ds.variables[name][time, :] 
+                
+                print('plotting layer')
 
-        plt.tripcolor(xnode,ynode,tri2,facecolors=newvar,edgecolors='none',cmap='jet')
-        if lim is not None:
-            plt.clim(lim)
-        plt.gca().set_aspect('equal', adjustable='box')
+            elif depth is not None:
+                wd =  ds.variables['mesh2d_waterdepth'][time,:]
+                wd = wd.reshape((-1,1))
+                frac = ds.variables['mesh2d_interface_sigma'][:]
+                frac = frac.reshape((-1,1))
+                depths = np.dot(frac, wd.T)
+                # find the number of cell interfaces in each column that the 
+                # query is less than
+                # the sum is always >= 1 since the min is ~ 0
+                # is the sum == 1, we want to query the first index (0)
+                # so we minus one from the sum to get the index
+                
+                ind = np.sum(depths[:,:] > depth, axis = 0) - 1
+                
+                # for cells shallower than the query depth, clip to bottom cell
+                
+                too_deep = ind == len(frac) - 1
+                too_deep = [ii for ii, jj in enumerate(too_deep) if jj]
+                ind[too_deep] = len(frac) - 2
+                
+                # need to flip array because top cells are last aray elements
+                # ex. 0->19, 1->18, 2->17 if no. layers = 20
+                # -2 because frac is no. layers + 1
+                ind = len(frac) - 2 - ind
+                # ind contains the indicies for each xy position that
+                # will give the desired depth
+    
+                # get indicies for each position's depth
+
+                var=ds.variables[name][time,:,:]
+                # this does not reduce the dimensions for some reason...
+                #var = var[ind]
+                #var[too_deep] = np.nan
+                
+                arr = np.zeros((var.shape[0], 1))
+                for pos in range(0, var.shape[0]):
+                    arr[pos] = var[pos, ind[pos]]
+                var = arr   
+                var[too_deep] = np.nan
+     
+                print('plotting depth')
+
+            newvar=var[index.astype(np.int64)]
+            tri2=tri-1
+
+            if ghost:
+                selectcells=(domainno==np.int(mapid))
+                selectcellstri=selectcells[index.astype(np.int64)]
+                totalselected=np.array([selectcellstri]).squeeze()
+                tri2=tri2[totalselected,:]
+                newvar=newvar[totalselected]
+
+            # append partition to the image
+            print('plotting')
+            nmask = np.isnan(newvar.ravel())
+            plt.tripcolor(xnode, ynode, tri2, facecolors=newvar.ravel(), edgecolors='none', cmap='jet', mask = nmask)
+            if lim is not None:
+                plt.clim(lim)
+            plt.gca().set_aspect('equal', adjustable='box')
 
                  
 def nc_station(stations):
