@@ -567,7 +567,7 @@ def nc_format(grd):
     'layerz':'mesh2d_layer_z' , 
     'cellnodes':'mesh2d_face_nodes' , 
     'face_x' : 'mesh2d_face_x',
-    'face_y' : 'mesh2d_face_x',
+    'face_y' : 'mesh2d_face_y',
 
     'domain_number':'mesh2d_flowelem_domain',
     'salinity':'mesh2d_sa1'}
@@ -782,6 +782,7 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
     makes a series of xyz files to be used as an initial condition in an ext file
     uses rst files found in the directory by default, but can also use map files
     based on flag rst = False
+    tind = -1 takes the last available time
     '''
     if rst:
         print('rst files not implemented!')
@@ -796,16 +797,20 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
         for sub in sublist:
             if 'S1' not in sub and 'SOD' not in sub:
                 ext.write('QUANTITY=initialtracer%s\n' % sub)
+                ext.write('FILENAME=%s.xyz\n' % sub)
+                ext.write('FILETYPE=7\n')
+                ext.write('METHOD=6\n')
             else:
                 ext.write('QUANTITY=initialwaqbot%s\n' % sub)
-            ext.write('FILENAME=ini_%s.xyz\n' % sub)
-            ext.write('FILETYPE=7\n')
-            ext.write('METHOD=6\n')
+                ext.write('FILENAME=%s.xyz\n' % sub)
+                ext.write('FILETYPE=7\n')
+                ext.write('METHOD=5\n')
+
             ext.write('OPERAND=O\n')
             ext.write('AVERAGINGTYPE=2\n')
             ext.write('RELATIVESEARCHCELLSIZE=1\n')
             ext.write('\n')
-            with open(out + 'ini_%s.xyz' % (sub), 'w') as ini:
+            with open(out + '%s.xyz' % (sub), 'w') as ini:
                 for imap, filei in enumerate(files):
                     mapid = filei[:-7]
                     ds = netCDF4.Dataset(filei)

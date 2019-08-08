@@ -20,6 +20,10 @@ class SubFile():
     '''
 
     def __init__(self, path):
+        """
+        Arguments:
+            path {str} -- path to sub file
+        """
         self.path = path
 
         with open(self.path,'r') as subs:
@@ -33,11 +37,14 @@ class SubFile():
         self.substances = sub
 
 class LspFile():
-    '''
-    Creates a readable table from an lsp file and a proces(m).asc file
-    also produces a file for inclusion in latex documents
-    '''
+
     def __init__(self, lspfile, procfile):
+        """
+        
+        Arguments:
+            lspfile {str} -- path to lsp file
+            procfile {str} -- path to proces(m).asc file
+        """
         self.path = lspfile
         self.proc = procfile
         self.get_units()
@@ -59,7 +66,12 @@ class LspFile():
                     print(line[85:].strip())
         self.units = unit
 
-    def lsp_to_table(self, tablefile):         
+    def lsp_to_table(self, tablefile):    
+             """
+             
+             Arguments:
+                 tablefile {str} -- path to output csv file
+             """
         self.tablefile = tablefile
         with open(self.path,'r') as lsp:
             with open(self.tablefile,'w') as table:
@@ -110,6 +122,11 @@ class LspFile():
         
     # create latex table
     def lsp_to_latex(self, latexfile):
+        """
+        
+        Arguments:
+            latexfile {str} -- path to output latex table file
+        """
         self.latexfile = latexfile
         dat = pd.read_csv(self.tablefile)
         if isinstance(self.latexfile, str):
@@ -146,14 +163,22 @@ class LspFile():
 
 
 class DFMWAQModel():
-    '''
-    DFMWAQ model initialized from DFM model inputs
-    Note: currently mdu referenced assets are not copied automatically to the new directory
 
-    call DFMWAQModel.build() to build an initialized model
-    '''
     def __init__(self, mdu, ext, subfile, new_dir, ini, v, cores):
-        
+        """
+        DFMWAQ model initialized from DFM model inputs
+        Note: currently mdu referenced assets are not copied automatically to the new directory
+    
+        call DFMWAQModel.build() to build an initialized model  
+        Arguments:
+            mdu {str} -- path to mdu
+            ext {list} -- [ext1, ext2], if only one, still must be a list
+            subfile {dflowutil.SubFile} -- a SubFile 
+            new_dir {path} -- path where model will be built
+            ini {dict} -- sub name value pair
+            v {str} -- version - i.e. 1.2.56....
+            cores {list} -- [nodes, threads]
+        """
         self.version = v
         self.nodes = cores[0]
         self.threads = cores[1]
@@ -567,7 +592,7 @@ def nc_format(grd):
     'layerz':'mesh2d_layer_z' , 
     'cellnodes':'mesh2d_face_nodes' , 
     'face_x' : 'mesh2d_face_x',
-    'face_y' : 'mesh2d_face_x',
+    'face_y' : 'mesh2d_face_y',
 
     'domain_number':'mesh2d_flowelem_domain',
     'salinity':'mesh2d_sa1'}
@@ -797,16 +822,20 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
         for sub in sublist:
             if 'S1' not in sub and 'SOD' not in sub:
                 ext.write('QUANTITY=initialtracer%s\n' % sub)
+                ext.write('FILENAME=%s.xyz\n' % sub)
+                ext.write('FILETYPE=7\n')
+                ext.write('METHOD=6\n')
             else:
                 ext.write('QUANTITY=initialwaqbot%s\n' % sub)
-            ext.write('FILENAME=ini_%s.xyz\n' % sub)
-            ext.write('FILETYPE=7\n')
-            ext.write('METHOD=6\n')
+                ext.write('FILENAME=%s.xyz\n' % sub)
+                ext.write('FILETYPE=7\n')
+                ext.write('METHOD=5\n')
+
             ext.write('OPERAND=O\n')
             ext.write('AVERAGINGTYPE=2\n')
             ext.write('RELATIVESEARCHCELLSIZE=1\n')
             ext.write('\n')
-            with open(out + 'ini_%s.xyz' % (sub), 'w') as ini:
+            with open(out + '%s.xyz' % (sub), 'w') as ini:
                 for imap, filei in enumerate(files):
                     mapid = filei[:-7]
                     ds = netCDF4.Dataset(filei)
