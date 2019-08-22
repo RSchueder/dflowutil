@@ -50,12 +50,19 @@ class LspFile():
         self.get_units()
 
     def lsp_extract(self, var):
+        """
+        parses a line in an lsp file
+        
+        Arguments:
+            var {str} -- line in an lsp file
+        """
         ind = [ii for ii,jj in enumerate(var) if jj == '[' or jj == ']']
         name = var[ind[0]+1:ind[1]].strip()
         descript = var[ind[1]+1:-1].strip()
         return name, descript
     
     def get_units(self):
+
         with open(self.proc,'r') as proc:
             unit = {}
             page = proc.readlines()
@@ -67,11 +74,11 @@ class LspFile():
         self.units = unit
 
     def lsp_to_table(self, tablefile):    
-             """
-             
-             Arguments:
-                 tablefile {str} -- path to output csv file
-             """
+        """
+        
+        Arguments:
+            tablefile {str} -- path to output csv file
+        """
         self.tablefile = tablefile
         with open(self.path,'r') as lsp:
             with open(self.tablefile,'w') as table:
@@ -173,10 +180,10 @@ class DFMWAQModel():
         Arguments:
             mdu {str} -- path to mdu
             ext {list} -- [ext1, ext2], if only one, still must be a list
-            subfile {dflowutil.SubFile} -- a SubFile 
+            subfile {dflowutil.SubFile} -- a deflowutil.SubFile object 
             new_dir {path} -- path where model will be built
-            ini {dict} -- sub name value pair
-            v {str} -- version - i.e. 1.2.56....
+            ini {dict} -- sub name value pair for initial conditions. May be empty
+            v {str} -- version - i.e. 1.2.56.xxx.
             cores {list} -- [nodes, threads]
         """
         self.version = v
@@ -529,13 +536,17 @@ class Guayaquil(DFMWAQModel):
         
 
 ####################################
-#           MODULES
+#           UTILS
 ####################################
 
 def find_last(var,ss):
-    '''
+    """    
     returns index of last instance of char 'ss' in string 'var'
-    '''
+
+    Arguments:
+        var {str} -- a string
+        ss {str} -- a character in var you want to find the last instance of
+    """
     ind = 0
     lstInd = ind
     it = 0
@@ -548,9 +559,13 @@ def find_last(var,ss):
 
 
 def change_os(var):
-    '''
-    returns linux path if fed windows and vice versa
-    '''
+    """ 
+    returns a linux path if fed windows and vice versa
+    
+    Arguments:
+        var {str} -- a path
+    """
+
     osys = []
     for ch in var:
         if ':' in ch:
@@ -569,11 +584,12 @@ def change_os(var):
 
 
 def nc_format(grd):
-    '''
+    """  
     returns grid variables depending on net type
 
-    grd = path to nc grid file (str)
-    '''
+    Arguments:
+        grd {str} -- path to a *_net.nc file
+    """
 
     ds = netCDF4.Dataset(grd)
     map1 = {'xnode' : 'NetNode_x', 
@@ -611,6 +627,13 @@ def nc_format(grd):
     return varnames
 
 def dflow_grid_2_tri(mesh2d_face_nodes):
+    """
+    returns the indicies of nodes in a mesh grid that constitute each facenode
+    
+    Arguments:
+        mesh2d_face_nodes {np.array} -- mxn array where m is the number of face
+        nodes and n is the maximum number of nodes constituting a face node
+    """
 
     n=mesh2d_face_nodes.shape[0]
     count=np.sum(~np.isnan(mesh2d_face_nodes),axis=1)
@@ -661,14 +684,22 @@ def dflow_grid_2_tri(mesh2d_face_nodes):
     return{'triangles':tri,'index':index}
         
 def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None, c_map = 'jet'):
-    '''
+    """
     plots a 2D patch plot of a variable in a certain layer or depth
+
+    Arguments:
+        mapdir {str} -- location of the mapfiles, a directory 
+        elem {str} -- name of constituent, such as 'salinity', must be in map1 and map4 dictionary
+        time {int} -- time index 
     
-    mapdir = location of the mapfiles, a directory (str)
-    elem  = name of constituent, such as 'salinity', must be in map1 and map4 dictionary  (str)
-    time  = time index (int)
-    layer = layer index (int), or depth (float), negative down 
-    clim  = color limits (tuple) 
+    Keyword Arguments:
+        depth {float} -- depth, negative down (default: {None})
+        layer {int} -- layer index (default: {None})
+        lim {tuple} -- color limit to use (default: {None})
+        c_map {str} -- colormap to use (default: {'jet'})
+    """
+    '''
+    
     '''
     if depth is None and layer is None:
         print('Error: depth or layer must be specified')
@@ -777,10 +808,13 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None, c_ma
 
                  
 def nc_station(stations):
-    '''
+    """
     takes a netcdf array and returns a list
-    stations = netCDF4.Dataset.variables['stations][:,:]
-    '''
+
+    Arguments:
+        stations {[type]} -- netCDF4.Dataset.variables['stations][:,:]
+    """
+
     nstations = []
     for line in stations:
         char = ''
@@ -803,12 +837,22 @@ def nc_station(stations):
 
 
 def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
-    '''
+    """
     makes a series of xyz files to be used as an initial condition in an ext file
     uses rst files found in the directory by default, but can also use map files
     based on flag rst = False
     tind = -1 takes the last available time
-    '''
+    
+    Arguments:
+        mapdir {str} -- path to map files from which you wish to form initial conditions
+        sublist {list} -- list of substance names
+        tind {int} -- time index
+        out {str} -- location of out files
+    
+    Keyword Arguments:
+        rst {bool} -- use rst files and not map files (default: {False})
+    """
+    
     if rst:
         print('rst files not implemented!')
         #timeid = []
@@ -865,10 +909,12 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
 
 
 def find_limit_cell(mapdir):
-    '''
+    """
     plots scatter of limiting cells
-    mapdir = location of the mapfiles, a directory (str)
-    '''
+
+    Arguments:
+        mapdir {str} --  location of the mapfiles, a directory (str)
+    """
 
     for imap,filei in enumerate(glob.glob(mapdir + '*_map.nc')):
         mapid=filei[filei.index('_map.nc')-4:filei.index('_map.nc')]
@@ -951,10 +997,14 @@ def read_pli(var):
 
 
 def boundary_from_ext(var):
-    '''
+    """
     returns a dictionary containing the boundary names, types, location files and data files 
-    from a boundary definition .ext file
-    '''
+    from a boundary definition 
+    
+    Arguments:
+        var {str} -- path to ext file
+    """
+
     root = var[:find_last(var,'\\')]    
     boundaries = {}
     with open(var,'r') as nmf:
@@ -1031,12 +1081,15 @@ def check_data_path(boundaries, root, name, bnd_type):
         # is relative, need to navigate
         up = boundaries[name][bnd_type]['pli_loc'].count('..')
         for jump in range(0, up):
-            os.chdir('..\\')
+            try:
+                os.chdir('..\\')
+            except:
+                os.chdir('../')
         new_root = os.getcwd()
-        boundaries[name][bnd_type]['pli_loc']  = new_root + '\\' + boundaries[name][bnd_type]['pli_loc'].replace('..\\','')
+        boundaries[name][bnd_type]['pli_loc']  = os.path.join(new_root, boundaries[name][bnd_type]['pli_loc'].replace('..\\','').replace('../',''))
         os.chdir(orig)
 
-    elif '\\' not in boundaries[name][bnd_type]['pli_loc']:
+    elif '\\' not in boundaries[name][bnd_type]['pli_loc'] and '/' not in boundaries[name][bnd_type]['pli_loc']:
         # is local
         boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
     
@@ -1049,7 +1102,7 @@ def check_data_path(boundaries, root, name, bnd_type):
         boundaries[name][bnd_type]['data_loc']  = new_root + '\\' + boundaries[name][bnd_type]['data_loc'].replace('..\\','')
         os.chdir(orig)
 
-    elif '\\' not in boundaries[name][bnd_type]['data_loc']:
+    elif '\\' not in boundaries[name][bnd_type]['data_loc'] and '/' not in boundaries[name][bnd_type]['data_loc']:
         # is local
         boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
 
@@ -1057,13 +1110,15 @@ def check_data_path(boundaries, root, name, bnd_type):
 
 
 def show_waq_segment(grd,nolay,segments):
-    '''
+    """
     visualize the location of a delwaq segment in x,y given the segment number
 
-    grd      = a path to a waq geom
-    nolay    = an int with the number of layers (not known to the WAQ geom)
-    segments = a dictionary with name (key) segment (int) style
-    '''
+    
+    Arguments:
+        grd {str} -- a path to a waq geom
+        nolay {int} -- the number of layers (not known to the WAQ geom)
+        segments {dict} -- a dictionary with name (key) segment (int) 
+    """
 
     varnames = nc_format(grd)
     ds    = netCDF4.Dataset(grd)
@@ -1158,7 +1213,7 @@ def read_bc(pli_file, bc_file):
         
     assert(len(ind) == len(pli))
     if 'vertical position type' not in data.keys():
-        print('ERROR: vertical specification is not zdatum, bc file zprofile not self describing')    
+        print('ERROR: vertical specification is not zdatum, bc file zprofile is not self describing and not implemented')    
         return None
     else:
         with open(bc_file, 'r') as bc:
@@ -1192,13 +1247,3 @@ def read_bc(pli_file, bc_file):
                         tt += 1
 
         return data
-
-
-
-
-
-            
-
-
-    
-

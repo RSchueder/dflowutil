@@ -20,6 +20,10 @@ class SubFile():
     '''
 
     def __init__(self, path):
+        """
+        Arguments:
+            path {str} -- path to sub file
+        """
         self.path = path
 
         with open(self.path,'r') as subs:
@@ -33,11 +37,14 @@ class SubFile():
         self.substances = sub
 
 class LspFile():
-    '''
-    Creates a readable table from an lsp file and a proces(m).asc file
-    also produces a file for inclusion in latex documents
-    '''
+
     def __init__(self, lspfile, procfile):
+        """
+        
+        Arguments:
+            lspfile {str} -- path to lsp file
+            procfile {str} -- path to proces(m).asc file
+        """
         self.path = lspfile
         self.proc = procfile
         self.get_units()
@@ -59,7 +66,12 @@ class LspFile():
                     print(line[85:].strip())
         self.units = unit
 
-    def lsp_to_table(self, tablefile):         
+    def lsp_to_table(self, tablefile):    
+        """
+        
+        Arguments:
+            tablefile {str} -- path to output csv file
+        """
         self.tablefile = tablefile
         with open(self.path,'r') as lsp:
             with open(self.tablefile,'w') as table:
@@ -110,6 +122,11 @@ class LspFile():
         
     # create latex table
     def lsp_to_latex(self, latexfile):
+        """
+        
+        Arguments:
+            latexfile {str} -- path to output latex table file
+        """
         self.latexfile = latexfile
         dat = pd.read_csv(self.tablefile)
         if isinstance(self.latexfile, str):
@@ -146,14 +163,22 @@ class LspFile():
 
 
 class DFMWAQModel():
-    '''
-    DFMWAQ model initialized from DFM model inputs
-    Note: currently mdu referenced assets are not copied automatically to the new directory
 
-    call DFMWAQModel.build() to build an initialized model
-    '''
     def __init__(self, mdu, ext, subfile, new_dir, ini, v, cores):
-        
+        """
+        DFMWAQ model initialized from DFM model inputs
+        Note: currently mdu referenced assets are not copied automatically to the new directory
+    
+        call DFMWAQModel.build() to build an initialized model  
+        Arguments:
+            mdu {str} -- path to mdu
+            ext {list} -- [ext1, ext2], if only one, still must be a list
+            subfile {dflowutil.SubFile} -- a SubFile 
+            new_dir {path} -- path where model will be built
+            ini {dict} -- sub name value pair
+            v {str} -- version - i.e. 1.2.56....
+            cores {list} -- [nodes, threads]
+        """
         self.version = v
         self.nodes = cores[0]
         self.threads = cores[1]
@@ -504,7 +529,7 @@ class Guayaquil(DFMWAQModel):
         
 
 ####################################
-#           MODULES
+#           UTILS
 ####################################
 
 def find_last(var,ss):
@@ -778,12 +803,22 @@ def nc_station(stations):
 
 
 def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
-    '''
+    """
     makes a series of xyz files to be used as an initial condition in an ext file
     uses rst files found in the directory by default, but can also use map files
     based on flag rst = False
     tind = -1 takes the last available time
-    '''
+    
+    Arguments:
+        mapdir {[type]} -- [description]
+        sublist {[type]} -- [description]
+        tind {[type]} -- [description]
+        out {[type]} -- [description]
+    
+    Keyword Arguments:
+        rst {bool} -- [description] (default: {False})
+    """
+    
     if rst:
         print('rst files not implemented!')
         #timeid = []
@@ -928,7 +963,7 @@ def read_pli(var):
 def boundary_from_ext(var):
     '''
     returns a dictionary containing the boundary names, types, location files and data files 
-    from a boundary definition .ext file
+    from a boundary definition .ext file (str path)
     '''
     root = var[:find_last(var,'\\')]    
     boundaries = {}
@@ -1006,12 +1041,15 @@ def check_data_path(boundaries, root, name, bnd_type):
         # is relative, need to navigate
         up = boundaries[name][bnd_type]['pli_loc'].count('..')
         for jump in range(0, up):
-            os.chdir('..\\')
+            try:
+                os.chdir('..\\')
+            except:
+                os.chdir('../')
         new_root = os.getcwd()
-        boundaries[name][bnd_type]['pli_loc']  = new_root + '\\' + boundaries[name][bnd_type]['pli_loc'].replace('..\\','')
+        boundaries[name][bnd_type]['pli_loc']  = os.path.join(new_root, boundaries[name][bnd_type]['pli_loc'].replace('..\\','').replace('../',''))
         os.chdir(orig)
 
-    elif '\\' not in boundaries[name][bnd_type]['pli_loc']:
+    elif '\\' not in boundaries[name][bnd_type]['pli_loc'] and '/' not in boundaries[name][bnd_type]['pli_loc']:
         # is local
         boundaries[name][bnd_type]['pli_loc']  = root + boundaries[name][bnd_type]['pli_loc']  
     
@@ -1024,7 +1062,7 @@ def check_data_path(boundaries, root, name, bnd_type):
         boundaries[name][bnd_type]['data_loc']  = new_root + '\\' + boundaries[name][bnd_type]['data_loc'].replace('..\\','')
         os.chdir(orig)
 
-    elif '\\' not in boundaries[name][bnd_type]['data_loc']:
+    elif '\\' not in boundaries[name][bnd_type]['data_loc'] and '/' not in boundaries[name][bnd_type]['data_loc']:
         # is local
         boundaries[name][bnd_type]['data_loc']  = root + boundaries[name][bnd_type]['data_loc']  
 
@@ -1133,7 +1171,7 @@ def read_bc(pli_file, bc_file):
         
     assert(len(ind) == len(pli))
     if 'vertical position type' not in data.keys():
-        print('ERROR: vertical specification is not zdatum, bc file zprofile not self describing')    
+        print('ERROR: vertical specification is not zdatum, bc file zprofile is not self describing and not implemented')    
         return None
     else:
         with open(bc_file, 'r') as bc:
