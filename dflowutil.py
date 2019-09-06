@@ -13,6 +13,7 @@ import netCDF4
 import os
 import pandas as pd
 import shutil as sh
+import datetime
 
 class SubFile():
     '''
@@ -1247,3 +1248,61 @@ def read_bc(pli_file, bc_file):
                         tt += 1
 
         return data
+
+def make_tim_ts(tref, var):
+    return tref + datetime.timedelta(minutes = var)
+
+
+def read_sours(file, tref, sal = True, temp = True, subfile = None):
+    """
+    reads a sours file to a pandas dataframe
+    
+    Arguments:
+        file {str} -- path to .tim
+    
+    Keyword Arguments:
+        sal {bool} -- salinity is modelled (default: {True})
+        temp {bool} -- temperature is modelled (default: {True})
+        subfile {str} -- path to sub file, or list (default: {None})
+    """
+    cols = list()
+    cols.append('time')
+    cols.append('flow')
+
+    if sal:
+        cols.append('salinity') 
+    if temp:
+        cols.append('temperature') 
+
+    if subfile is not None:
+        
+        if isinstance(subfile, str):
+            all_subs = SubFile(subfile).substances
+        else:
+            all_subs = subfile
+
+        for sub in all_subs:
+            if 'S1' in sub or 'S2' in sub or 'Det' in sub or sub == 'SOD':
+                pass
+            else:
+                cols.append(sub)
+
+    df = pd.DataFrame(columns = cols)
+    row = 0
+    with open(file, 'r') as tim:
+        lines = tim.readlines()
+        for ind, line in enumerate(lines):
+            if line.strip()[0] == '*':
+                pass 
+            else:
+                tmp_df = pd.DataFrame(columns = cols, index = [row])
+                vec = row2array(line)
+                for col, val in enumerate(vec):
+                    if cols[col] == 'time':
+                        val = make_tim_ts(tref, val)
+                    tmp_df[cols[col]] = val
+                row += 1
+                df = pd.concat([df, tmp_df], axis = 0, ignore_index = False)
+
+    return df
+                        

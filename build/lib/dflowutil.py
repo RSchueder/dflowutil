@@ -13,6 +13,7 @@ import netCDF4
 import os
 import pandas as pd
 import shutil as sh
+import datetime
 
 class SubFile():
     '''
@@ -50,12 +51,19 @@ class LspFile():
         self.get_units()
 
     def lsp_extract(self, var):
+        """
+        parses a line in an lsp file
+        
+        Arguments:
+            var {str} -- line in an lsp file
+        """
         ind = [ii for ii,jj in enumerate(var) if jj == '[' or jj == ']']
         name = var[ind[0]+1:ind[1]].strip()
         descript = var[ind[1]+1:-1].strip()
         return name, descript
     
     def get_units(self):
+
         with open(self.proc,'r') as proc:
             unit = {}
             page = proc.readlines()
@@ -173,10 +181,10 @@ class DFMWAQModel():
         Arguments:
             mdu {str} -- path to mdu
             ext {list} -- [ext1, ext2], if only one, still must be a list
-            subfile {dflowutil.SubFile} -- a SubFile 
+            subfile {dflowutil.SubFile} -- a deflowutil.SubFile object 
             new_dir {path} -- path where model will be built
-            ini {dict} -- sub name value pair
-            v {str} -- version - i.e. 1.2.56....
+            ini {dict} -- sub name value pair for initial conditions. May be empty
+            v {str} -- version - i.e. 1.2.56.xxx.
             cores {list} -- [nodes, threads]
         """
         self.version = v
@@ -533,9 +541,13 @@ class Guayaquil(DFMWAQModel):
 ####################################
 
 def find_last(var,ss):
-    '''
+    """    
     returns index of last instance of char 'ss' in string 'var'
-    '''
+
+    Arguments:
+        var {str} -- a string
+        ss {str} -- a character in var you want to find the last instance of
+    """
     ind = 0
     lstInd = ind
     it = 0
@@ -548,9 +560,13 @@ def find_last(var,ss):
 
 
 def change_os(var):
-    '''
-    returns linux path if fed windows and vice versa
-    '''
+    """ 
+    returns a linux path if fed windows and vice versa
+    
+    Arguments:
+        var {str} -- a path
+    """
+
     osys = []
     for ch in var:
         if ':' in ch:
@@ -569,11 +585,12 @@ def change_os(var):
 
 
 def nc_format(grd):
-    '''
+    """  
     returns grid variables depending on net type
 
-    grd = path to nc grid file (str)
-    '''
+    Arguments:
+        grd {str} -- path to a *_net.nc file
+    """
 
     ds = netCDF4.Dataset(grd)
     map1 = {'xnode' : 'NetNode_x', 
@@ -611,6 +628,13 @@ def nc_format(grd):
     return varnames
 
 def dflow_grid_2_tri(mesh2d_face_nodes):
+    """
+    returns the indicies of nodes in a mesh grid that constitute each facenode
+    
+    Arguments:
+        mesh2d_face_nodes {np.array} -- mxn array where m is the number of face
+        nodes and n is the maximum number of nodes constituting a face node
+    """
 
     n=mesh2d_face_nodes.shape[0]
     count=np.sum(~np.isnan(mesh2d_face_nodes),axis=1)
@@ -661,14 +685,22 @@ def dflow_grid_2_tri(mesh2d_face_nodes):
     return{'triangles':tri,'index':index}
         
 def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None, c_map = 'jet'):
-    '''
+    """
     plots a 2D patch plot of a variable in a certain layer or depth
+
+    Arguments:
+        mapdir {str} -- location of the mapfiles, a directory 
+        elem {str} -- name of constituent, such as 'salinity', must be in map1 and map4 dictionary
+        time {int} -- time index 
     
-    mapdir = location of the mapfiles, a directory (str)
-    elem  = name of constituent, such as 'salinity', must be in map1 and map4 dictionary  (str)
-    time  = time index (int)
-    layer = layer index (int), or depth (float), negative down 
-    clim  = color limits (tuple) 
+    Keyword Arguments:
+        depth {float} -- depth, negative down (default: {None})
+        layer {int} -- layer index (default: {None})
+        lim {tuple} -- color limit to use (default: {None})
+        c_map {str} -- colormap to use (default: {'jet'})
+    """
+    '''
+    
     '''
     if depth is None and layer is None:
         print('Error: depth or layer must be specified')
@@ -777,10 +809,13 @@ def plot_nc_map(mapdir, elem, time, depth = None, layer = None, lim = None, c_ma
 
                  
 def nc_station(stations):
-    '''
+    """
     takes a netcdf array and returns a list
-    stations = netCDF4.Dataset.variables['stations][:,:]
-    '''
+
+    Arguments:
+        stations {[type]} -- netCDF4.Dataset.variables['stations][:,:]
+    """
+
     nstations = []
     for line in stations:
         char = ''
@@ -810,13 +845,13 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
     tind = -1 takes the last available time
     
     Arguments:
-        mapdir {[type]} -- [description]
-        sublist {[type]} -- [description]
-        tind {[type]} -- [description]
-        out {[type]} -- [description]
+        mapdir {str} -- path to map files from which you wish to form initial conditions
+        sublist {list} -- list of substance names
+        tind {int} -- time index
+        out {str} -- location of out files
     
     Keyword Arguments:
-        rst {bool} -- [description] (default: {False})
+        rst {bool} -- use rst files and not map files (default: {False})
     """
     
     if rst:
@@ -875,10 +910,12 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
 
 
 def find_limit_cell(mapdir):
-    '''
+    """
     plots scatter of limiting cells
-    mapdir = location of the mapfiles, a directory (str)
-    '''
+
+    Arguments:
+        mapdir {str} --  location of the mapfiles, a directory (str)
+    """
 
     for imap,filei in enumerate(glob.glob(mapdir + '*_map.nc')):
         mapid=filei[filei.index('_map.nc')-4:filei.index('_map.nc')]
@@ -961,10 +998,14 @@ def read_pli(var):
 
 
 def boundary_from_ext(var):
-    '''
+    """
     returns a dictionary containing the boundary names, types, location files and data files 
-    from a boundary definition .ext file (str path)
-    '''
+    from a boundary definition 
+    
+    Arguments:
+        var {str} -- path to ext file
+    """
+
     root = var[:find_last(var,'\\')]    
     boundaries = {}
     with open(var,'r') as nmf:
@@ -1070,13 +1111,15 @@ def check_data_path(boundaries, root, name, bnd_type):
 
 
 def show_waq_segment(grd,nolay,segments):
-    '''
+    """
     visualize the location of a delwaq segment in x,y given the segment number
 
-    grd      = a path to a waq geom
-    nolay    = an int with the number of layers (not known to the WAQ geom)
-    segments = a dictionary with name (key) segment (int) style
-    '''
+    
+    Arguments:
+        grd {str} -- a path to a waq geom
+        nolay {int} -- the number of layers (not known to the WAQ geom)
+        segments {dict} -- a dictionary with name (key) segment (int) 
+    """
 
     varnames = nc_format(grd)
     ds    = netCDF4.Dataset(grd)
@@ -1206,12 +1249,60 @@ def read_bc(pli_file, bc_file):
 
         return data
 
+def make_tim_ts(tref, var):
+    return tref + datetime.timedelta(minutes = var)
 
 
-
-
-            
-
-
+def read_sours(file, tref, sal = True, temp = True, subfile = None):
+    """
+    reads a sours file to a pandas dataframe
     
+    Arguments:
+        file {str} -- path to .tim
+    
+    Keyword Arguments:
+        sal {bool} -- salinity is modelled (default: {True})
+        temp {bool} -- temperature is modelled (default: {True})
+        subfile {str} -- path to sub file, or list (default: {None})
+    """
+    cols = list()
+    cols.append('time')
+    cols.append('flow')
 
+    if sal:
+        cols.append('salinity') 
+    if temp:
+        cols.append('temperature') 
+
+    if subfile is not None:
+        
+        if isinstance(subfile, str):
+            all_subs = SubFile(subfile).substances
+        else:
+            all_subs = subfile
+
+        for sub in all_subs:
+            if 'S1' in sub or 'S2' in sub or 'Det' in sub or sub == 'SOD':
+                pass
+            else:
+                cols.append(sub)
+
+    df = pd.DataFrame(columns = cols)
+    row = 0
+    with open(file, 'r') as tim:
+        lines = tim.readlines()
+        for ind, line in enumerate(lines):
+            if line.strip()[0] == '*':
+                pass 
+            else:
+                tmp_df = pd.DataFrame(columns = cols, index = [row])
+                vec = row2array(line)
+                for col, val in enumerate(vec):
+                    if cols[col] == 'time':
+                        val = make_tim_ts(tref, val)
+                    tmp_df[cols[col]] = val
+                row += 1
+                df = pd.concat([df, tmp_df], axis = 0, ignore_index = False)
+
+    return df
+                        
