@@ -852,6 +852,14 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
     
     Keyword Arguments:
         rst {bool} -- use rst files and not map files (default: {False})
+
+
+    example:
+    mapdir = 'p:\\11200975-hongkongwaq\\WAQ\\03_baseCase\\A05\\DFM_OUTPUT_HK-FMWAQ\\'
+    subfile = r'p:\11200975-hongkongwaq\WAQ\03_baseCase\01_substances\HATS_PCA_v3ep.sub'
+    out = 'p:\\11200975-hongkongwaq\\WAQ\\03_baseCase\\A06\\'
+
+    dflowutil.rst_to_xyz(mapdir, dflowutil.SubFile(subfile).substances, -1, out)
     """
     
     if rst:
@@ -889,7 +897,7 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
                     # time, space, depth
                     #print(sub)
                     #print(filei)
-                    if tind < 0:
+                    if tind == -1:
                         tmp_times = ds.variables['time'][:]
                         tind = len(tmp_times) - 1
                     if 'S1' not in sub and 'SOD' not in sub:
@@ -1263,7 +1271,7 @@ def read_sours(file, tref, sal = True, temp = True, subfile = None):
     Keyword Arguments:
         sal {bool} -- salinity is modelled (default: {True})
         temp {bool} -- temperature is modelled (default: {True})
-        subfile {str} -- path to sub file, or list (default: {None})
+        subfile {str/list} -- path to sub file, or list (default: {None})
     """
     cols = list()
     cols.append('time')
@@ -1286,7 +1294,10 @@ def read_sours(file, tref, sal = True, temp = True, subfile = None):
                 pass
             else:
                 cols.append(sub)
-
+    else:
+        print('Error: substances not specified')
+        raise FileNotFoundError
+    
     df = pd.DataFrame(columns = cols)
     row = 0
     with open(file, 'r') as tim:
@@ -1306,3 +1317,31 @@ def read_sours(file, tref, sal = True, temp = True, subfile = None):
 
     return df
                         
+def plot_net(net_file):
+    '''
+    plots a netCDF mesh
+    is slower than matlab counterpart
+    '''
+    dat = netCDF4.Dataset(net_file)
+    varnames = nc_format(net_file)
+
+    node_x = dat.variables[varnames['xnode']][:]
+    node_y = dat.variables[varnames['ynode']][:]
+    face = dat.variables[varnames['cellnodes']][:,:]
+
+    # written as transpose to eliminate transposes in loop
+
+    xy = np.nan * np.zeros((2, (np.sum(np.sum(~np.isnan(face))) + len(face[:,0]) - 1 + len(face[:,0]))))
+    inter = 0
+
+    for ff in range(0,len(face)):
+        face_nodes = face[ff, ~np.isnan(face[ff,:])]
+        # from segment index (min == 1) to position index (min == 0)
+        face_nodes = face_nodes[face_nodes.mask == False] - 1
+        xy[:, inter:(inter) + len(face_nodes)] = np.array([node_x[face_nodes], node_y[face_nodes]])
+        xy[:, inter + len(face_nodes)] = np.array([node_x[face_nodes[0]], node_y[face_nodes[0]]])
+        # leave a nan in between for plotting
+        inter = inter + len(face_nodes) + 2
+
+    plt.plot(xy[0,:], xy[1,:],'-')
+    plt.gca().set_aspect('equal', adjustable='box')
