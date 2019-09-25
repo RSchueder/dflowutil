@@ -36,7 +36,7 @@ class SubFile():
                     tmp = line.split(' ')
                     name = tmp[1].replace("'",'')
                     sub.append(name)
-                    status = tmp[2].replace("'",'').replace('\n')
+                    status = tmp[2].replace("'",'').replace('\n','')
                     transportable[name] = status                  
 
         self.substances = sub
