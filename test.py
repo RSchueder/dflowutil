@@ -55,6 +55,7 @@ lsp.lsp_to_table('test.csv')
 
 
 #################################################################################
+
 # DFMWAQ model
 mdu = r'p:\11203715-006-d-hydro-grevelingen\communicatie\201908XX_verzonden_aan_RWS\model\2008\computations\run01\Grevelingen-FM_save.mdu'
 # boundaries for that mdu
@@ -72,3 +73,6 @@ cores = [2, 4]
 
 model = dflowutil.DFMWAQModel(mdu, ext, subfile, new_bnd_dir, ini, v, cores)
 model.build()
+
+subfile = dflowutil.SubFile(r'p:\11201302-guayaquil\03_waterquality\03_baseCase\01_substances\guayas_V11.sub')
+print(subfile.transportable)

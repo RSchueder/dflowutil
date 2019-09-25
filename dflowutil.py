@@ -26,16 +26,21 @@ class SubFile():
             path {str} -- path to sub file
         """
         self.path = path
-
+        
         with open(self.path,'r') as subs:
             sub = []
+            transportable = {}
             lines = subs.readlines()
             for line in lines:
                 if line[0:9] == 'substance':
                     tmp = line.split(' ')
-                    sub.append(tmp[1].replace("'",''))
+                    name = tmp[1].replace("'",'')
+                    sub.append(name)
+                    status = tmp[2].replace("'",'').replace('\n')
+                    transportable[name] = status                  
 
         self.substances = sub
+        self.transportable = transportable
 
 class LspFile():
 
@@ -181,7 +186,7 @@ class DFMWAQModel():
         Arguments:
             mdu {str} -- path to mdu
             ext {list} -- [ext1, ext2], if only one, still must be a list
-            subfile {dflowutil.SubFile} -- a deflowutil.SubFile object 
+            subfile {dflowutil.SubFile} -- a dflowutil.SubFile object 
             new_dir {path} -- path where model will be built
             ini {dict} -- sub name value pair for initial conditions. May be empty
             v {str} -- version - i.e. 1.2.56.xxx.
@@ -1059,6 +1064,7 @@ def boundary_from_ext(var):
                         if name not in boundaries.keys():
                             boundaries[name] = {}
                         
+                        # NOTE: THIS AHRD CODED ORDERING IS INVALIDATED BY THE USE OF VAR NAME
                         bnd_type =  text.replace('QUANTITY','').replace('=','').replace('\n','').strip()
                         boundaries[name][bnd_type] = {}
                         boundaries[name][bnd_type]['type'] = bnd_type
