@@ -1010,6 +1010,28 @@ def read_pli(var):
     return np.array([X, Y]).T
 
 
+def read_pliz(var):
+    '''
+    reads a pli boundary into an array
+    '''
+    with open(var) as plifile:
+        lines = plifile.readlines()
+        X = []
+        Y = []
+        Z1 = []
+        Z2 = []
+        Z3 = []
+        for ind, row in enumerate(lines):
+            if '.' in row:
+                line = row2array(row)
+                X.append(float(line[0]))
+                Y.append(float(line[1]))
+                Z1.append(float(line[2]))
+                Z2.append(float(line[3]))
+                Z3.append(float(line[4]))
+    return np.array([X, Y, Z1, Z2, Z3]).T
+
+
 def boundary_from_ext(var):
     """
     returns a dictionary containing the boundary names, types, location files and data files 
@@ -1309,7 +1331,7 @@ def read_sours(file, tref, sal = True, temp = True, subfile = None):
     with open(file, 'r') as tim:
         lines = tim.readlines()
         for ind, line in enumerate(lines):
-            if line.strip()[0] == '*':
+            if '*' in line:
                 pass 
             else:
                 tmp_df = pd.DataFrame(columns = cols, index = [row])
