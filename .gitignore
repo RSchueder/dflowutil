@@ -1,4 +1,6 @@
+/build/*
 /__pycache__/*
 *.pyc
 
 prn_file_test.py
+*.pkl

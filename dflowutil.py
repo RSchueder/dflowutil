@@ -320,41 +320,49 @@ class PrnFile():
                 self.areas[area][sub]['Outflows'] = pd.DataFrame(columns = self.balance_sources[sub])
 
 
-    def extract_balances(self):
-        '''
+    def extract_balances(self, areas, times):
+        """
         appends the data for this period, substance, and area to dataframe within the areas dictionary
-        '''
+
+        Arguments:
+            areas {list} -- list of areas to extract data for
+            times {list} -- list of times to extract data for, based on 1, days from start date
+                            for example ['365-366','365-730'] represents two balances for the period
+                            day 365 to day 366 from reference date, and day 365 to day 730 from reference date
+        """
+
         # balance index is the row number in the file that every new balance (unique time, sub, and are) begins
         for bal_no, bal_ind in enumerate(self.unique_balance_ind):
             if 'Whole model' not in self.lines[bal_ind]: 
                 area = self.lines[bal_ind].strip().replace('\n','').split(' ')[-1]
                 t1 = self.lines[bal_ind - 3].split(':')[1].strip().replace('d','').replace(' 0','').strip()
                 t2 = self.lines[bal_ind - 2].split(':')[1].strip().replace('d','').replace(' 0','').strip()
-                sub = self.lines[bal_ind + 2].replace('Mass substance','').replace('Begin','').replace('End','').replace('\n','').strip()
-                print('%s balance for area %s and time range %s to %s' % (sub, area, t1, t2))
+                if area in areas and (t1 + '-' + t2) in times:
+                    sub = self.lines[bal_ind + 2].replace('Mass substance','').replace('Begin','').replace('End','').replace('\n','').strip()
+                    print('%s balance for area %s and time range %s to %s' % (sub, area, t1, t2))
 
-                df_in = pd.DataFrame(columns = self.balance_sources[sub], index = [t1 + '-' + t2])
-                df_out = pd.DataFrame(columns = self.balance_sources[sub], index = [t1 + '-' + t2])
+                    df_in = pd.DataFrame(columns = self.balance_sources[sub], index = [t1 + '-' + t2])
+                    df_out = pd.DataFrame(columns = self.balance_sources[sub], index = [t1 + '-' + t2])
 
-                # for the chunk of this file where the current balance resides
-                params = []
-                for line_no in range(self.unique_balance_ind[bal_no] + 12, self.unique_balance_ind[bal_no+1] - 11):
-                    param = self.lines[line_no].split('  ')[0].strip()
-                    params.append(param)
-                    val = dflowutil.row2array(self.lines[line_no].replace('\n',''))
-                    try:
-                        val_in = float(val[0])
-                        val_out = float(val[1])
-                    except:
-                        # NOTE: Change after balance file big is fixed!
-                        val_in = 0.0
-                        val_out = 0.0
+                    # for the chunk of this file where the current balance resides
+                    params = []
+                    for line_no in range(self.unique_balance_ind[bal_no] + 12, self.unique_balance_ind[bal_no+1] - 11):
+                        param = self.lines[line_no].split('  ')[0].strip()
+                        params.append(param)
+                        val = row2array(self.lines[line_no].replace('\n',''))
+                        try:
+                            val_in = float(val[0])
+                            val_out = float(val[1])
+                        except:
+                            # NOTE: Change after balance file big is fixed!
+                            val_in = 0.0
+                            val_out = 0.0
 
-                    df_in[param] = val_in
-                    df_out[param] = val_out
+                        df_in[param] = val_in
+                        df_out[param] = val_out
 
-                self.areas[area][sub]['Inflows'] = pd.concat([self.areas[area][sub]['Inflows'], df_in], axis = 0, ignore_index = False)
-                self.areas[area][sub]['Outflows'] = pd.concat([self.areas[area][sub]['Outflows'], df_out], axis = 0, ignore_index = False)
+                    self.areas[area][sub]['Inflows'] = pd.concat([self.areas[area][sub]['Inflows'], df_in], axis = 0, ignore_index = False)
+                    self.areas[area][sub]['Outflows'] = pd.concat([self.areas[area][sub]['Outflows'], df_out], axis = 0, ignore_index = False)
 
 
 class DFMWAQModel():
