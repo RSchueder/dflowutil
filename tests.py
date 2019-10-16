@@ -7,11 +7,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import dflowutil
 
-plt.close('all')
-
-
 #################################################################################
 # plot map
+#################################################################################
+
 mapdir = 'p:\\11200975-hongkongwaq\\WAQ\\03_baseCase\\A04\\DFM_OUTPUT_HK-FMWAQ\\'
 elem = 'salinity'
 time = 50
@@ -24,16 +23,18 @@ pol = r'p:\11200975-hongkongwaq\HYDRO\HK-FM_model\ldb\world_hk_combined_EPSG-432
 XY = dflowutil.read_polygon(pol)
 plt.plot(XY[:,0], XY[:,1], '-k', linewidth = 0.5)
 
-
 #################################################################################
-# initial conditions
+# create initial conditions
+#################################################################################
+
 substances = dflowutil.SubFile(r'p:\11200975-hongkongwaq\WAQ\03_baseCase\01_substances\HATS_PCA_v3ep.sub').substances
 out = 'p:\\11200975-hongkongwaq\\WAQ\\03_baseCase\\A05\\'
 dflowutil.rst_to_xyz(mapdir, substances, -1, out, rst = False)
 
-
 #################################################################################
 # plot bc boundary
+#################################################################################
+
 pli_file = r'd:\projects\COASTSERV_Model\tests\Med\out\Boundary01temperature.pli'
 bc_file = r'd:\projects\COASTSERV_Model\tests\Med\out\temperature_Boundary01.bc'
 
@@ -45,18 +46,29 @@ C = np.squeeze(data['temperaturebnd'][:,:,tt])
 plt.pcolormesh(meshX, meshY, C)
 plt.ylim([-1000, 0])
 
-
 #################################################################################
 # LSP file
+#################################################################################
+
 procfile = r'd:\projects\IMPAQT\MALG\code\tables\procesm.asc'
 lspfile = r'd:\projects\IMPAQT\MALG\testbench\tidal_flume_farm\farm3DWQ_NZB_stretch\farm3D.lsp'
 lsp = dflowutil.LspFile(lspfile, procfile)
 lsp.lsp_to_table('test.csv')
-
+lsp.lsp_to_latex('test.txt')
 
 #################################################################################
+# Balance file
+#################################################################################
 
+file = r'd:\HK-FMWAQ_0000_wq_proc_bal.txt'
+prn = dflowutil.PrnFile(file)
+prn.extract_balances()
+df = prn.areas['BalArea1']['OXY']['Inflows']
+
+#################################################################################
 # DFMWAQ model
+#################################################################################
+
 mdu = r'p:\11203715-006-d-hydro-grevelingen\communicatie\201908XX_verzonden_aan_RWS\model\2008\computations\run01\Grevelingen-FM_save.mdu'
 # boundaries for that mdu
 ext = [r'p:\11203715-006-d-hydro-grevelingen\WAQ\DFMWAQ\model_2008\computations\run01\Grevelingen-FM_bnd.ext']
@@ -73,6 +85,3 @@ cores = [2, 4]
 
 model = dflowutil.DFMWAQModel(mdu, ext, subfile, new_bnd_dir, ini, v, cores)
 model.build()
-
-subfile = dflowutil.SubFile(r'p:\11201302-guayaquil\03_waterquality\03_baseCase\01_substances\guayas_V11.sub')
-print(subfile.transportable)
