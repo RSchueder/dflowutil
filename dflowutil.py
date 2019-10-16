@@ -809,6 +809,12 @@ def nc_format(grd):
     'domain_number':'mesh2d_flowelem_domain',
     'salinity':'mesh2d_sa1'}
 
+    agg = {'xnode':'mesh2d_agg_node_x', 
+    'ynode':'mesh2d_agg_node_y', 
+    'cellnodes':'mesh2d_agg_face_nodes' , 
+    'face_x' : 'mesh2d_agg_face_x',
+    'face_y' : 'mesh2d_agg_face_y'}
+    
     try: 
         ds.variables['NetNode_x']
         varnames = map1   
@@ -819,8 +825,12 @@ def nc_format(grd):
             varnames = map4
             print('Map type = 4')
         except:
-            print('ERROR: file is broken!')
-            raise
+            try:
+                ds.variables['mesh2d_agg_node_x']
+                varnames = agg
+            except:
+                print('ERROR: file is broken!')
+                raise
     return varnames
 
 def dflow_grid_2_tri(mesh2d_face_nodes):
@@ -1350,8 +1360,8 @@ def show_waq_segment(grd,nolay,segments):
 
     varnames = nc_format(grd)
     ds    = netCDF4.Dataset(grd)
-    x     = ds.variables[varnames['xnode']][:]
-    y     = ds.variables[varnames['ynode']][:]
+    x     = ds.variables[varnames['face_x']][:]
+    y     = ds.variables[varnames['face_y']][:]
     elem  = ds.variables[varnames['cellnodes']][:,:]
 
     segspl = np.size(elem,0)
@@ -1359,24 +1369,18 @@ def show_waq_segment(grd,nolay,segments):
     # including the nth + 1 layer
     blay   = np.arange(1,segspl*nolay+2,segspl)
 
-    tridata = dflow_grid_2_tri(elem)
-    index = tridata['index']
-    tri=tridata['triangles']
-    tri = tri - 1
-    tri[tri == -1] = 0
-    # does not work properly! worked in matlab
-    plt.tripcolor(x,y,tri,np.nan * np.arange(0,len(tri)),edgecolors='k',cmap='jet')
+    plot_net(grd)
     plt.gca().set_aspect('equal', adjustable='box')
 
     for sind, ss in enumerate(segments.keys()):
         # find the first segment in this layer     
-        first_in_next_layer = np.min([ii+1 for ii,jj in enumerate(blay) if segments[ss] < jj])                           
+        first_in_next_layer = np.min([ii for ii,jj in enumerate(blay) if segments[ss] < jj])                           
         topseg = segments[ss] - blay[first_in_next_layer - 1]
-        ind = elem[topseg-1,:]
+        ind = topseg-1
         xi = x[ind]
         yi = y[ind]
-        plt.scatter(np.mean(xi),np.mean(yi),30,'r')
-        plt.text(np.mean(xi),np.mean(yi),ss)
+        plt.scatter(xi, yi, 30, 'r')
+        plt.text(xi, yi, ss)
 
 
 def pdistf(X1, Y1, X2, Y2):
