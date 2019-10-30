@@ -1,5 +1,6 @@
 /build/*
 /__pycache__/*
+/.idea/*
 *.pyc
 
 prn_file_test.py

@@ -795,7 +795,8 @@ def nc_format(grd):
     'layerz':'LayCoord_cc', 
     'cellnodes':'NetElemNode', 
     'domain_number': 'FlowElemDomain',
-    'salinity':'sa1'}
+    'salinity':'sa1',
+    'temperature' : 'tem1'}
     
     map4 = {'xnode':'mesh2d_node_x', 
     'ynode':'mesh2d_node_y', 
@@ -807,7 +808,8 @@ def nc_format(grd):
     'face_y' : 'mesh2d_face_y',
 
     'domain_number':'mesh2d_flowelem_domain',
-    'salinity':'mesh2d_sa1'}
+    'salinity':'mesh2d_sa1',
+    'temperature':'mesh2d_tem1'}
 
     agg = {'xnode':'mesh2d_agg_node_x', 
     'ynode':'mesh2d_agg_node_y', 
@@ -1370,6 +1372,12 @@ def show_waq_segment(grd,nolay,segments):
     blay   = np.arange(1,segspl*nolay+2,segspl)
 
     plot_net(grd)
+							
+							
+				 
+					  
+											  
+																				   
     plt.gca().set_aspect('equal', adjustable='box')
 
     for sind, ss in enumerate(segments.keys()):
@@ -1408,16 +1416,21 @@ def row2array(line):
 def read_bc(pli_file, bc_file):
     '''
     reads a bc file into a format useful for plotting a cross sections
+    usage restrictions:
+    * does not work for uxuyadvectionboundaries
+    * file must contain only one variable
+    * distance does not check for projection, so will be wrong if spherical
+
     plotting is expected to look as follows:
 
     data = read_bc(pli_file, bc_file)
 
     meshX, meshY = np.meshgrid(data['distance'], data['zprofile'])
-    C = np.squeeze(data['salinitybnd'][:,:0])
+    C = np.squeeze(data['salinitybnd'][:,:,time])
     plt.pcolormesh(meshX, meshY, C)
    
     '''    
-    non_data = ['ame', 'orcing', 'unction', 'ertical', 'ime', 'uantity', 'nit']
+    non_data = ['ame', 'orcing', 'unction', 'ertical', 'ime', 'uantity', 'nit','ince']
     pli = read_pli(pli_file)
     data = {}
     # create an array of distances
@@ -1442,6 +1455,16 @@ def read_bc(pli_file, bc_file):
                 data['quantity'] = line.replace('Quantity','').replace('quantity','').replace('=','').strip()      
             if 'nit' in line:
                 data['unit'] = line.replace('Unit','').replace('unit','').replace('=','').strip()  
+            if 'ince' in line or 'INCE' in line:
+                if 'inutes' in line or 'INUTES' in line:
+                    data['timeunit'] = 'minutes'
+                elif 'econds' in line or 'ECONDS' in line:
+                    data['timeunit'] = 'seconds'
+
+                line = line.split(' ')
+                time = line[-2]  + ' ' + line[-1].replace('\n','')
+                data['reftime'] = pd.Timestamp(time)
+
         
     assert(len(ind) == len(pli))
     if 'vertical position type' not in data.keys():
@@ -1459,10 +1482,17 @@ def read_bc(pli_file, bc_file):
                 chk = sum([word in line for word in non_data])
                 if chk == 0 and '.' in line:               
                     arr = row2array(line)
-                    times.append(arr[0])
+                    time_val = arr[0]
+                    if data['timeunit'] == 'minutes':
+                        times.append(data['reftime'] + pd.Timedelta(days = time_val / 1440.0))
+                    elif data['timeunit'] == 'seconds':
+                        times.append(data['reftime'] + pd.Timedelta(days = time_val / 86400.0))
 
             data['distance'] = dist
-            data['times'] = np.array(times)
+            data['coordinates'] = pli
+            #data['times'] = np.array(times)
+            data['times'] = times
+
             data[data['quantity']] = np.zeros(( len(data['zprofile']), len(ind), len(times) ))
 
             for position in range(0,len(ind)):
@@ -1509,9 +1539,12 @@ def read_sours(file, tref, sal = True, temp = True, subfile = None):
         
         if isinstance(subfile, str):
             all_subs = SubFile(subfile).substances
-        else:
+        elif isinstance(subfile, list):
             all_subs = subfile
-
+        else:
+            print('ERROR: incorrect sub file')
+            raise
+        
         for sub in all_subs:
             if 'S1' in sub or 'S2' in sub or 'Det' in sub or sub == 'SOD':
                 pass
@@ -1553,7 +1586,7 @@ def plot_net(net_file):
     face = dat.variables[varnames['cellnodes']][:,:]
 
     # written as transpose to eliminate transposes in loop
-
+    # sometimes they are nan, and sometimes they are masked?
     xy = np.nan * np.zeros((2, (np.sum(np.sum(~np.isnan(face))) + len(face[:,0]) - 1 + len(face[:,0]))))
     inter = 0
 
@@ -1562,8 +1595,9 @@ def plot_net(net_file):
         # from segment index (min == 1) to position index (min == 0)
         face_nodes = face_nodes[face_nodes.mask == False] - 1
         xy[:, inter:(inter) + len(face_nodes)] = np.array([node_x[face_nodes], node_y[face_nodes]])
-        xy[:, inter + len(face_nodes)] = np.array([node_x[face_nodes[0]], node_y[face_nodes[0]]])
+																								 
         # leave a nan in between for plotting
+        xy[:, inter + len(face_nodes)] = np.array([node_x[face_nodes[0]], node_y[face_nodes[0]]])
         inter = inter + len(face_nodes) + 2
 
     plt.plot(xy[0,:], xy[1,:],'-')
