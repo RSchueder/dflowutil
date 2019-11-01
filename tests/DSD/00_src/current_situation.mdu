@@ -1,37 +1,3 @@
-# Source:https://svn.oss.deltares.nl/repos/delft3d/trunk/
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.0.40943, D-Flow FM Version 1.2.0.61839M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
-*
-# Generated on 2019-05-20 18:15:58
-# Deltares,Delft3D FM 2018 Suite Version 1.5.2.42543, D-Flow FM Version 1.2.38.63285M
 
 [model]
 Program           = D-Flow FM
@@ -42,13 +8,13 @@ AutoStart         = 0                   # Autostart simulation after loading MDU
 ModelSpecific     =                     # Optional 'model specific ID', to enable certain custom runtime function calls (instead of via MDU name).
 
 [geometry]
-NetFile           = stage4_spot_ortho_DFM_reint_net.nc# gulf_200_RGF_net.nc     # Unstructured grid file *_net.nc
+NetFile           = stage4_spot_ortho_DFM_reint_net.nc    # Unstructured grid file *_net.nc
 BathymetryFile    =
 DryPointsFile     = current_situation_dry.xyz# Dry points file *.xyz (third column dummy z values), or dry areas polygon file *.pol (third column 1/-1: inside/outside)
 GridEnclosureFile =                     # Enclosure file to clip outer parts from the grid *.pol
 WaterLevIniFile   =                     # Initial water levels sample file *.xyz
 LandBoundaryFile  = guayas.ldb          # Land boundaries file *.ldb, used for visualization
-ThinDamFile       = bridgepiers_3_thd.pli current_situation_thd.pli# Polyline file *_thd.pli, containing thin dams
+ThinDamFile       = bridgepiers_3_thd.pli# Polyline file *_thd.pli, containing thin dams
 FixedWeirFile     =                     # Polyline file *_fxw.pliz, containing fixed weirs with rows x, y, crest level, left ground level, right ground level
 PillarFile        =                     # Polyline file *_pillar.pliz, containing four colums with x, y, diameter and Cd coefficient
 StructureFile     =
@@ -239,7 +205,7 @@ Wrishp_pump       = 0
 OutputDir         =                     # Output directory of map-, his-, rst-, dat- and timings-files, default: DFM_OUTPUT_<modelname>. Set to . for current dir.
 WAQOutputDir      =
 FlowGeomFile      =                     # Flow geometry NetCDF *_flowgeom.nc
-ObsFile           = guayas_locations_obs.xyn current_situation_obs.xyn# Points file *.xyn with observation stations with rows x, y, station name
+ObsFile           = guayas_locations_obs.xyn # Points file *.xyn with observation stations with rows x, y, station name
 CrsFile           =                     # Polyline file *_crs.pli defining observation cross sections
 HisFile           =                     # HisFile name *_his.nc
 HisInterval       = 600                 # History output times, given as "interval" "start period" "end period" (s)

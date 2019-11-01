@@ -1,0 +1,62 @@
+file-created-by  Deltares, D-Flow FM Version 1.2.75.65141M, Oct 11 2019, 10:46:47
+file-creation-date  2019-11-01, 18:30:18                                        
+task      full-coupling
+geometry  unstructured
+horizontal-aggregation no
+reference-time              '20000101000000'
+hydrodynamic-start-time     '20020722000000'
+hydrodynamic-stop-time      '20020723000000'
+hydrodynamic-timestep       '00000000010000'
+conversion-ref-time         '20000101000000'
+conversion-start-time       '20020722000000'
+conversion-stop-time        '20020723000000'
+conversion-timestep         '00000000010000'
+grid-cells-first-direction                   24791
+grid-cells-second-direction                      1
+number-hydrodynamic-segments-per-layer       24791
+number-hydrodynamic-layers                       1
+number-water-quality-segments-per-layer      24791
+number-water-quality-layers                      1
+number-horizontal-exchanges                  45953
+number-vertical-exchanges                        0
+hydrodynamic-file           'current_situation'
+aggregation-file            none
+vertical-aggregation-file   none
+boundaries-file             'current_situation.bnd'
+waqgeom-file                'current_situation_waqgeom.nc'
+grid-indices-file           'current_situation.bnd'
+grid-coordinates-file       'current_situation_waqgeom.nc'
+volumes-file                'current_situation.vol'
+areas-file                  'current_situation.are'
+flows-file                  'current_situation.flo'
+velocities-file             'current_situation.vel'
+pointers-file               'current_situation.poi'
+lengths-file                'current_situation.len'
+salinity-file               'current_situation.sal'
+temperature-file            none
+vert-diffusion-file         none
+horizontal-surfaces-file    'current_situation.srf'
+surfaces-file               'current_situation.srfold'
+shear-stresses-file         'current_situation.tau'
+attributes-file             'current_situation.atr'
+hydrodynamic-layers
+       1.000000
+end-hydrodynamic-layers
+water-quality-layers   
+       1.000000
+end-water-quality-layers
+sink-sources
+         1       -69     11660       -999.000000       -999.000000        -79.894737         -2.082976  L_Orquideas
+         2       -70     12028       -999.000000       -999.000000        -79.877609         -2.118025  L_Guayacanes-Samanes
+         3       -71     12134       -999.000000       -999.000000        -79.879643         -2.127808  L_Alborada-Sauces
+         4       -72     12073       -999.000000       -999.000000        -79.877795         -2.121672  Bypass_Sauces
+         5       -73      2655       -999.000000       -999.000000        -79.875855         -2.167808  Bypass_Progreso
+         6       -74     18371       -999.000000       -999.000000        -79.882180         -2.241515  Bypass_Pradera
+         7       -75      2656       -999.000000       -999.000000        -79.875347         -2.167845  EB_Progreso
+         8       -76     18334       -999.000000       -999.000000        -79.882486         -2.238001  EB_Pradera
+         9       -77     18637       -999.000000       -999.000000        -79.865363         -2.256682  Guasmo_H
+        10       -78     11660       -999.000000       -999.000000        -79.894737         -2.082976  Mucho_Lote
+        11     22507         0        -79.978520         -1.982405       -999.000000       -999.000000  Toma_i
+        12       -79     22611       -999.000000       -999.000000        -79.970649         -1.983773  Toma_o
+        13       -80      3985       -999.000000       -999.000000        -79.842555         -2.154043  NewWPCP
+end-sink-sources

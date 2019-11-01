@@ -1,7 +1,8 @@
 /build/*
 /__pycache__/*
 /.idea/*
+/.vscode/*
 *.pyc
-
-prn_file_test.py
+/tests/dflowutil_test_data/
 *.pkl
+*proc_bal.txt
