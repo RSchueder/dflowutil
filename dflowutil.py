@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
 Created on Wed Dec 19
@@ -1561,6 +1560,8 @@ def read_sours(file, tref, sal = True, temp = True, subfile = None):
         for ind, line in enumerate(lines):
             if '*' in line:
                 pass 
+            if len(line) == 0:
+                pass
             else:
                 tmp_df = pd.DataFrame(columns = cols, index = [row])
                 vec = row2array(line)
