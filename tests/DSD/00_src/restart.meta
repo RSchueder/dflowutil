@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SerializableStatesInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OutStates>
+    <StateInfo>
+      <Name>current_situation: 2002-07-22 06:00:00</Name>
+      <ZipPath>C:\Guayas_final\R252D.dsproj_data\state_current_situation_2002-07-22_06-00-00-be46975a-f268-416e-a48c-f4a412622ed4.zip</ZipPath>
+    </StateInfo>
+    <StateInfo>
+      <Name>current_situation: 2002-07-22 12:00:00</Name>
+      <ZipPath>C:\Guayas_final\R252D.dsproj_data\state_current_situation_2002-07-22_12-00-00-d423128e-3155-4b12-9d86-caba402ac3f5.zip</ZipPath>
+    </StateInfo>
+    <StateInfo>
+      <Name>current_situation: 2002-07-22 18:00:00</Name>
+      <ZipPath>C:\Guayas_final\R252D.dsproj_data\state_current_situation_2002-07-22_18-00-00-d366eb28-50ca-4fc4-a126-091f519fbae4.zip</ZipPath>
+    </StateInfo>
+    <StateInfo>
+      <Name>current_situation: 2002-07-23 00:00:00</Name>
+      <ZipPath>C:\Guayas_final\R252D.dsproj_data\state_current_situation_2002-07-23_00-00-00-5488d9bc-a7fd-478f-8cc6-573f7ac341e2.zip</ZipPath>
+    </StateInfo>
+  </OutStates>
+</SerializableStatesInfo>

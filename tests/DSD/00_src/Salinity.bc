@@ -1,0 +1,28 @@
+[forcing]
+Name                            = sea_boundary_0001
+Function                        = timeseries
+Time-interpolation              = linear
+Vertical position type          = single
+Vertical interpolation          = linear
+Quantity                        = time
+Unit                            = seconds since 2000-01-01 00:00:00
+Quantity                        = salinitybnd
+Unit                            = ppt
+Vertical position               = 1
+7344000    34
+512265600  34
+
+[forcing]
+Name                            = sea_boundary_0011
+Function                        = timeseries
+Time-interpolation              = linear
+Vertical position type          = single
+Vertical interpolation          = linear
+Quantity                        = time
+Unit                            = seconds since 2000-01-01 00:00:00
+Quantity                        = salinitybnd
+Unit                            = ppt
+Vertical position               = 1
+7344000    34
+512265600  34
+
