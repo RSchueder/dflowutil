@@ -1,4 +1,4 @@
-from dflowutil.utils import row2array
+from .utils import row2array
 import numpy as np
 import pandas as pd
 

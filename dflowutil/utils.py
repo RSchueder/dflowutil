@@ -13,12 +13,14 @@ import os
 import pandas as pd
 import shutil as sh
 import datetime
-from dflowutil import nc_format
-from dflowutil.mesh import plot_net
+from .static import nc_format
+from .mesh import plot_net
+from .SubFile import SubFile
 
 ####################################
 #           UTILS
 ####################################
+
 
 def find_last(var, ss):
     """    
@@ -101,7 +103,7 @@ def nc_station(stations):
     return nstations   
 
 
-def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
+def rst_to_xyz(mapdir, subfile, tind, out, rst = False):
     """
     makes a series of xyz files to be used as an initial condition in an ext file
     uses rst files found in the directory by default, but can also use map files
@@ -123,25 +125,40 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
     subfile = r'p:\11200975-hongkongwaq\WAQ\03_baseCase\01_substances\HATS_PCA_v3ep.sub'
     out = 'p:\\11200975-hongkongwaq\\WAQ\\03_baseCase\\A06\\'
 
-    dflowutil.rst_to_xyz(mapdir, dflowutil.SubFile(subfile).substances, -1, out)
+    dflowutil.rst_to_xyz(mapdir, subfile, -1, out)
     """
-    
-    if rst:
-        print('rst files not implemented!')
-        #timeid = []
-        #for filei in glob.glob(mapdir + '*_rst.nc'):
-        #    timeid.append(filei[filei.index('DCSM-FM_0_5nm') + 19:filei.index('DCSM-FM_0_5nm') +27])
-    else:
-        files = list(glob.glob(mapdir + '*_map.nc'))
-       
+
+    subs = SubFile(subfile)
+    sublist = subs.substances
+
+    files = list(glob.glob(mapdir + '*_map.nc'))
+
+    ds = netCDF4.Dataset(files[0])
+    params = list(ds.variables.keys())
+    physchem = []
+    for par in params:
+        if 'sa1' in par:
+            physchem.append(par.replace('mesh2d_',''))
+        elif 'tem' in par:
+            physchem.append(par.replace('mesh2d_',''))
+        elif 's1' in par:
+            physchem.append(par.replace('mesh2d_',''))
+
+    if len(physchem) > 0:
+        sublist = sublist + physchem
+
     varnames = nc_format(files[0])
+
+    print(sublist)
+
     with open(out + 'ini.ext', 'w') as ext:
         for sub in sublist:
-            if 'S1' not in sub and 'SOD' not in sub:
+            if sub not in subs.transportable.keys() or subs.transportable[sub] == 'active':
                 ext.write('QUANTITY=initialtracer%s\n' % sub)
                 ext.write('FILENAME=%s.xyz\n' % sub)
                 ext.write('FILETYPE=7\n')
-                ext.write('METHOD=6\n')
+                ext.write('METHOD=5\n')
+
             else:
                 ext.write('QUANTITY=initialwaqbot%s\n' % sub)
                 ext.write('FILENAME=%s.xyz\n' % sub)
@@ -152,33 +169,36 @@ def rst_to_xyz(mapdir, sublist, tind, out, rst = False):
             ext.write('AVERAGINGTYPE=2\n')
             ext.write('RELATIVESEARCHCELLSIZE=1\n')
             ext.write('\n')
-            with open(out + '%s.xyz' % (sub), 'w') as ini:
-                for imap, filei in enumerate(files):
-                    mapid = filei[:-7]
-                    ds = netCDF4.Dataset(filei)
-                    x = ds.variables[varnames['face_x']][:]
-                    y = ds.variables[varnames['face_y']][:]
-                    # time, space, depth
-                    #print(sub)
-                    #print(filei)
-                    if tind == -1:
-                        tmp_times = ds.variables['time'][:]
-                        tind = len(tmp_times) - 1
-                    if 'S1' not in sub and 'SOD' not in sub:
-                        print(ds.variables['mesh2d_' + sub])
-                        s1 = ds.variables['mesh2d_' + sub][tind, :, :]
-                        mn_s1 = np.mean(s1, axis = 1)
 
-                    else:
-                        mn_s1 = ds.variables['mesh2d_' + sub][tind, :]
-                    
-                    #print(mn_s1.shape)
-                    for pos, xx in enumerate(x):
-                        # depth averaged
-                        ini.write('%.6f  %.6f  %.4e\n' % (x[pos], y[pos], mn_s1[pos]))
 
-                print('finished substance ' + sub)
-        
+            file_names = ['.xyz']
+                
+            for file_name in file_names:
+                with open(out + '%s' % (sub) + file_name, 'w') as ini:
+                    for imap, filei in enumerate(files):
+                        mapid = filei[:-7]
+                        ds = netCDF4.Dataset(filei)
+                        x = ds.variables[varnames['face_x']][:]
+                        y = ds.variables[varnames['face_y']][:]
+                        # time, space, depth
+
+                        if tind == -1:
+                            tmp_times = ds.variables['time'][:]
+                            tind = len(tmp_times) - 1
+                        if sub not in subs.transportable.keys() or subs.transportable[sub] == 'active':
+                            try:
+                                s1 = ds.variables['mesh2d_' + sub][tind, :, :]
+                                mn_s1 = np.mean(s1, axis = 1)
+                            except ValueError:                            
+                                mn_s1 = ds.variables['mesh2d_' + sub][tind, :]
+                        else:
+                            # 2d variable
+                            mn_s1 = ds.variables['mesh2d_' + sub][tind, :]
+                        
+                        for pos, _ in enumerate(x):
+                            ini.write('%.6f  %.6f  %.4e\n' % (x[pos], y[pos], mn_s1[pos]))
+
+                    print('finished substance ' + sub)
 
 
 def find_limit_cell(mapdir):

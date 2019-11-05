@@ -1,4 +1,6 @@
+/.eggs/*
 /build/*
+/dflowutil.egg-info/*
 /__pycache__/*
 /.idea/*
 /.vscode/*

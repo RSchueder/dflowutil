@@ -1,7 +1,7 @@
 import shutil as sh
-from dflowutil.utils import find_last, change_os, row2array
-from dflowutil.boundary import boundary_from_ext, read_sours
-from dflowutil.SubFile import SubFile
+from .utils import find_last, change_os, row2array
+from .boundary import boundary_from_ext, read_sours
+from .SubFile import SubFile
 import datetime
 import numpy as np
 import netCDF4

@@ -1,5 +1,5 @@
 import numpy as np
-from dflowutil import nc_format
+from .utils import nc_format
 import matplotlib.pyplot as plt
 import netCDF4
 import glob
