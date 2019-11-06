@@ -8,3 +8,4 @@
 /tests/dflowutil_test_data/
 *.pkl
 *proc_bal.txt
+/tests/SFEI/*

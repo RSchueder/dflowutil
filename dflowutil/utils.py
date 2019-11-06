@@ -108,12 +108,11 @@ def rst_to_xyz(mapdir, subfile, tind, out, rst = False):
     makes a series of xyz files to be used as an initial condition in an ext file
     uses rst files found in the directory by default, but can also use map files
     based on flag rst = False
-    tind = -1 takes the last available time
     
     Arguments:
         mapdir {str} -- path to map files from which you wish to form initial conditions
         sublist {list} -- list of substance names
-        tind {int} -- time index
+        tind {int} -- time index, = -1 takes the last available time
         out {str} -- location of out files
     
     Keyword Arguments:
@@ -130,6 +129,7 @@ def rst_to_xyz(mapdir, subfile, tind, out, rst = False):
 
     subs = SubFile(subfile)
     sublist = subs.substances
+
 
     files = list(glob.glob(mapdir + '*_map.nc'))
 
@@ -396,11 +396,11 @@ def pdistf(X1, Y1, X2, Y2):
     return np.sqrt((X2 - X1)**2 + (Y2 - Y1)**2)
 
 
-def row2array(line):
+def row2array(line_orig):
     '''
     takes a string of space seperated floats and returns an array
     '''
-    line = line.split(' ')
+    line = line_orig.split(' ')
     arr = []
     for ch in line:
         try:
@@ -408,5 +408,16 @@ def row2array(line):
             arr.append(val)
         except:
             pass
-    return np.array(arr)
-
+    if len(arr) > 1:
+        return np.array(arr)
+    else:
+        line = line_orig.split('\t')
+        arr = []
+        for ch in line:
+            try:
+                val = float(ch)
+                arr.append(val)
+            except:
+                pass
+        if len(arr) > 1:
+            return np.array(arr)

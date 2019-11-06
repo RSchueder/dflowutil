@@ -1,5 +1,6 @@
 import shutil as sh
 from .utils import find_last, change_os, row2array
+from .static import nc_format
 from .boundary import boundary_from_ext, read_sours
 from .SubFile import SubFile
 import datetime
@@ -10,11 +11,11 @@ import os
 
 class DFMWAQModel():
 
-    def __init__(self, mdu, ext, subfile, new_dir, tref, ini, run_sys='linux', v=None, cores=None, loads_data=None, bounds_data=None,
+    def __init__(self, mdu, ext, subfile, new_dir, tref, ini=None, run_sys='linux', v=None, cores=None,
+                 loads_data=None, bounds_data=None,
                  process_path=None):
         """
         DFMWAQ model initialized from DFM model inputs
-        Note: currently mdu referenced assets are not copied automatically to the new directory
 
         call DFMWAQModel.build() to build an initialized model
         Arguments:
@@ -23,10 +24,20 @@ class DFMWAQModel():
             subfile {dflowutil.SubFile} -- a dflowutil.SubFile object
             new_dir {path} -- path where model will be built
             tref {datetime.datetime}
-            ini {dict} -- sub name value pair for initial conditions. May be empty
+            ini {dict} -- sub name value pair for initial conditions. May be empty.
             v {str} -- version - i.e. 1.2.56.xxx.
             cores {list} -- [nodes, threads]
         """
+
+        if bounds_data is None:
+            bounds_data = dict()
+            self.bounds_data = bounds_data
+        if ini is None:
+            ini = dict()
+            self.ini = ini
+        if loads_data is None:
+            loads_data = dict()
+            self.loads_data = loads_data
 
         if v is not None:
             self.version = v
@@ -42,14 +53,23 @@ class DFMWAQModel():
         self.source_mdu = mdu
         self.mdu = os.path.join(new_dir, os.path.split(self.source_mdu)[1])
         self.ext = ext
+
         self.subfile = subfile
         self.substances = subfile.substances
         self.out = new_dir
         self.run_sys = run_sys
-        print('parsing time series data provided')
-        self.loads_data = self.process_loads_data(loads_data)
-        self.bounds_data = self.process_bounds_data(bounds_data)
-        print('finished parsing time series data')
+
+        if isinstance(loads_data, list):
+            self.loads_data = self.process_loads_data(loads_data)
+        elif not isinstance(loads_data, dict):
+            print('ERROR: loads data must be passed as list of strings')
+            raise
+
+        if isinstance(bounds_data, list):
+            self.bounds_data = self.process_bounds_data(bounds_data)
+        elif not isinstance(bounds_data, dict):
+            print('ERROR: bounds data must be passed as list of strings')
+            raise
 
         if not os.path.exists(self.out):
             os.makedirs(self.out)
@@ -92,12 +112,12 @@ class DFMWAQModel():
             # process library
             try:
                 sh.copyfile(r'p:\h6\opt\delft3d\delwaq\5.08.00.64083\x64\dwaq\default\proc_def.dat',
-                            new_dir + 'proc_def.dat')
+                            os.path.join(new_dir, 'proc_def.dat'))
                 sh.copyfile(r'p:\h6\opt\delft3d\delwaq\5.08.00.64083\x64\dwaq\default\proc_def.def',
-                            new_dir + 'proc_def.def')
-                sh.copyfile(r'p:\h6\opt\delft3d\delwaq\5.08.00.64083\x64\dwaq\default\bloom.spe', new_dir + 'bloom.spe')
+                            os.path.join(new_dir, 'proc_def.def'))
+                sh.copyfile(r'p:\h6\opt\delft3d\delwaq\5.08.00.64083\x64\dwaq\default\bloom.spe', os.path.join(new_dir, 'bloom.spe'))
                 sh.copyfile(r'p:\h6\opt\delft3d\delwaq\5.08.00.64083\x64\dwaq\default\bloominp.d09',
-                            new_dir + 'bloominp.d09')
+                            os.path.join(new_dir, 'bloominp.d09'))
 
             except FileNotFoundError:
                 if process_path is not None:
@@ -107,9 +127,9 @@ class DFMWAQModel():
                                 os.path.join(new_dir, 'proc_def.def'))
                     try:
                         sh.copyfile(os.path.join(process_path, 'bloom.spe'),
-                                    new_dir + 'bloom.spe')
+                                    os.path.join(new_dir, 'bloom.spe'))
                         sh.copyfile(os.path.join(process_path, 'bloominp.d09'),
-                                    new_dir + 'bloominp.d09')
+                                    os.path.join(new_dir, 'bloominp.d09'))
                     except FileNotFoundError:
                         print('WARNING: No BLOOM files found, only DYNAMO can be used')
                 else:
@@ -169,6 +189,8 @@ class DFMWAQModel():
 
                             # concatenation
                             arr = np.array(arr)
+                            print('file' + data + ' is apparently empty')
+                            print(arr)
                             times = np.array([self.tref + datetime.timedelta(minutes=int(tt)) for tt in arr[:, 0]])
                             times = pd.to_datetime(times)
                             flow_vals = arr[:, 1]
@@ -268,6 +290,7 @@ class DFMWAQModel():
                         # data = boundaries[name][bndtype]['data_loc']
                         # sh.copyfile(data, self.out + data[find_last(data, '\\'):])
 
+
     def migrate_model_asset(self, line, keyword, mdu_file):
         '''
         for certain lines in the mdu, parse the file location and ensure the new mdu can find it
@@ -296,20 +319,21 @@ class DFMWAQModel():
                 self.grid = os.path.join(self.out, os.path.split(asset)[1])
             os.chdir(orig)
 
-        elif '\\' not in asset:
+        elif '\\' not in asset and len(asset) > 0:
             # is local
             # must obtain from original mdu directory, copy, and reference new local
             sh.copyfile(os.path.join(os.path.split(self.source_mdu)[0], asset), os.path.join(self.out, asset))
             if 'net.nc' in asset:
                 self.grid = os.path.join(self.out, asset)
 
-        else:
+        elif len(asset) > 0:
             # is absolute, linux
             # copy from -> to
             sh.copyfile(asset, os.path.join(self.out, os.path.split(asset)[1]))
             if 'net.nc' in asset:
                 self.grid = os.path.join(self.out, os.path.split(asset)[1])
-
+        else:
+            pass # no file
         # must write local reference
         mdu_file.write('%s                           = %s \n' % (keyword, asset))
 
@@ -386,11 +410,13 @@ class DFMWAQModel():
                                             nmfn.write('\n')
 
                     # initials polygon
+                    varnames = nc_format(self.grid)
                     grd = netCDF4.Dataset(self.grid)
-                    x_min = np.min(grd.variables['mesh2d_node_x'][:])
-                    x_max = np.max(grd.variables['mesh2d_node_x'][:])
-                    y_min = np.min(grd.variables['mesh2d_node_y'][:])
-                    y_max = np.max(grd.variables['mesh2d_node_y'][:])
+
+                    x_min = np.min(grd.variables[varnames['xnode']][:])
+                    x_max = np.max(grd.variables[varnames['xnode']][:])
+                    y_min = np.min(grd.variables[varnames['ynode']][:])
+                    y_max = np.max(grd.variables[varnames['ynode']][:])
 
                     with open(os.path.join(self.out, 'domain.pol'), 'w') as pol:
                         pol.write('domain\n')
