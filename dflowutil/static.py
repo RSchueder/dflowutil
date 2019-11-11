@@ -15,6 +15,8 @@ def nc_format(grd):
             'yvelocity': 'ucy',
             'layerz': 'LayCoord_cc',
             'cellnodes': 'NetElemNode',
+            'face_x' : 'FlowElem_xzw',
+            'face_y' : 'FlowElem_yzw',
             'domain_number': 'FlowElemDomain',
             'salinity': 'sa1',
             'temperature': 'tem1'}
@@ -27,7 +29,6 @@ def nc_format(grd):
             'cellnodes': 'mesh2d_face_nodes',
             'face_x': 'mesh2d_face_x',
             'face_y': 'mesh2d_face_y',
-
             'domain_number': 'mesh2d_flowelem_domain',
             'salinity': 'mesh2d_sa1',
             'temperature': 'mesh2d_tem1'}

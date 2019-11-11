@@ -1,0 +1,6 @@
+* Deltares, D-Flow FM Version 1.2.63.64757M, Aug 28 2019, 20:48:01
+* Source: https://svn.oss.deltares.nl/repos/delft3d/trunk/
+* File creation date: 16:40:54, 11-11-2019
+** INFO   : Command: "c:\Program Files (x86)\Deltares\Delft3D FM Suite 2020.01 HMWQ (1.6.0.46002)\plugins\DeltaShell.Dimr\kernels\x64\dflowfm\scripts\\..\bin\dflowfm-cli.exe"  --nodisplay --autostartstop current_situation.mdu         --processlibrary "c:\Program Files (x86)\Deltares\Delft3D FM Suite 2020.01 HMWQ (1.6.0.46002)\plugins\DeltaShell.Dimr\kernels\x64\dflowfm\scripts\\..\default\proc_def.dat" --bloomspecies "c:\Program Files (x86)\Deltares\Delft3D FM Suite 2020.01 HMWQ (1.6.0.46002)\plugins\DeltaShell.Dimr\kernels\x64\dflowfm\scripts\\..\default\bloom.spe"
+** DEBUG  :            0  0.1000020     NOD(KMAX)
+** DEBUG  :            6  0.7000140     XK (KMAX), YK (KMAX), ZK (KMAX), KC (KMAX), NMK (KMAX), RNOD(KMAX)

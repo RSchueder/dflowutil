@@ -178,7 +178,7 @@ Timestepanalysis  = 0                   # 0=no, 1=see file *.steps
 
 [restart]
 RestartFile       =                     # Restart netcdf-file, either *_rst.nc or *_map.nc
-RestartDateTime   = 20190326            # Restart date and time (yyyymmddhhmmss) when restarting from *_map.nc
+RestartDateTime   =                     # Restart date and time (yyyymmddhhmmss) when restarting from *_map.nc
 
 [external forcing]
 ExtForceFile      = plant_loads_current_local.ext# Old format for external forcings file *.ext, link with tim/cmp-format boundary conditions specification
@@ -214,7 +214,7 @@ MapFile           =                     # MapFile name *_map.nc
 MapInterval       = 1800                # Map file output, given as "interval" "start period" "end period" (s)
 RstInterval       = 21600               # Restart file output times, given as "interval" "start period" "end period" (s)
 S1incinterval     =
-MapFormat         = 1                   # Map file format, 1: netCDF, 2: Tecplot, 3: netCFD and Tecplot, 4: NetCDF-UGRID
+MapFormat         = 4                   # Map file format, 1: netCDF, 2: Tecplot, 3: netCFD and Tecplot, 4: NetCDF-UGRID
 Wrihis_balance    = 0
 Wrihis_structure_gen= 0                   # Write general structure parameters to his file (1: yes, 0: no)
 Wrihis_structure_dam= 0                   # Write dam parameters to his file (1: yes, 0: no)
@@ -244,7 +244,7 @@ ClassMapFile      =                     # ClassMapFile name *_clm.nc
 WaterlevelClasses = 0.0
 WaterdepthClasses = 0.0
 ClassMapInterval  = 0                   # Class map output times, given as "interval" "start period" "end period" (s)
-WaqInterval       = 3600                # DELWAQ output times, given as "interval" "start period" "end period" (s)
+WaqInterval       = 0.                # DELWAQ output times, given as "interval" "start period" "end period" (s)
 StatsInterval     = -60                 # Screen step output interval in seconds simulation time, if negative in seconds wall clock time
 Writebalancefile  = 0
 TimingsInterval   =                     # Timings statistics output interval

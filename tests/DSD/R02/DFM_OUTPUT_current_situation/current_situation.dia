@@ -1,0 +1,1781 @@
+* Deltares, D-Flow FM Version 1.2.63.64757M, Aug 28 2019, 20:48:01
+* Source: https://svn.oss.deltares.nl/repos/delft3d/trunk/
+* File creation date: 17:22:08, 11-11-2019
+** INFO   : Command: "c:\Program Files (x86)\Deltares\Delft3D FM Suite 2020.01 HMWQ (1.6.0.46002)\plugins\DeltaShell.Dimr\kernels\x64\dflowfm\scripts\\..\bin\dflowfm-cli.exe"  --nodisplay --autostartstop current_situation.mdu         --processlibrary "c:\P
+** DEBUG  :            0  0.1000020     NOD(KMAX)
+** DEBUG  :            6  0.7000140     XK (KMAX), YK (KMAX), ZK (KMAX), KC (KMAX), NMK (KMAX), RNOD(KMAX)
+ Until here copy of previous diagnostic file
+** WARNING: readMDUFile: [geometry] uniformtyp1dstreetinlets=-2 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [geometry] uniformtyp1droofgutterpipes=-2 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [numerics] jaorgsethu=1 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [physics] effectspiral=0 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [output] wrishp_enc=0 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [output] waterlevelclasses=0.0 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [output] waterdepthclasses=0.0 was in file, but not used. Check possible typo.
+** WARNING: readMDUFile: [processes] procesdatabasefile=proc_def.dat was in file, but not used. Check possible typo.
+** DEBUG  : Detected old format for 1D ("CF-1.6 UGRID-1.0/Deltares-0.8") in 'stage4_spot_ortho_DFM_reint_net.nc'.
+** INFO   : Network UGRID-File: No 1D-Mesh Present, Skipped 1D
+** INFO   : Opened file : guayas.ldb
+** INFO   : Closed file : guayas.ldb
+** INFO   : Opened file : guayas_locations_obs.xyn
+** INFO   : Closed file : guayas_locations_obs.xyn
+** INFO   : Opened file : bridgepiers_3_thd.pli
+** INFO   : Closed file : bridgepiers_3_thd.pli
+** INFO   : Initializing flow model geometry...
+** DEBUG  : Opened 'stage4_spot_ortho_DFM_reint_net.nc' as #     65536.
+** WARNING: Could not read net cells from NetCDF file 'stage4_spot_ortho_DFM_reint_net.nc' (is not critical). Details follow:
+** DEBUG  : NetCDF error: NetCDF: Invalid dimension ID or name (nNetElem)
+** DEBUG  :            6  4.0599998E-02 netcell(numpx1)
+** DEBUG  :            7  5.1956002E-02 lnn(numl)
+** DEBUG  :            8  0.1039120     lne(2,numl)
+** DEBUG  :            8  2.4869001E-02 xz(numc)
+** DEBUG  :            8  2.4869001E-02 yz(numc)
+** DEBUG  :            8  2.4869001E-02 xzw(numc)
+** DEBUG  :            8  2.4869001E-02 yzw(numc)
+** DEBUG  :            8  2.4869001E-02 ba(numc)
+** INFO   : removing dry cells...
+** INFO   : Opened file : current_situation_dry.xyz
+** INFO   : merged 0 samples in .00 seconds.
+** INFO   : Closed file : current_situation_dry.xyz
+** INFO   : done in      0.01800 sec.
+** INFO   : Finding crossed flowlinks...
+** INFO   : done
+** INFO   : thin dams with kdtree2, elapsed time:     0.90000E-02s.
+** DEBUG  :  Renumber flow nodes...
+** DEBUG  :  Sumdiff:    79936962  Sumdiff renum:     76595646
+** DEBUG  :  Bandwidth:       46723  Bandwidth renum:          245
+** INFO   : Opened file : FlowFM_DFMWAQ.ext
+** DEBUG  :            9  5.1956002E-02 xe (nx)
+** DEBUG  :            9  5.1956002E-02 ye (nx)
+** DEBUG  :           10  5.1956002E-02 xyen(2, nx)
+** DEBUG  :           17  0.8832520     kce(nx), ke(nx), kez(nx), keu(nx), kes(nx), ketm(nx), kesd(nx), keuxy(nx), ket(nx), ken(nx), ke1d2d(nx), keg(nx), ked(nx), kep(nx), kedb(nx), keklep(nx), kevalv(nx), kegs(nx), kegen(nx), itpez(nx), itpenz(nx), itpeu(nx) , itpenu(nx), kew(nx), ftpet(nx)
+** DEBUG  :           17  5.1956002E-02 ketr(nx,1)
+** DEBUG  :           18  5.1956002E-02 kesf(1,nx)
+** INFO   : Opened file : d:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli
+** INFO   : Closed file : d:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli
+** INFO   : boundary: 'd:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli' opened 61 cells.
+** INFO   : waterlevelbnd d:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli      61 nr of open bndcells
+** INFO   : Opened file : d:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli
+** INFO   : Closed file : d:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli
+** INFO   : boundary: 'd:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli' opened 61 cells.
+** INFO   : salinitybndd:\projects\dflowutil\tests\DSD\00_src\sea_boundary.pli      61nr of salinity bndcells
+** INFO   : Opened file : d:\projects\dflowutil\tests\DSD\00_src\daule.pli
+** INFO   : Closed file : d:\projects\dflowutil\tests\DSD\00_src\daule.pli
+** INFO   : boundary: 'd:\projects\dflowutil\tests\DSD\00_src\daule.pli' opened 3 cells.
+** INFO   : salinitybndd:\projects\dflowutil\tests\DSD\00_src\daule.pli       3nr of salinity bndcells
+** INFO   : Opened file : d:\projects\dflowutil\tests\DSD\00_src\daule.pli
+** INFO   : Closed file : d:\projects\dflowutil\tests\DSD\00_src\daule.pli
+** INFO   : boundary: 'd:\projects\dflowutil\tests\DSD\00_src\daule.pli' opened 3 cells.
+** INFO   : dischargebnd d:\projects\dflowutil\tests\DSD\00_src\daule.pli       3 nr of open bndcells
+** INFO   : Opened file : d:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli
+** INFO   : Closed file : d:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli
+** INFO   : boundary: 'd:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli' opened 4 cells.
+** INFO   : salinitybndd:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli       4nr of salinity bndcells
+** INFO   : Opened file : d:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli
+** INFO   : Closed file : d:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli
+** INFO   : boundary: 'd:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli' opened 4 cells.
+** INFO   : dischargebnd d:\projects\dflowutil\tests\DSD\00_src\babahoyo.pli       4 nr of open bndcells
+** INFO   : Opened file : sea_boundaryOXY.pli
+** INFO   : Closed file : sea_boundaryOXY.pli
+** INFO   : boundary: 'sea_boundaryOXY.pli' opened 61 cells.
+** INFO   : tracerbndOXY sea_boundaryOXY.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryCBOD5.pli
+** INFO   : Closed file : sea_boundaryCBOD5.pli
+** INFO   : boundary: 'sea_boundaryCBOD5.pli' opened 61 cells.
+** INFO   : tracerbndCBOD5 sea_boundaryCBOD5.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryCOD_Cr.pli
+** INFO   : Closed file : sea_boundaryCOD_Cr.pli
+** INFO   : boundary: 'sea_boundaryCOD_Cr.pli' opened 61 cells.
+** INFO   : tracerbndCOD_Cr sea_boundaryCOD_Cr.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryNBOD5.pli
+** INFO   : Closed file : sea_boundaryNBOD5.pli
+** INFO   : boundary: 'sea_boundaryNBOD5.pli' opened 61 cells.
+** INFO   : tracerbndNBOD5 sea_boundaryNBOD5.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryIM1.pli
+** INFO   : Closed file : sea_boundaryIM1.pli
+** INFO   : boundary: 'sea_boundaryIM1.pli' opened 61 cells.
+** INFO   : tracerbndIM1 sea_boundaryIM1.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryNH4.pli
+** INFO   : Closed file : sea_boundaryNH4.pli
+** INFO   : boundary: 'sea_boundaryNH4.pli' opened 61 cells.
+** INFO   : tracerbndNH4 sea_boundaryNH4.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryNO3.pli
+** INFO   : Closed file : sea_boundaryNO3.pli
+** INFO   : boundary: 'sea_boundaryNO3.pli' opened 61 cells.
+** INFO   : tracerbndNO3 sea_boundaryNO3.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryPO4.pli
+** INFO   : Closed file : sea_boundaryPO4.pli
+** INFO   : boundary: 'sea_boundaryPO4.pli' opened 61 cells.
+** INFO   : tracerbndPO4 sea_boundaryPO4.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryAAP.pli
+** INFO   : Closed file : sea_boundaryAAP.pli
+** INFO   : boundary: 'sea_boundaryAAP.pli' opened 61 cells.
+** INFO   : tracerbndAAP sea_boundaryAAP.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundarySO4.pli
+** INFO   : Closed file : sea_boundarySO4.pli
+** INFO   : boundary: 'sea_boundarySO4.pli' opened 61 cells.
+** INFO   : tracerbndSO4 sea_boundarySO4.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundarySUD.pli
+** INFO   : Closed file : sea_boundarySUD.pli
+** INFO   : boundary: 'sea_boundarySUD.pli' opened 61 cells.
+** INFO   : tracerbndSUD sea_boundarySUD.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryPOC1.pli
+** INFO   : Closed file : sea_boundaryPOC1.pli
+** INFO   : boundary: 'sea_boundaryPOC1.pli' opened 61 cells.
+** INFO   : tracerbndPOC1 sea_boundaryPOC1.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryPON1.pli
+** INFO   : Closed file : sea_boundaryPON1.pli
+** INFO   : boundary: 'sea_boundaryPON1.pli' opened 61 cells.
+** INFO   : tracerbndPON1 sea_boundaryPON1.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryPOP1.pli
+** INFO   : Closed file : sea_boundaryPOP1.pli
+** INFO   : boundary: 'sea_boundaryPOP1.pli' opened 61 cells.
+** INFO   : tracerbndPOP1 sea_boundaryPOP1.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryDiat.pli
+** INFO   : Closed file : sea_boundaryDiat.pli
+** INFO   : boundary: 'sea_boundaryDiat.pli' opened 61 cells.
+** INFO   : tracerbndDiat sea_boundaryDiat.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryGreen.pli
+** INFO   : Closed file : sea_boundaryGreen.pli
+** INFO   : boundary: 'sea_boundaryGreen.pli' opened 61 cells.
+** INFO   : tracerbndGreen sea_boundaryGreen.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryFColi.pli
+** INFO   : Closed file : sea_boundaryFColi.pli
+** INFO   : boundary: 'sea_boundaryFColi.pli' opened 61 cells.
+** INFO   : tracerbndFColi sea_boundaryFColi.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryCd.pli
+** INFO   : Closed file : sea_boundaryCd.pli
+** INFO   : boundary: 'sea_boundaryCd.pli' opened 61 cells.
+** INFO   : tracerbndCd sea_boundaryCd.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryCu.pli
+** INFO   : Closed file : sea_boundaryCu.pli
+** INFO   : boundary: 'sea_boundaryCu.pli' opened 61 cells.
+** INFO   : tracerbndCu sea_boundaryCu.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryZn.pli
+** INFO   : Closed file : sea_boundaryZn.pli
+** INFO   : boundary: 'sea_boundaryZn.pli' opened 61 cells.
+** INFO   : tracerbndZn sea_boundaryZn.pli      61nr of tracer bndcells
+** INFO   : Opened file : sea_boundaryOMP.pli
+** INFO   : Closed file : sea_boundaryOMP.pli
+** INFO   : boundary: 'sea_boundaryOMP.pli' opened 61 cells.
+** INFO   : tracerbndOMP sea_boundaryOMP.pli      61nr of tracer bndcells
+** INFO   : Opened file : dauleOXY.pli
+** INFO   : Closed file : dauleOXY.pli
+** INFO   : boundary: 'dauleOXY.pli' opened 3 cells.
+** INFO   : tracerbndOXY dauleOXY.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleCBOD5.pli
+** INFO   : Closed file : dauleCBOD5.pli
+** INFO   : boundary: 'dauleCBOD5.pli' opened 3 cells.
+** INFO   : tracerbndCBOD5 dauleCBOD5.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleCOD_Cr.pli
+** INFO   : Closed file : dauleCOD_Cr.pli
+** INFO   : boundary: 'dauleCOD_Cr.pli' opened 3 cells.
+** INFO   : tracerbndCOD_Cr dauleCOD_Cr.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleNBOD5.pli
+** INFO   : Closed file : dauleNBOD5.pli
+** INFO   : boundary: 'dauleNBOD5.pli' opened 3 cells.
+** INFO   : tracerbndNBOD5 dauleNBOD5.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleIM1.pli
+** INFO   : Closed file : dauleIM1.pli
+** INFO   : boundary: 'dauleIM1.pli' opened 3 cells.
+** INFO   : tracerbndIM1 dauleIM1.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleNH4.pli
+** INFO   : Closed file : dauleNH4.pli
+** INFO   : boundary: 'dauleNH4.pli' opened 3 cells.
+** INFO   : tracerbndNH4 dauleNH4.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleNO3.pli
+** INFO   : Closed file : dauleNO3.pli
+** INFO   : boundary: 'dauleNO3.pli' opened 3 cells.
+** INFO   : tracerbndNO3 dauleNO3.pli       3nr of tracer bndcells
+** INFO   : Opened file : daulePO4.pli
+** INFO   : Closed file : daulePO4.pli
+** INFO   : boundary: 'daulePO4.pli' opened 3 cells.
+** INFO   : tracerbndPO4 daulePO4.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleAAP.pli
+** INFO   : Closed file : dauleAAP.pli
+** INFO   : boundary: 'dauleAAP.pli' opened 3 cells.
+** INFO   : tracerbndAAP dauleAAP.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleSO4.pli
+** INFO   : Closed file : dauleSO4.pli
+** INFO   : boundary: 'dauleSO4.pli' opened 3 cells.
+** INFO   : tracerbndSO4 dauleSO4.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleSUD.pli
+** INFO   : Closed file : dauleSUD.pli
+** INFO   : boundary: 'dauleSUD.pli' opened 3 cells.
+** INFO   : tracerbndSUD dauleSUD.pli       3nr of tracer bndcells
+** INFO   : Opened file : daulePOC1.pli
+** INFO   : Closed file : daulePOC1.pli
+** INFO   : boundary: 'daulePOC1.pli' opened 3 cells.
+** INFO   : tracerbndPOC1 daulePOC1.pli       3nr of tracer bndcells
+** INFO   : Opened file : daulePON1.pli
+** INFO   : Closed file : daulePON1.pli
+** INFO   : boundary: 'daulePON1.pli' opened 3 cells.
+** INFO   : tracerbndPON1 daulePON1.pli       3nr of tracer bndcells
+** INFO   : Opened file : daulePOP1.pli
+** INFO   : Closed file : daulePOP1.pli
+** INFO   : boundary: 'daulePOP1.pli' opened 3 cells.
+** INFO   : tracerbndPOP1 daulePOP1.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleDiat.pli
+** INFO   : Closed file : dauleDiat.pli
+** INFO   : boundary: 'dauleDiat.pli' opened 3 cells.
+** INFO   : tracerbndDiat dauleDiat.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleGreen.pli
+** INFO   : Closed file : dauleGreen.pli
+** INFO   : boundary: 'dauleGreen.pli' opened 3 cells.
+** INFO   : tracerbndGreen dauleGreen.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleFColi.pli
+** INFO   : Closed file : dauleFColi.pli
+** INFO   : boundary: 'dauleFColi.pli' opened 3 cells.
+** INFO   : tracerbndFColi dauleFColi.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleCd.pli
+** INFO   : Closed file : dauleCd.pli
+** INFO   : boundary: 'dauleCd.pli' opened 3 cells.
+** INFO   : tracerbndCd dauleCd.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleCu.pli
+** INFO   : Closed file : dauleCu.pli
+** INFO   : boundary: 'dauleCu.pli' opened 3 cells.
+** INFO   : tracerbndCu dauleCu.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleZn.pli
+** INFO   : Closed file : dauleZn.pli
+** INFO   : boundary: 'dauleZn.pli' opened 3 cells.
+** INFO   : tracerbndZn dauleZn.pli       3nr of tracer bndcells
+** INFO   : Opened file : dauleOMP.pli
+** INFO   : Closed file : dauleOMP.pli
+** INFO   : boundary: 'dauleOMP.pli' opened 3 cells.
+** INFO   : tracerbndOMP dauleOMP.pli       3nr of tracer bndcells
+** INFO   : Opened file : babahoyoOXY.pli
+** INFO   : Closed file : babahoyoOXY.pli
+** INFO   : boundary: 'babahoyoOXY.pli' opened 4 cells.
+** INFO   : tracerbndOXY babahoyoOXY.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoCBOD5.pli
+** INFO   : Closed file : babahoyoCBOD5.pli
+** INFO   : boundary: 'babahoyoCBOD5.pli' opened 4 cells.
+** INFO   : tracerbndCBOD5 babahoyoCBOD5.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoCOD_Cr.pli
+** INFO   : Closed file : babahoyoCOD_Cr.pli
+** INFO   : boundary: 'babahoyoCOD_Cr.pli' opened 4 cells.
+** INFO   : tracerbndCOD_Cr babahoyoCOD_Cr.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoNBOD5.pli
+** INFO   : Closed file : babahoyoNBOD5.pli
+** INFO   : boundary: 'babahoyoNBOD5.pli' opened 4 cells.
+** INFO   : tracerbndNBOD5 babahoyoNBOD5.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoIM1.pli
+** INFO   : Closed file : babahoyoIM1.pli
+** INFO   : boundary: 'babahoyoIM1.pli' opened 4 cells.
+** INFO   : tracerbndIM1 babahoyoIM1.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoNH4.pli
+** INFO   : Closed file : babahoyoNH4.pli
+** INFO   : boundary: 'babahoyoNH4.pli' opened 4 cells.
+** INFO   : tracerbndNH4 babahoyoNH4.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoNO3.pli
+** INFO   : Closed file : babahoyoNO3.pli
+** INFO   : boundary: 'babahoyoNO3.pli' opened 4 cells.
+** INFO   : tracerbndNO3 babahoyoNO3.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoPO4.pli
+** INFO   : Closed file : babahoyoPO4.pli
+** INFO   : boundary: 'babahoyoPO4.pli' opened 4 cells.
+** INFO   : tracerbndPO4 babahoyoPO4.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoAAP.pli
+** INFO   : Closed file : babahoyoAAP.pli
+** INFO   : boundary: 'babahoyoAAP.pli' opened 4 cells.
+** INFO   : tracerbndAAP babahoyoAAP.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoSO4.pli
+** INFO   : Closed file : babahoyoSO4.pli
+** INFO   : boundary: 'babahoyoSO4.pli' opened 4 cells.
+** INFO   : tracerbndSO4 babahoyoSO4.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoSUD.pli
+** INFO   : Closed file : babahoyoSUD.pli
+** INFO   : boundary: 'babahoyoSUD.pli' opened 4 cells.
+** INFO   : tracerbndSUD babahoyoSUD.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoPOC1.pli
+** INFO   : Closed file : babahoyoPOC1.pli
+** INFO   : boundary: 'babahoyoPOC1.pli' opened 4 cells.
+** INFO   : tracerbndPOC1 babahoyoPOC1.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoPON1.pli
+** INFO   : Closed file : babahoyoPON1.pli
+** INFO   : boundary: 'babahoyoPON1.pli' opened 4 cells.
+** INFO   : tracerbndPON1 babahoyoPON1.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoPOP1.pli
+** INFO   : Closed file : babahoyoPOP1.pli
+** INFO   : boundary: 'babahoyoPOP1.pli' opened 4 cells.
+** INFO   : tracerbndPOP1 babahoyoPOP1.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoDiat.pli
+** INFO   : Closed file : babahoyoDiat.pli
+** INFO   : boundary: 'babahoyoDiat.pli' opened 4 cells.
+** INFO   : tracerbndDiat babahoyoDiat.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoGreen.pli
+** INFO   : Closed file : babahoyoGreen.pli
+** INFO   : boundary: 'babahoyoGreen.pli' opened 4 cells.
+** INFO   : tracerbndGreen babahoyoGreen.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoFColi.pli
+** INFO   : Closed file : babahoyoFColi.pli
+** INFO   : boundary: 'babahoyoFColi.pli' opened 4 cells.
+** INFO   : tracerbndFColi babahoyoFColi.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoCd.pli
+** INFO   : Closed file : babahoyoCd.pli
+** INFO   : boundary: 'babahoyoCd.pli' opened 4 cells.
+** INFO   : tracerbndCd babahoyoCd.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoCu.pli
+** INFO   : Closed file : babahoyoCu.pli
+** INFO   : boundary: 'babahoyoCu.pli' opened 4 cells.
+** INFO   : tracerbndCu babahoyoCu.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoZn.pli
+** INFO   : Closed file : babahoyoZn.pli
+** INFO   : boundary: 'babahoyoZn.pli' opened 4 cells.
+** INFO   : tracerbndZn babahoyoZn.pli       4nr of tracer bndcells
+** INFO   : Opened file : babahoyoOMP.pli
+** INFO   : Closed file : babahoyoOMP.pli
+** INFO   : boundary: 'babahoyoOMP.pli' opened 4 cells.
+** INFO   : tracerbndOMP babahoyoOMP.pli       4nr of tracer bndcells
+** DEBUG  :           19  0.1988720     nd(ndx), bl(ndx), bai(ndx), bai_mor(ndx), ba_mor(ndx), kcs(ndx)
+** DEBUG  :           22  9.1920003E-02 ln   (2,lnx)
+** DEBUG  :           23  9.1920003E-02 lncn (2,lnx)
+** DEBUG  :           24  9.1920003E-02 bob  (2,lnx)
+** DEBUG  :           25  9.1920003E-02 bob0  (2,lnx)
+** DEBUG  :           25  4.5960002E-02 dx   (  lnx)
+** DEBUG  :           25  4.5960002E-02 dxi  (  lnx)
+** DEBUG  :           26  4.5960002E-02 wu   (  lnx)
+** DEBUG  :           26  4.5960002E-02 wu_mor (  lnx)
+** DEBUG  :           26  4.5960002E-02 wui  (  lnx)
+** DEBUG  :           27  4.5960002E-02 kcu  (  lnx)
+** DEBUG  :           27  4.5960002E-02 csu  (  lnx)
+** DEBUG  :           27  4.5960002E-02 snu  (  lnx)
+** DEBUG  :           28  4.5960002E-02 acl  (  lnx)
+** DEBUG  :           28  4.5960002E-02 acn  (2,lnx)
+** DEBUG  :           29  4.5960002E-02 iadv   (lnx)
+** DEBUG  :           29  4.5960002E-02 teta   (lnx)
+** DEBUG  :           29  4.5960002E-02 ibot   (lnx)
+** DEBUG  :           30  0.1378800     xu(lnx), yu(lnx) , blu(lnx)
+** DEBUG  :           31  5.1956002E-02 ln2lne (nex)
+** DEBUG  :           31  5.1956002E-02 lne2ln (nex)
+** DEBUG  : addexternalboundarypoints: added 0 bnd points for SOBEK1D-FM2D connections.
+** DEBUG  :           32  2.7067000E-02  cn (numk)
+** DEBUG  :           32  2.7067000E-02 ucnx(numk)
+** DEBUG  :           33  2.7067000E-02 ucny(numk)
+** DEBUG  :           33  2.7067000E-02 ban (numk)
+** INFO   : setbedlevelfromextfile: Using bedlevel as specified in net-file.
+** DEBUG  :           33  4.5960002E-02 wcnx3(lnx)
+** DEBUG  :           34  4.5960002E-02 wcny3(lnx)
+** DEBUG  :           34  4.5960002E-02 wcnx4(lnx)
+** DEBUG  :           34  4.5960002E-02 wcny4(lnx)
+** DEBUG  :           35  8.1201002E-02 wcnxy(3,numk)
+** DEBUG  :           35  2.7067000E-02 jacorner(numk)
+** DEBUG  :           35  5.8680000E-03 cscnw(nrcnw)
+** DEBUG  :           35  5.8680000E-03 sncnw(nrcnw)
+** DEBUG  :           35  5.8680000E-03  kcnw(nrcnw)
+** DEBUG  :           35  1.1736000E-02  nwalcnw(2,nrcnw)
+** DEBUG  :           35  5.8680000E-03  sfcnw(nrcnw)
+** DEBUG  :           36  2.4859000E-02 numlimdt(ndx)
+** DEBUG  :           36  9.9705003E-02 walls(17,nw)
+** DEBUG  :           37  4.5960002E-02 wcx1(lnx)
+** DEBUG  :           37  4.5960002E-02 wcy1(lnx)
+** DEBUG  :           38  4.5960002E-02 wcx2(lnx)
+** DEBUG  :           38  4.5960002E-02 wcy2(lnx)
+** DEBUG  :           38  4.9718000E-02 wcxy (2,ndx)
+** DEBUG  :           39  9.1920003E-02 wcL  (2,Lnx)
+** DEBUG  :           39  2.4859000E-02 wc     (ndx)
+** DEBUG  :           41  9.7736999E-02 banf(mxban)
+** DEBUG  :           42  9.7736999E-02 nban(4,mxban)
+** DEBUG  :           42  9.7736999E-02 rr(mxban), nr(mxban)
+** DEBUG  :           43  9.7736999E-02 banh (mxban)
+** DEBUG  :           44  9.7736999E-02 nbanh(4,mxban)
+** INFO   : Done initializing flow model geometry.
+** DEBUG  :           44  4.9718000E-02 s0  (ndx) , s1  (ndx)
+** DEBUG  :           45  4.9718000E-02 a0  (ndx) , a1  (ndx)
+** DEBUG  :           45  4.9718000E-02 hs  (ndx) , s00 (ndx)
+** DEBUG  :           45  2.4859000E-02 cfs (ndx)
+** DEBUG  :           46  2.4859000E-02 kbot (ndx)
+** DEBUG  :           46  2.4859000E-02 ktop (ndx)
+** DEBUG  :           46  2.4859000E-02 ktop0(ndx)
+** DEBUG  :           46  2.4859000E-02 kmxn (ndx)
+** DEBUG  :           47  4.5960002E-02 Lbot (Lnx)
+** DEBUG  :           47  4.5960002E-02 Ltop (Lnx)
+** DEBUG  :           47  4.5960002E-02 kmxL (Lnx)
+** DEBUG  :           48  4.5960002E-02 ustb  (lnx)
+** DEBUG  :           48  4.5960002E-02 ustw  (lnx)
+** DEBUG  :           48  2.4859000E-02 laydefnr(ndx)
+** DEBUG  :           49  4.9718000E-02 ucx (ndkx) , ucy (ndkx)
+** DEBUG  :           49  4.9718000E-02 uqcx(ndkx) , uqcy(ndkx)
+** DEBUG  :           49  4.9718000E-02 ucxq(ndkx) , ucyq(ndkx)
+** DEBUG  :           50  4.9718000E-02 qin (ndkx) , vih (ndkx)
+** DEBUG  :           50  4.9718000E-02 dvxc(ndkx) , dvyc(ndkx)
+** DEBUG  :           50  2.4859000E-02 squ (ndkx)
+** DEBUG  :           51  2.4859000E-02 sqi (ndkx)
+** DEBUG  :           51  2.4859000E-02 sq  (ndkx)
+** DEBUG  :           51  2.4859000E-02 sqa (ndkx)
+** DEBUG  :           51  2.4859000E-02 vol0(ndkx)
+** DEBUG  :           51  2.4859000E-02 vol1(ndkx)
+** DEBUG  :           52  2.4859000E-02 vol1_f(ndkx)
+** DEBUG  :           52  2.4859000E-02 volerror(ndkx)
+** DEBUG  :           52  2.4859000E-02 dtcell(ndkx)
+** DEBUG  :           52  2.4859000E-02 rho (ndkx)
+** DEBUG  :           53  4.5960002E-02 dpbdx0 (lnkx)
+** DEBUG  :           53  2.4859000E-02 workx (ndkx)
+** DEBUG  :           53  2.4859000E-02 worky (ndkx)
+** DEBUG  :           53  4.5960002E-02 work0 (0:max(kmx,1),max(ndx,lnx))
+** DEBUG  :           54  4.5960002E-02 work1 (max(kmx,1),max(ndx,lnx))
+** DEBUG  :           54  2.4859000E-02 tidep (1,ndx)
+** DEBUG  :           54  4.5960002E-02 z0ucur(lnx)
+** DEBUG  :           55  4.5960002E-02 z0urou(lnx)
+** DEBUG  :           55  4.5960002E-02 cfuhi(lnx)
+** DEBUG  :           55  4.5960002E-02 frcu (lnx)
+** DEBUG  :           56  4.5960002E-02 frcu_mor (lnx)
+** DEBUG  :           56  4.5960002E-02 ifrcutp(lnx)
+** DEBUG  :           56  4.5960002E-02 wdsu  (lnx)
+** DEBUG  :           57  4.5960002E-02 u0   (lnkx)
+** DEBUG  :           57  4.5960002E-02 u1   (lnkx)
+** DEBUG  :           58  4.5960002E-02 q1   (lnkx)
+** DEBUG  :           58  4.5960002E-02 qa   (lnkx)
+** DEBUG  :           58  4.5960002E-02 v    (lnkx)
+** DEBUG  :           59  4.5960002E-02 ucxu (lnkx)
+** DEBUG  :           59  4.5960002E-02 ucyu (lnkx)
+** DEBUG  :           59  4.5960002E-02 hu   (lnkx)
+** DEBUG  :           60  4.5960002E-02 huvli(lnkx)
+** DEBUG  :           60  4.5960002E-02 au   (lnkx)
+** DEBUG  :           61  4.5960002E-02 viu  (lnkx)
+** DEBUG  :           61  4.5960002E-02 vicLu(lnkx)
+** DEBUG  :           61  4.5960002E-02 suu  (lnkx)
+** DEBUG  :           62  4.5960002E-02 advi (lnkx)
+** DEBUG  :           62  4.5960002E-02 adve (lnkx)
+** DEBUG  :           62  4.5960002E-02 plotlin(max(lnkx,ndkx))
+** DEBUG  :           63  2.4859000E-02 czs(ndx)
+** DEBUG  :           63  2.4859000E-02 bb   (ndx )
+** DEBUG  :           63  2.4859000E-02 dd   (ndx )
+** DEBUG  :           63  2.4859000E-02 fu   (lnkx)
+** DEBUG  :           63  2.4859000E-02 ru   (lnkx)
+** DEBUG  :           64  2.4859000E-02 sa1 (ndkx)
+** DEBUG  :           64  2.4859000E-02 rich(lnkx)
+** INFO   : Initialising water quality processes
+** INFO   : Water quality timers switched on
+** INFO   : Opening substance file: d:\projects\dflowutil\tests\DSD\01_substances\guayas_V11.sub
+** INFO   : External Forcing or Initialising 'initialtracerOXY' from file 'OXY.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerCBOD5' from file 'CBOD5.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerCOD_Cr' from file 'COD_Cr.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerNBOD5' from file 'NBOD5.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerIM1' from file 'IM1.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerNH4' from file 'NH4.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerNO3' from file 'NO3.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerPO4' from file 'PO4.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerAAP' from file 'AAP.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerSO4' from file 'SO4.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerSUD' from file 'SUD.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerPOC1' from file 'POC1.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerPON1' from file 'PON1.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerPOP1' from file 'POP1.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerDiat' from file 'Diat.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerGreen' from file 'Green.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerFColi' from file 'FColi.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerCd' from file 'Cd.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerCu' from file 'Cu.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerZn' from file 'Zn.xyz'.
+** INFO   : External Forcing or Initialising 'initialtracerOMP' from file 'OMP.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotSOD' from file 'SOD.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotIM1S1' from file 'IM1S1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotDetCS1' from file 'DetCS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotDetNS1' from file 'DetNS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotDetPS1' from file 'DetPS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotCdS1' from file 'CdS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotCuS1' from file 'CuS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotZnS1' from file 'ZnS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaqbotOMPS1' from file 'OMPS1.xyz'.
+** INFO   : External Forcing or Initialising 'initialwaterlevel' from file 's1.xyz'.
+** INFO   : External Forcing or Initialising 'initialsalinity' from file 'sa1.xyz'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'L_Orquideas.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'L_Guayacanes-Samanes.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'L_Alborada-Sauces.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Bypass_Sauces.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Bypass_Progreso.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Bypass_Pradera.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'EB_Progreso.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'EB_Pradera.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Guasmo_H.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Mucho_Lote.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Toma_i.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Toma_o.pli'.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'NewWPCP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOXY' from file 'sea_boundaryOXY.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCBOD5' from file 'sea_boundaryCBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCOD_Cr' from file 'sea_boundaryCOD_Cr.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNBOD5' from file 'sea_boundaryNBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndIM1' from file 'sea_boundaryIM1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNH4' from file 'sea_boundaryNH4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNO3' from file 'sea_boundaryNO3.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPO4' from file 'sea_boundaryPO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndAAP' from file 'sea_boundaryAAP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSO4' from file 'sea_boundarySO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSUD' from file 'sea_boundarySUD.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOC1' from file 'sea_boundaryPOC1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPON1' from file 'sea_boundaryPON1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOP1' from file 'sea_boundaryPOP1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndDiat' from file 'sea_boundaryDiat.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndGreen' from file 'sea_boundaryGreen.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndFColi' from file 'sea_boundaryFColi.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCd' from file 'sea_boundaryCd.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCu' from file 'sea_boundaryCu.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndZn' from file 'sea_boundaryZn.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOMP' from file 'sea_boundaryOMP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOXY' from file 'dauleOXY.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCBOD5' from file 'dauleCBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCOD_Cr' from file 'dauleCOD_Cr.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNBOD5' from file 'dauleNBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndIM1' from file 'dauleIM1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNH4' from file 'dauleNH4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNO3' from file 'dauleNO3.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPO4' from file 'daulePO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndAAP' from file 'dauleAAP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSO4' from file 'dauleSO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSUD' from file 'dauleSUD.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOC1' from file 'daulePOC1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPON1' from file 'daulePON1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOP1' from file 'daulePOP1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndDiat' from file 'dauleDiat.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndGreen' from file 'dauleGreen.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndFColi' from file 'dauleFColi.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCd' from file 'dauleCd.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCu' from file 'dauleCu.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndZn' from file 'dauleZn.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOMP' from file 'dauleOMP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOXY' from file 'babahoyoOXY.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCBOD5' from file 'babahoyoCBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCOD_Cr' from file 'babahoyoCOD_Cr.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNBOD5' from file 'babahoyoNBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndIM1' from file 'babahoyoIM1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNH4' from file 'babahoyoNH4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNO3' from file 'babahoyoNO3.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPO4' from file 'babahoyoPO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndAAP' from file 'babahoyoAAP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSO4' from file 'babahoyoSO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSUD' from file 'babahoyoSUD.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOC1' from file 'babahoyoPOC1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPON1' from file 'babahoyoPON1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOP1' from file 'babahoyoPOP1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndDiat' from file 'babahoyoDiat.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndGreen' from file 'babahoyoGreen.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndFColi' from file 'babahoyoFColi.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCd' from file 'babahoyoCd.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCu' from file 'babahoyoCu.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndZn' from file 'babahoyoZn.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOMP' from file 'babahoyoOMP.pli'.
+** INFO   : External Forcing or Initialising 'waqmassbalanceareaDomain' from file 'domain.pol'.
+** DEBUG  :           64  2.4859000E-02 zh(nx)
+** INFO   : Opened file : domain.pol
+** INFO   : Closed file : domain.pol
+** INFO   : Water quality constant replaced by segment function: Tau
+** INFO   : List of constituents defined in the model
+** INFO   :        1 salt
+** INFO   :        2 OXY
+** INFO   :        3 CBOD5
+** INFO   :        4 COD_Cr
+** INFO   :        5 NBOD5
+** INFO   :        6 IM1
+** INFO   :        7 NH4
+** INFO   :        8 NO3
+** INFO   :        9 PO4
+** INFO   :       10 AAP
+** INFO   :       11 SO4
+** INFO   :       12 SUD
+** INFO   :       13 POC1
+** INFO   :       14 PON1
+** INFO   :       15 POP1
+** INFO   :       16 Diat
+** INFO   :       17 Green
+** INFO   :       18 FColi
+** INFO   :       19 Cd
+** INFO   :       20 Cu
+** INFO   :       21 Zn
+** INFO   :       22 OMP
+** INFO   : List of water quality bottom variables defined in the model
+** INFO   :        1 SOD
+** INFO   :        2 IM1S1
+** INFO   :        3 DetCS1
+** INFO   :        4 DetNS1
+** INFO   :        5 DetPS1
+** INFO   :        6 CdS1
+** INFO   :        7 CuS1
+** INFO   :        8 ZnS1
+** INFO   :        9 OMPS1
+** INFO   : Finding flow nodes...
+** INFO   : done in      0.03100 sec.
+** INFO   : Could not find flowcell for point #16 (Puna). Discarding.
+** INFO   : Could not find flowcell for point #18 (Pto. Nuevo). Discarding.
+** INFO   : Could not find flowcell for point #56 (P11). Discarding.
+** INFO   : Could not find flowcell for point #89 (R. Guayas 26). Discarding.
+** DEBUG  :           64  4.5960002E-02 fcori(lnx)
+** INFO   : Start initializing external forcings...
+** INFO   : External Forcing or Initialising 'initialtracerOXY' from file 'OXY.xyz'.
+** INFO   : add_tracer: tracer OXY already exists. No update required.
+** DEBUG  :           65  2.4859000E-02 zh(nx)
+** INFO   : Opened file : OXY.xyz
+** DEBUG  :           65  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           65  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           65  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : OXY.xyz
+** DEBUG  :           56  -1.239550     idum(50*Ns)
+** DEBUG  :           59  0.4462680     INDX(3,NSM)
+** DEBUG  :           61  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           65  0.4462680     triedge(3,NSM)
+** DEBUG  :           66  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           66  4.9507000E-02 imask(numtri)
+** DEBUG  :           67  0.1485940     LNtri(2,numedge)
+** DEBUG  :           69  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerCBOD5' from file 'CBOD5.xyz'.
+** INFO   : add_tracer: tracer CBOD5 already exists. No update required.
+** DEBUG  :           69  2.4859000E-02 zh(nx)
+** INFO   : Opened file : CBOD5.xyz
+** DEBUG  :           69  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           69  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           70  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : CBOD5.xyz
+** DEBUG  :           60  -1.239550     idum(50*Ns)
+** DEBUG  :           63  0.4462680     INDX(3,NSM)
+** DEBUG  :           66  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           69  0.4462680     triedge(3,NSM)
+** DEBUG  :           70  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           70  4.9507000E-02 imask(numtri)
+** DEBUG  :           72  0.1485940     LNtri(2,numedge)
+** DEBUG  :           73  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerCOD_Cr' from file 'COD_Cr.xyz'.
+** INFO   : add_tracer: tracer COD_Cr already exists. No update required.
+** DEBUG  :           73  2.4859000E-02 zh(nx)
+** INFO   : Opened file : COD_Cr.xyz
+** DEBUG  :           73  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           74  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           74  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : COD_Cr.xyz
+** DEBUG  :           64  -1.239550     idum(50*Ns)
+** DEBUG  :           68  0.4462680     INDX(3,NSM)
+** DEBUG  :           70  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           74  0.4462680     triedge(3,NSM)
+** DEBUG  :           74  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           75  4.9507000E-02 imask(numtri)
+** DEBUG  :           76  0.1485940     LNtri(2,numedge)
+** DEBUG  :           77  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerNBOD5' from file 'NBOD5.xyz'.
+** INFO   : add_tracer: tracer NBOD5 already exists. No update required.
+** DEBUG  :           77  2.4859000E-02 zh(nx)
+** INFO   : Opened file : NBOD5.xyz
+** DEBUG  :           78  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           78  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           78  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : NBOD5.xyz
+** DEBUG  :           68  -1.239550     idum(50*Ns)
+** DEBUG  :           72  0.4462680     INDX(3,NSM)
+** DEBUG  :           74  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           78  0.4462680     triedge(3,NSM)
+** DEBUG  :           79  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           79  4.9507000E-02 imask(numtri)
+** DEBUG  :           80  0.1485940     LNtri(2,numedge)
+** DEBUG  :           81  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerIM1' from file 'IM1.xyz'.
+** INFO   : add_tracer: tracer IM1 already exists. No update required.
+** DEBUG  :           82  2.4859000E-02 zh(nx)
+** INFO   : Opened file : IM1.xyz
+** DEBUG  :           82  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           82  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           82  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : IM1.xyz
+** DEBUG  :           72  -1.239550     idum(50*Ns)
+** DEBUG  :           76  0.4462680     INDX(3,NSM)
+** DEBUG  :           78  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           82  0.4462680     triedge(3,NSM)
+** DEBUG  :           83  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           83  4.9507000E-02 imask(numtri)
+** DEBUG  :           84  0.1485940     LNtri(2,numedge)
+** DEBUG  :           86  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerNH4' from file 'NH4.xyz'.
+** INFO   : add_tracer: tracer NH4 already exists. No update required.
+** DEBUG  :           86  2.4859000E-02 zh(nx)
+** INFO   : Opened file : NH4.xyz
+** DEBUG  :           86  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           86  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           87  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : NH4.xyz
+** DEBUG  :           77  -1.239550     idum(50*Ns)
+** DEBUG  :           80  0.4462680     INDX(3,NSM)
+** DEBUG  :           83  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           86  0.4462680     triedge(3,NSM)
+** DEBUG  :           87  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           87  4.9507000E-02 imask(numtri)
+** DEBUG  :           89  0.1485940     LNtri(2,numedge)
+** DEBUG  :           90  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerNO3' from file 'NO3.xyz'.
+** INFO   : add_tracer: tracer NO3 already exists. No update required.
+** DEBUG  :           90  2.4859000E-02 zh(nx)
+** INFO   : Opened file : NO3.xyz
+** DEBUG  :           90  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           90  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           91  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .02 seconds.
+** INFO   : Closed file : NO3.xyz
+** DEBUG  :           81  -1.239550     idum(50*Ns)
+** DEBUG  :           85  0.4462680     INDX(3,NSM)
+** DEBUG  :           87  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           90  0.4462680     triedge(3,NSM)
+** DEBUG  :           91  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           92  4.9507000E-02 imask(numtri)
+** DEBUG  :           93  0.1485940     LNtri(2,numedge)
+** DEBUG  :           94  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerPO4' from file 'PO4.xyz'.
+** INFO   : add_tracer: tracer PO4 already exists. No update required.
+** DEBUG  :           94  2.4859000E-02 zh(nx)
+** INFO   : Opened file : PO4.xyz
+** DEBUG  :           94  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           95  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           95  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : PO4.xyz
+** DEBUG  :           85  -1.239550     idum(50*Ns)
+** DEBUG  :           89  0.4462680     INDX(3,NSM)
+** DEBUG  :           91  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           95  0.4462680     triedge(3,NSM)
+** DEBUG  :           96  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :           96  4.9507000E-02 imask(numtri)
+** DEBUG  :           97  0.1485940     LNtri(2,numedge)
+** DEBUG  :           98  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerAAP' from file 'AAP.xyz'.
+** INFO   : add_tracer: tracer AAP already exists. No update required.
+** DEBUG  :           98  2.4859000E-02 zh(nx)
+** INFO   : Opened file : AAP.xyz
+** DEBUG  :           99  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :           99  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :           99  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : AAP.xyz
+** DEBUG  :           89  -1.239550     idum(50*Ns)
+** DEBUG  :           93  0.4462680     INDX(3,NSM)
+** DEBUG  :           95  0.2975120     edgeindx(2,NSM)
+** DEBUG  :           99  0.4462680     triedge(3,NSM)
+** DEBUG  :          100  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          100  4.9507000E-02 imask(numtri)
+** DEBUG  :          101  0.1485940     LNtri(2,numedge)
+** DEBUG  :          103  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerSO4' from file 'SO4.xyz'.
+** INFO   : add_tracer: tracer SO4 already exists. No update required.
+** DEBUG  :          103  2.4859000E-02 zh(nx)
+** INFO   : Opened file : SO4.xyz
+** DEBUG  :          103  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          103  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          104  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : SO4.xyz
+** DEBUG  :           94  -1.239550     idum(50*Ns)
+** DEBUG  :           97  0.4462680     INDX(3,NSM)
+** DEBUG  :          100  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          103  0.4462680     triedge(3,NSM)
+** DEBUG  :          104  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          104  4.9507000E-02 imask(numtri)
+** DEBUG  :          106  0.1485940     LNtri(2,numedge)
+** DEBUG  :          107  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerSUD' from file 'SUD.xyz'.
+** INFO   : add_tracer: tracer SUD already exists. No update required.
+** DEBUG  :          107  2.4859000E-02 zh(nx)
+** INFO   : Opened file : SUD.xyz
+** DEBUG  :          107  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          107  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          108  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : SUD.xyz
+** DEBUG  :           98  -1.239550     idum(50*Ns)
+** DEBUG  :          101  0.4462680     INDX(3,NSM)
+** DEBUG  :          104  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          107  0.4462680     triedge(3,NSM)
+** DEBUG  :          108  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          109  4.9507000E-02 imask(numtri)
+** DEBUG  :          110  0.1485940     LNtri(2,numedge)
+** DEBUG  :          111  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerPOC1' from file 'POC1.xyz'.
+** INFO   : add_tracer: tracer POC1 already exists. No update required.
+** DEBUG  :          111  2.4859000E-02 zh(nx)
+** INFO   : Opened file : POC1.xyz
+** DEBUG  :          111  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          112  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          112  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .02 seconds.
+** INFO   : Closed file : POC1.xyz
+** DEBUG  :          102  -1.239550     idum(50*Ns)
+** DEBUG  :          106  0.4462680     INDX(3,NSM)
+** DEBUG  :          108  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          112  0.4462680     triedge(3,NSM)
+** DEBUG  :          112  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          113  4.9507000E-02 imask(numtri)
+** DEBUG  :          114  0.1485940     LNtri(2,numedge)
+** DEBUG  :          115  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerPON1' from file 'PON1.xyz'.
+** INFO   : add_tracer: tracer PON1 already exists. No update required.
+** DEBUG  :          115  2.4859000E-02 zh(nx)
+** INFO   : Opened file : PON1.xyz
+** DEBUG  :          116  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          116  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          116  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : PON1.xyz
+** DEBUG  :          106  -1.239550     idum(50*Ns)
+** DEBUG  :          110  0.4462680     INDX(3,NSM)
+** DEBUG  :          112  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          116  0.4462680     triedge(3,NSM)
+** DEBUG  :          117  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          117  4.9507000E-02 imask(numtri)
+** DEBUG  :          118  0.1485940     LNtri(2,numedge)
+** DEBUG  :          119  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerPOP1' from file 'POP1.xyz'.
+** INFO   : add_tracer: tracer POP1 already exists. No update required.
+** DEBUG  :          120  2.4859000E-02 zh(nx)
+** INFO   : Opened file : POP1.xyz
+** DEBUG  :          120  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          120  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          121  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : POP1.xyz
+** DEBUG  :          111  -1.239550     idum(50*Ns)
+** DEBUG  :          114  0.4462680     INDX(3,NSM)
+** DEBUG  :          117  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          120  0.4462680     triedge(3,NSM)
+** DEBUG  :          121  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          121  4.9507000E-02 imask(numtri)
+** DEBUG  :          123  0.1485940     LNtri(2,numedge)
+** DEBUG  :          124  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerDiat' from file 'Diat.xyz'.
+** INFO   : add_tracer: tracer Diat already exists. No update required.
+** DEBUG  :          124  2.4859000E-02 zh(nx)
+** INFO   : Opened file : Diat.xyz
+** DEBUG  :          124  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          124  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          125  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : Diat.xyz
+** DEBUG  :          115  -1.239550     idum(50*Ns)
+** DEBUG  :          118  0.4462680     INDX(3,NSM)
+** DEBUG  :          121  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          124  0.4462680     triedge(3,NSM)
+** DEBUG  :          125  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          126  4.9507000E-02 imask(numtri)
+** DEBUG  :          127  0.1485940     LNtri(2,numedge)
+** DEBUG  :          128  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerGreen' from file 'Green.xyz'.
+** INFO   : add_tracer: tracer Green already exists. No update required.
+** DEBUG  :          128  2.4859000E-02 zh(nx)
+** INFO   : Opened file : Green.xyz
+** DEBUG  :          128  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          129  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          129  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : Green.xyz
+** DEBUG  :          119  -1.239550     idum(50*Ns)
+** DEBUG  :          123  0.4462680     INDX(3,NSM)
+** DEBUG  :          125  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          129  0.4462680     triedge(3,NSM)
+** DEBUG  :          129  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          130  4.9507000E-02 imask(numtri)
+** DEBUG  :          131  0.1485940     LNtri(2,numedge)
+** DEBUG  :          132  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerFColi' from file 'FColi.xyz'.
+** INFO   : add_tracer: tracer FColi already exists. No update required.
+** DEBUG  :          132  2.4859000E-02 zh(nx)
+** INFO   : Opened file : FColi.xyz
+** DEBUG  :          133  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          133  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          133  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .02 seconds.
+** INFO   : Closed file : FColi.xyz
+** DEBUG  :          123  -1.239550     idum(50*Ns)
+** DEBUG  :          127  0.4462680     INDX(3,NSM)
+** DEBUG  :          129  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          133  0.4462680     triedge(3,NSM)
+** DEBUG  :          134  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          134  4.9507000E-02 imask(numtri)
+** DEBUG  :          135  0.1485940     LNtri(2,numedge)
+** DEBUG  :          136  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerCd' from file 'Cd.xyz'.
+** INFO   : add_tracer: tracer Cd already exists. No update required.
+** DEBUG  :          137  2.4859000E-02 zh(nx)
+** INFO   : Opened file : Cd.xyz
+** DEBUG  :          137  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          137  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          138  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : Cd.xyz
+** DEBUG  :          128  -1.239550     idum(50*Ns)
+** DEBUG  :          131  0.4462680     INDX(3,NSM)
+** DEBUG  :          134  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          137  0.4462680     triedge(3,NSM)
+** DEBUG  :          138  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          138  4.9507000E-02 imask(numtri)
+** DEBUG  :          139  0.1485940     LNtri(2,numedge)
+** DEBUG  :          141  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerCu' from file 'Cu.xyz'.
+** INFO   : add_tracer: tracer Cu already exists. No update required.
+** DEBUG  :          141  2.4859000E-02 zh(nx)
+** INFO   : Opened file : Cu.xyz
+** DEBUG  :          141  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          141  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          142  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : Cu.xyz
+** DEBUG  :          132  -1.239550     idum(50*Ns)
+** DEBUG  :          135  0.4462680     INDX(3,NSM)
+** DEBUG  :          138  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          141  0.4462680     triedge(3,NSM)
+** DEBUG  :          142  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          143  4.9507000E-02 imask(numtri)
+** DEBUG  :          144  0.1485940     LNtri(2,numedge)
+** DEBUG  :          145  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerZn' from file 'Zn.xyz'.
+** INFO   : add_tracer: tracer Zn already exists. No update required.
+** DEBUG  :          145  2.4859000E-02 zh(nx)
+** INFO   : Opened file : Zn.xyz
+** DEBUG  :          145  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          146  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          146  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : Zn.xyz
+** DEBUG  :          136  -1.239550     idum(50*Ns)
+** DEBUG  :          140  0.4462680     INDX(3,NSM)
+** DEBUG  :          142  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          146  0.4462680     triedge(3,NSM)
+** DEBUG  :          146  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          147  4.9507000E-02 imask(numtri)
+** DEBUG  :          148  0.1485940     LNtri(2,numedge)
+** DEBUG  :          149  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialtracerOMP' from file 'OMP.xyz'.
+** INFO   : add_tracer: tracer OMP already exists. No update required.
+** DEBUG  :          149  2.4859000E-02 zh(nx)
+** INFO   : Opened file : OMP.xyz
+** DEBUG  :          150  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          150  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          150  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : OMP.xyz
+** DEBUG  :          140  -1.239550     idum(50*Ns)
+** DEBUG  :          144  0.4462680     INDX(3,NSM)
+** DEBUG  :          146  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          150  0.4462680     triedge(3,NSM)
+** DEBUG  :          151  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          151  4.9507000E-02 imask(numtri)
+** DEBUG  :          152  0.1485940     LNtri(2,numedge)
+** DEBUG  :          153  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotSOD' from file 'SOD.xyz'.
+** DEBUG  :          154  2.4791000E-02 zh(nx)
+** INFO   : Opened file : SOD.xyz
+** DEBUG  :          154  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          154  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          154  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : SOD.xyz
+** DEBUG  :          145  -1.239550     idum(50*Ns)
+** DEBUG  :          148  0.4462680     INDX(3,NSM)
+** DEBUG  :          151  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          154  0.4462680     triedge(3,NSM)
+** DEBUG  :          155  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          155  4.9507000E-02 imask(numtri)
+** DEBUG  :          156  0.1485940     LNtri(2,numedge)
+** DEBUG  :          158  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotIM1S1' from file 'IM1S1.xyz'.
+** DEBUG  :          158  2.4791000E-02 zh(nx)
+** INFO   : Opened file : IM1S1.xyz
+** DEBUG  :          158  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          158  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          159  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : IM1S1.xyz
+** DEBUG  :          149  -1.239550     idum(50*Ns)
+** DEBUG  :          152  0.4462680     INDX(3,NSM)
+** DEBUG  :          155  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          158  0.4462680     triedge(3,NSM)
+** DEBUG  :          159  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          160  4.9507000E-02 imask(numtri)
+** DEBUG  :          161  0.1485940     LNtri(2,numedge)
+** DEBUG  :          162  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotDetCS1' from file 'DetCS1.xyz'.
+** DEBUG  :          162  2.4791000E-02 zh(nx)
+** INFO   : Opened file : DetCS1.xyz
+** DEBUG  :          162  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          163  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          163  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : DetCS1.xyz
+** DEBUG  :          153  -1.239550     idum(50*Ns)
+** DEBUG  :          157  0.4462680     INDX(3,NSM)
+** DEBUG  :          159  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          163  0.4462680     triedge(3,NSM)
+** DEBUG  :          163  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          164  4.9507000E-02 imask(numtri)
+** DEBUG  :          165  0.1485940     LNtri(2,numedge)
+** DEBUG  :          166  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotDetNS1' from file 'DetNS1.xyz'.
+** DEBUG  :          166  2.4791000E-02 zh(nx)
+** INFO   : Opened file : DetNS1.xyz
+** DEBUG  :          167  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          167  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          167  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .04 seconds.
+** INFO   : Closed file : DetNS1.xyz
+** DEBUG  :          157  -1.239550     idum(50*Ns)
+** DEBUG  :          161  0.4462680     INDX(3,NSM)
+** DEBUG  :          163  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          167  0.4462680     triedge(3,NSM)
+** DEBUG  :          168  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          168  4.9507000E-02 imask(numtri)
+** DEBUG  :          169  0.1485940     LNtri(2,numedge)
+** DEBUG  :          170  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotDetPS1' from file 'DetPS1.xyz'.
+** DEBUG  :          171  2.4791000E-02 zh(nx)
+** INFO   : Opened file : DetPS1.xyz
+** DEBUG  :          171  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          171  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          171  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .04 seconds.
+** INFO   : Closed file : DetPS1.xyz
+** DEBUG  :          162  -1.239550     idum(50*Ns)
+** DEBUG  :          165  0.4462680     INDX(3,NSM)
+** DEBUG  :          167  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          171  0.4462680     triedge(3,NSM)
+** DEBUG  :          172  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          172  4.9507000E-02 imask(numtri)
+** DEBUG  :          173  0.1485940     LNtri(2,numedge)
+** DEBUG  :          175  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotCdS1' from file 'CdS1.xyz'.
+** DEBUG  :          175  2.4791000E-02 zh(nx)
+** INFO   : Opened file : CdS1.xyz
+** DEBUG  :          175  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          175  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          176  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : CdS1.xyz
+** DEBUG  :          166  -1.239550     idum(50*Ns)
+** DEBUG  :          169  0.4462680     INDX(3,NSM)
+** DEBUG  :          172  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          175  0.4462680     triedge(3,NSM)
+** DEBUG  :          176  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          176  4.9507000E-02 imask(numtri)
+** DEBUG  :          178  0.1485940     LNtri(2,numedge)
+** DEBUG  :          179  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotCuS1' from file 'CuS1.xyz'.
+** DEBUG  :          179  2.4791000E-02 zh(nx)
+** INFO   : Opened file : CuS1.xyz
+** DEBUG  :          179  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          180  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          180  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .04 seconds.
+** INFO   : Closed file : CuS1.xyz
+** DEBUG  :          170  -1.239550     idum(50*Ns)
+** DEBUG  :          174  0.4462680     INDX(3,NSM)
+** DEBUG  :          176  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          180  0.4462680     triedge(3,NSM)
+** DEBUG  :          180  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          181  4.9507000E-02 imask(numtri)
+** DEBUG  :          182  0.1485940     LNtri(2,numedge)
+** DEBUG  :          183  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotZnS1' from file 'ZnS1.xyz'.
+** DEBUG  :          183  2.4791000E-02 zh(nx)
+** INFO   : Opened file : ZnS1.xyz
+** DEBUG  :          184  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          184  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          184  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : ZnS1.xyz
+** DEBUG  :          174  -1.239550     idum(50*Ns)
+** DEBUG  :          178  0.4462680     INDX(3,NSM)
+** DEBUG  :          180  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          184  0.4462680     triedge(3,NSM)
+** DEBUG  :          185  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          185  4.9507000E-02 imask(numtri)
+** DEBUG  :          186  0.1485940     LNtri(2,numedge)
+** DEBUG  :          187  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaqbotOMPS1' from file 'OMPS1.xyz'.
+** DEBUG  :          188  2.4791000E-02 zh(nx)
+** INFO   : Opened file : OMPS1.xyz
+** DEBUG  :          188  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          188  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          188  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .03 seconds.
+** INFO   : Closed file : OMPS1.xyz
+** DEBUG  :          178  -1.239550     idum(50*Ns)
+** DEBUG  :          182  0.4462680     INDX(3,NSM)
+** DEBUG  :          184  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          188  0.4462680     triedge(3,NSM)
+** DEBUG  :          189  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          189  4.9507000E-02 imask(numtri)
+** DEBUG  :          190  0.1485940     LNtri(2,numedge)
+** DEBUG  :          192  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialwaterlevel' from file 's1.xyz'.
+** DEBUG  :          192  2.4859000E-02 zh(nx)
+** INFO   : Opened file : s1.xyz
+** DEBUG  :          192  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          192  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          193  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .05 seconds.
+** INFO   : Closed file : s1.xyz
+** DEBUG  :          183  -1.239550     idum(50*Ns)
+** DEBUG  :          186  0.4462680     INDX(3,NSM)
+** DEBUG  :          189  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          192  0.4462680     triedge(3,NSM)
+** DEBUG  :          193  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          193  4.9507000E-02 imask(numtri)
+** DEBUG  :          195  0.1485940     LNtri(2,numedge)
+** DEBUG  :          196  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'initialsalinity' from file 'sa1.xyz'.
+** DEBUG  :          196  2.4859000E-02 zh(nx)
+** INFO   : Opened file : sa1.xyz
+** DEBUG  :          196  2.9749000E-02 XS(NSMAX),YS(NSMAX),ZS(NSMAX)
+** DEBUG  :          196  2.9749000E-02 ipsam(NSMAX)
+** DEBUG  :          197  4.9582001E-02 sample_coords(NTREEDIM,N)
+** INFO   : merged 0 samples in .04 seconds.
+** INFO   : Closed file : sa1.xyz
+** DEBUG  :          187  -1.239550     idum(50*Ns)
+** DEBUG  :          191  0.4462680     INDX(3,NSM)
+** DEBUG  :          193  0.2975120     edgeindx(2,NSM)
+** DEBUG  :          196  0.4462680     triedge(3,NSM)
+** DEBUG  :          197  9.9013999E-02 xx(numtri), yy(numtri)
+** DEBUG  :          198  4.9507000E-02 imask(numtri)
+** DEBUG  :          199  0.1485940     LNtri(2,numedge)
+** DEBUG  :          200  0.1485210     sample_coords(NTREEDIM,N)
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'L_Orquideas.pli'.
+** INFO   : Opened file : L_Orquideas.pli
+** INFO   : Closed file : L_Orquideas.pli
+** INFO   : Could not find flowcell for point #1 (L_Orquideas sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'L_Guayacanes-Samanes.pli'.
+** INFO   : Opened file : L_Guayacanes-Samanes.pli
+** INFO   : Closed file : L_Guayacanes-Samanes.pli
+** INFO   : Could not find flowcell for point #1 (L_Guayacanes-Samanes sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'L_Alborada-Sauces.pli'.
+** INFO   : Opened file : L_Alborada-Sauces.pli
+** INFO   : Closed file : L_Alborada-Sauces.pli
+** INFO   : Could not find flowcell for point #1 (L_Alborada-Sauces sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Bypass_Sauces.pli'.
+** INFO   : Opened file : Bypass_Sauces.pli
+** INFO   : Closed file : Bypass_Sauces.pli
+** INFO   : Could not find flowcell for point #1 (Bypass_Sauces sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Bypass_Progreso.pli'.
+** INFO   : Opened file : Bypass_Progreso.pli
+** INFO   : Closed file : Bypass_Progreso.pli
+** INFO   : Could not find flowcell for point #1 (Bypass_Progreso sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Bypass_Pradera.pli'.
+** INFO   : Opened file : Bypass_Pradera.pli
+** INFO   : Closed file : Bypass_Pradera.pli
+** INFO   : Could not find flowcell for point #1 (Bypass_Pradera sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'EB_Progreso.pli'.
+** INFO   : Opened file : EB_Progreso.pli
+** INFO   : Closed file : EB_Progreso.pli
+** INFO   : Could not find flowcell for point #1 (EB_Progreso sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'EB_Pradera.pli'.
+** INFO   : Opened file : EB_Pradera.pli
+** INFO   : Closed file : EB_Pradera.pli
+** INFO   : Could not find flowcell for point #1 (EB_Pradera sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Guasmo_H.pli'.
+** INFO   : Opened file : Guasmo_H.pli
+** INFO   : Closed file : Guasmo_H.pli
+** INFO   : Could not find flowcell for point #1 (Guasmo_H sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Mucho_Lote.pli'.
+** INFO   : Opened file : Mucho_Lote.pli
+** INFO   : Closed file : Mucho_Lote.pli
+** INFO   : Could not find flowcell for point #1 (Mucho_Lote sink). Discarding.
+** WARNING: TO point of Mucho_Lote coincides with TO   point of L_Orquideas
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Toma_i.pli'.
+** INFO   : Opened file : Toma_i.pli
+** INFO   : Closed file : Toma_i.pli
+** INFO   : Could not find flowcell for point #1 (Toma_i source). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'Toma_o.pli'.
+** INFO   : Opened file : Toma_o.pli
+** INFO   : Closed file : Toma_o.pli
+** INFO   : Could not find flowcell for point #1 (Toma_o sink). Discarding.
+** INFO   : External Forcing or Initialising 'discharge_salinity_temperature_sorsin' from file 'NewWPCP.pli'.
+** INFO   : Opened file : NewWPCP.pli
+** INFO   : Closed file : NewWPCP.pli
+** INFO   : Could not find flowcell for point #1 (NewWPCP sink). Discarding.
+** INFO   : External Forcing or Initialising 'tracerbndOXY' from file 'sea_boundaryOXY.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCBOD5' from file 'sea_boundaryCBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCOD_Cr' from file 'sea_boundaryCOD_Cr.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNBOD5' from file 'sea_boundaryNBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndIM1' from file 'sea_boundaryIM1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNH4' from file 'sea_boundaryNH4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNO3' from file 'sea_boundaryNO3.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPO4' from file 'sea_boundaryPO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndAAP' from file 'sea_boundaryAAP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSO4' from file 'sea_boundarySO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSUD' from file 'sea_boundarySUD.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOC1' from file 'sea_boundaryPOC1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPON1' from file 'sea_boundaryPON1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOP1' from file 'sea_boundaryPOP1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndDiat' from file 'sea_boundaryDiat.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndGreen' from file 'sea_boundaryGreen.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndFColi' from file 'sea_boundaryFColi.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCd' from file 'sea_boundaryCd.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCu' from file 'sea_boundaryCu.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndZn' from file 'sea_boundaryZn.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOMP' from file 'sea_boundaryOMP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOXY' from file 'dauleOXY.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCBOD5' from file 'dauleCBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCOD_Cr' from file 'dauleCOD_Cr.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNBOD5' from file 'dauleNBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndIM1' from file 'dauleIM1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNH4' from file 'dauleNH4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNO3' from file 'dauleNO3.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPO4' from file 'daulePO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndAAP' from file 'dauleAAP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSO4' from file 'dauleSO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSUD' from file 'dauleSUD.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOC1' from file 'daulePOC1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPON1' from file 'daulePON1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOP1' from file 'daulePOP1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndDiat' from file 'dauleDiat.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndGreen' from file 'dauleGreen.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndFColi' from file 'dauleFColi.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCd' from file 'dauleCd.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCu' from file 'dauleCu.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndZn' from file 'dauleZn.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOMP' from file 'dauleOMP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOXY' from file 'babahoyoOXY.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCBOD5' from file 'babahoyoCBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCOD_Cr' from file 'babahoyoCOD_Cr.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNBOD5' from file 'babahoyoNBOD5.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndIM1' from file 'babahoyoIM1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNH4' from file 'babahoyoNH4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndNO3' from file 'babahoyoNO3.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPO4' from file 'babahoyoPO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndAAP' from file 'babahoyoAAP.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSO4' from file 'babahoyoSO4.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndSUD' from file 'babahoyoSUD.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOC1' from file 'babahoyoPOC1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPON1' from file 'babahoyoPON1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndPOP1' from file 'babahoyoPOP1.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndDiat' from file 'babahoyoDiat.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndGreen' from file 'babahoyoGreen.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndFColi' from file 'babahoyoFColi.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCd' from file 'babahoyoCd.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndCu' from file 'babahoyoCu.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndZn' from file 'babahoyoZn.pli'.
+** INFO   : External Forcing or Initialising 'tracerbndOMP' from file 'babahoyoOMP.pli'.
+** INFO   : External Forcing or Initialising 'waqmassbalanceareaDomain' from file 'domain.pol'.
+** INFO   : Closed file : FlowFM_DFMWAQ.ext
+** INFO   : Done initializing external forcings.
+** DEBUG  :          200  4.5960002E-02 klnup(6,lnx)
+** DEBUG  :          201  4.5960002E-02 slnup(6,lnx)
+** DEBUG  :          201  2.4859000E-02 ij(nodtot)
+** DEBUG  :          201  2.4859000E-02 nodbr2(nodtot)
+** DEBUG  :          201  2.4859000E-02 nbrstk(nodtot)
+** DEBUG  :          202  2.4859000E-02 nodstk(nodtot)
+** DEBUG  :          202  2.4859000E-02 noel(nodtot)
+** DEBUG  :          202  2.4859000E-02 noel0(nodtot)
+** DEBUG  :          202  2.4859000E-02 ia(nodtot)
+** DEBUG  :          202  2.4859000E-02 row(nodtot)
+** DEBUG  :          203  4.5960002E-02 lv2(lintot)
+** DEBUG  :          203  2.4859000E-02 jagauss(nodtot)
+** DEBUG  :          206  9.6894003E-02 ccr(0:ijstck)
+** DEBUG  :          207  9.6894003E-02 bbl(0:ijstck)
+** DEBUG  :          207  4.9718000E-02 bbr(nodtot), ddr(nodtot)
+** DEBUG  :          208  0.1242950     d0(nodtot), zkr(nodtot),pk(0:nodtot), apk(nodtot), rk(nodtot)
+** INFO   : nogauss , nocg :          15093          9766
+** INFO   : Finding flow nodes...
+** INFO   : done in      0.02600 sec.
+** INFO   : Could not find flowcell for point #16 (Puna). Discarding.
+** INFO   : Could not find flowcell for point #18 (Pto. Nuevo). Discarding.
+** INFO   : Could not find flowcell for point #56 (P11). Discarding.
+** INFO   : Could not find flowcell for point #89 (R. Guayas 26). Discarding.
+** INFO   : Modelinit finished   at: 17:23:01, 11-11-2019
+** INFO   : ** Model initialization was successful **
+** INFO   : * Active Model definition:
+# Generated on 17:23:01, 11-11-2019
+# Deltares, D-Flow FM Version 1.2.63.64757M, Aug 28 2019, 20:48:01
+# Source:https://svn.oss.deltares.nl/repos/delft3d/trunk/
+
+[General]
+Program                                   = D-Flow FM
+Version                                   = 1.2.63.64757M
+FileVersion                               = 1.09                # File format version (do not edit this)
+AutoStart                                 = 2                   # Autostart simulation after loading MDU (0: no, 1: autostart, 2: autostartstop)
+ModelSpecific                             =                                                                 # Optional 'model specific ID', to enable certain custom runtime function calls (instead of via MDU name).
+PathsRelativeToParent                     = 0                   # Default: 0. Whether or not (1/0) to resolve file names (e.g. inside the *.ext file) relative to their direct parent, instead of to the toplevel MDU working dir.
+
+[geometry]
+NetFile                                   = stage4_spot_ortho_dfm_reint_net.nc# Unstructured grid file *_net.nc
+GridEnclosureFile                         =                     # Enclosure file to clip outer parts from the grid *.pol
+BedlevelFile                              =                     # Bedlevels points file e.g. *.xyz, only needed for bedlevtype not equal 3
+DryPointsFile                             = current_situation_dry.xyz# Dry points file *.xyz (third column dummy z values), or dry areas polygon file *.pol (third column 1/-1: inside/outside)
+CrossDefFile                              =                     # 1D Cross section definition file (*.ini)
+CrossLocFile                              =                     # 1D Cross section location file (*.ini)
+StorageNodeFile                           =                     # 1D Storage node/manhole file (*.ini)
+frictFile                                 =                     # 1D Roughness files (*.ini)
+StructureFile                             =                     # Hydraulic structure file (*.ini)
+WaterLevIniFile                           =                     # Initial water levels sample file *.xyz
+LandBoundaryFile                          = guayas.ldb          # Land boundaries file *.ldb, used for visualization
+ThinDamFile                               = bridgepiers_3_thd.pli# Polyline file *_thd.pli, containing thin dams
+Cutcelllist                               =                     # File with names of cutcell polygons, e.g. cutcellpolygons.lst
+FixedWeirFile                             =                     # Polyline file *_fxw.pliz, containing fixed weirs with rows x, y, crest level, left ground level, right ground level
+PillarFile                                =                     # Polyline file *_pillar.pliz, containing four colums with x, y, diameter and Cd coefficient
+Gulliesfile                               =                     # Polyline file *_gul.pliz, containing lowest bed level along talweg x, y, z level
+Roofsfile                                 =                     # Polyline file *_rof.pliz, containing roofgutter heights x, y, z level
+VertplizFile                              =                     # Vertical layering file *_vlay.pliz with rows x, y, Z, first Z, nr of layers, second Z, layer type
+ProflocFile                               =                     # Channel profile location file *_proflocation.xyz with rows x, y, z, profile number ref
+ProfdefFile                               =                     # Channel profile definition file *_profdefinition.def with definition for all profile numbers
+ProfdefxyzFile                            =                     # Channel profile definition file _profdefinition.def with definition for all profile numbers
+IniFieldFile                              =                     # Initial values and parameter fields file
+Uniformwidth1D                            = 2.                  # Uniform width for channel profiles not specified by profloc
+Uniformheight1D                           = 3.                  # Uniform height for channel profiles not specified by profloc
+Uniformtyp1Dstreetinlets                  = -2                  # Uniform type street inlets
+Uniformtyp1Droofgutterpipes               = -2                  # Uniform type roof gutter pipes
+ManholeFile                               =                     # File *.ini containing manholes
+PipeFile                                  =                     # File *.pliz containing pipe-based 'culverts'
+ShipdefFile                               =                     # File *.shd containing ship definitions
+WaterLevIni                               = 1.29                # Initial water level at missing s0 values
+waterdepthini1D                           = 0.                  # Initial waterdepth in 1D
+BedlevUni                                 = -7.                 # Uniform bed level used at missing z values if BedlevType > 2
+BedlevType                                = 3                   # Bathymetry specification
+                                                                # 1: at cell centers (from BathymetryFile)
+                                                                # 2: at faces (from BathymetryFile)
+                                                                # 3: at nodes, face levels mean of node values
+                                                                # 4: at nodes, face levels min. of node values
+                                                                # 5: at nodes, face levels max. of node values
+                                                                # 6: at nodes, face levels max. of cell-center values
+Blmeanbelow                               = -999.               # If not -999d0, below this level the cell center bed level is the mean of surrouding net nodes
+Blminabove                                = -999.               # If not -999d0, above this level the cell center bed level is the min. of surrouding net nodes
+Groundlayerthickness                      = -999.               # Only in pipes: groundlayer thickness (m)
+PartitionFile                             =                     # Domain partition polygon file *_part.pol for parallel run
+AngLat                                    = -2.                 # Angle of latitude S-N (deg), 0: no Coriolis
+AngLon                                    = 0.                  # Angle of longitude E-W (deg), 0: Greenwich, used in solar heat flux computation.
+Conveyance2D                              = -1                  # -1: R=HU,0: R=H, 1: R=A/P, 2: K=analytic-1D conv, 3: K=analytic-2D conv
+Slotw2D                                   = 0.                  # -
+Sillheightmin                             = 0.                  # Weir treatment only if both sills larger than this value (m)
+Makeorthocenters                          = 0                   # Switch from circumcentres to orthocentres in geominit (i>=1: number of iterations, 0: do not use)
+Dcenterinside                             = 1.                  # Limit cell center (1.0: in cell, 0.0: on c/g)
+Bamin                                     = 1.d-6               # Minimum grid cell area, in combination with cut cells
+OpenBoundaryTolerance                     = 3.                  # Search tolerance factor between boundary polyline and grid cells, in cell size units
+AllowBndAtBifurcation                     = 0                   # Allow 1d boundary node when connecting branch leads to bifurcation (1: yes, 0: no)
+RenumberFlowNodes                         = 1                   # Renumber the flow nodes (1: yes, 0: no)
+Kmx                                       = 0                   # Maximum number of vertical layers
+Layertype                                 = 1                   # Vertical layer type (1: all sigma, 2: all z, 3: use VertplizFile)
+Numtopsig                                 = 0                   # Number of sigma layers in top of z-layer model
+SigmaGrowthFactor                         = 1.                  # Layer thickness growth factor from bed up
+StretchType                               = -1                  # Type of layer stretching, 0 = uniform, 1 = user defined, 2 = fixed level double exponential
+
+[numerics]
+CFLMax                                    = 0.7                 # Maximum Courant number
+Lincontin                                 = 0                   # Default 0; Set to 1 for linearizing d(Hu)/dx; link to AdvecType
+AdvecType                                 = 33                  # Advection type (0: none, 1: Wenneker, 2: Wenneker q(uio-u), 3: Perot q(uio-u), 4: Perot q(ui-u), 5: Perot q(ui-u) without itself)
+TimeStepType                              = 2                   # Time step handling (0: only transport, 1: transport + velocity update, 2: full implicit step-reduce, 3: step-Jacobi, 4: explicit)
+Icoriolistype                             = 5                   # 0=No, 1=yes, if jsferic then spatially varying, if icoriolistype==6 then constant (anglat)
+Limtyphu                                  = 0                   # Limiter type for waterdepth in continuity eqn. (0: none, 1: minmod, 2: van Leer, 3: Kooren, 4: monotone central)
+Limtypmom                                 = 4                   # Limiter type for cell center advection velocity (0: none, 1: minmod, 2: van Leer, 3: Kooren, 4: monotone central)
+Limtypsa                                  = 4                   # Limiter type for salinity transport (0: none, 1: minmod, 2: van Leer, 3: Kooren, 4: monotone central)
+TransportMethod                           = 1                   # Transport method (0: Herman's method, 1: transport module)
+TransportTimestepping                     = 1                   # Timestepping method in Transport module, 0 = global, 1 = local (default)
+TransportAutoTimestep                     = 0                   # Auto Timestep in Transport module, 0 = limitation of diffusion, but no limitation of time-step due to diffusion, 1 = no limitation of diffusion, but limitation of time step due to diffusion, 2: no limitation of diffusion and no limita
+Vertadvtypsal                             = 6                   # Vertical advection type for salinity (0: none, 1: upwind explicit, 2: central explicit, 3: upwind implicit, 4: central implicit, 5: central implicit but upwind for neg. stratif., 6: higher order explicit, no Forester)
+Vertadvtyptem                             = 6                   # Vertical advection type for temperature (0: none, 1: upwind explicit, 2: central explicit, 3: upwind implicit, 4: central implicit, 5: central implicit but upwind for neg. stratif., 6: higher order explicit, no Forester)
+Cffacver                                  = 0.                  # Factor for including (1-CFL) in HO term vertical   (0d0: no, 1d0: yes)
+Jarhoxu                                   = 0                   # Inlcude density gradient in advection term (0: no, 1: yes, 2: Also in barotrop and baroclin pressure term)
+Horadvtypzlayer                           = 0                   # Horizontal advection treatment of z-layers (1: default, 2: sigma-like)
+Zlayercenterbedvel                        = 1                   # reconstruction of center velocity at half closed bedcells (0=no, 1: copy bed link velocities)
+Zlayeratubybob                            = 0                   # Lowest connected cells governed by bob instead of by bL L/R
+Icgsolver                                 = 3                   # Solver type (1: sobekGS_OMP, 2: sobekGS_OMPthreadsafe, 3: sobekGS, 4: sobekGS + Saadilud, 5: parallel/global Saad, 6: parallel/Petsc, 7: parallel/GS)
+Maxdegree                                 = 6                   # Maximum degree in Gauss elimination
+Noderivedtypes                            = 0                   # 0=use der. types. , 1 = less, 2 = lesser, 5 = also dealloc der. types
+FixedWeirScheme                           = 0                   # Fixed weir scheme (0: none, 1: compact stencil, 2: whole tile lifted, full subgrid weir + factor)
+FixedWeirContraction                      = 1.                  # Fixed weir flow width contraction factor
+Fixedweirfrictscheme                      = 1                   # Fixed weir friction scheme (0: friction based on hu, 1: friction based on subgrid weir friction scheme)
+Fixedweirtopwidth                         = 3.                  # Uniform width of the groyne part of fixed weirs
+Fixedweirtopfrictcoef                     = -999.               # Uniform friction coefficient of the groyne part of fixed weirs
+Fixedweirtalud                            = 4.                  # Uniform talud slope of fixed weirs
+Izbndpos                                  = 0                   # Position of z boundary (0: D3Dflow, 1: on net boundary, 2: on specified polyline)
+Tlfsmo                                    = 0.                  # Fourier smoothing time (s) on water level boundaries
+Logprofatubndin                           = 1                   # ubnds inflow: 0=uniform U1, 1 = log U1, 2 = user3D
+Logprofkepsbndin                          = 0                   # inflow: 0=0 keps, 1 = log keps inflow, 2 = log keps in and outflow
+Slopedrop2D                               = 0.                  # Apply drop losses only if local bed slope > Slopedrop2D, (<=0: no drop losses)
+Drop3D                                    = 1.                  # Apply droplosses in 3D if z upwind below bob + 2/3 hu*drop3D
+Chkadvd                                   = 0.1                 # Check advection terms if depth < chkadvdp, => less setbacks
+Trsh_u1Lb                                 = 0.                  # 2D bedfriction in 3D below this threshold (m)
+Epshstem                                  = 1.d-3               # Only compute heatflx + evap if depth > epshstem
+Zwsbtol                                   = 0.                  # tolerance for zws(kb-1) at bed
+Keepzlayeringatbed                        = 1                   #  bedlayerthickness = zlayerthickness at bed 0 or 1
+Teta0                                     = 0.55                # Theta of time integration (0.5 < theta < 1)
+Qhrelax                                   = 1.d-2               # Relaxation on Q-h open boundaries
+Jbasqbnddownwindhs                        = 0                   # Water depth scheme at discharge boundaries (0: original hu, 1: downwind hs)
+cstbnd                                    = 0                   # Delft-3D type velocity treatment near boundaries for small coastal models (1: yes, 0: no)
+Maxitverticalforestersal                  = 0                   # Forester iterations for salinity (0: no vertical filter for salinity, > 0: max nr of iterations)
+Maxitverticalforestertem                  = 0                   # Forester iterations for temperature (0: no vertical filter for temperature, > 0: max nr of iterations)
+Turbulencemodel                           = 3                   # Turbulence model (0: none, 1: constant, 2: algebraic, 3: k-epsilon, 4: k-tau)
+Turbulenceadvection                       = 3                   # Turbulence advection (0: none, 3: horizontally explicit and vertically implicit)
+Eddyviscositybedfacmax                    = 0.                  # Limit eddy viscosity at bed )
+AntiCreep                                 = 0                   # Include anti-creep calculation (0: no, 1: yes)
+Barocterm                                 = 2                   # (original = 1, current = 2 )
+Maxwaterleveldiff                         = 0.                  # upper bound (in m) on water level changes (<= 0: no bounds). Run will abort when violated.
+Maxvelocitydiff                           = 0.                  # upper bound (in m/s) on velocity changes (<= 0: no bounds). Run will abort when violated.
+MinTimestepBreak                          = 0.                  # smallest allowed timestep (in s), checked on a sliding average of several timesteps. Run will abort when violated.
+Epshu                                     = 1.d-4               # Threshold water depth for wet and dry cells
+SobekDFM_umin                             = 0.                  # Minimal velocity treshold for weir losses in Sobek-DFM coupling.
+SobekDFM_umin_method                      = 0                   # Method for minimal velocity treshold for weir losses in Sobek-DFM coupling.
+SobekDFM_Minimal_1d2d_Embankment          = 1.d-2               # Minimal crest height of 1D2D SOBEK-DFM embankments.
+sobekDFM_relax                            = 0.1                 # Relaxation factor for SOBEK-DFM coupling algorithm.
+Vertadvtypmom                             = 3                   # vertical advection for u1: 0: No, 3: Upwind implicit, 4: Central implicit, 5: QUICKEST implicit., 6: centerbased upwind expl
+jaupwindsrc                               = 1                   # 1st-order upwind advection at sources/sinks (1) or higher-order (0)
+jasfer3D                                  = 0                   # corrections for spherical coordinates
+HorizontalMomentumFilter                  = 0                   # apply horizontal filter (1:explicit, 2,3:implicit) or not (0)
+filterorder                               = 2                   # order of filter (1, 2 or 3)
+checkerboardmonitor                       = 0                   # compute and output checkerboard monitor (1) or not (0)
+LocSaltLev                                = 1.                  # salinity level for case of lock exchange
+LocSaltMin                                = 5.                  # minimum salinity for case of lock exchange
+LocSaltMax                                = 10.                 # maximum salinity for case of lock exchange
+Numlimdt_baorg                            = 0                   # if previous numlimdt > Numlimdt_baorg keep original cell area ba in cutcell
+Baorgfracmin                              = 0.                  # Cell area = max(orgcellarea*Baorgfracmin, cutcell area)
+
+[physics]
+UnifFrictCoef                             = 1.5d-2              # Uniform friction coefficient (0: no friction)
+UnifFrictType                             = 1                   # Uniform friction type (0: Chezy, 1: Manning, 2: White-Colebrook, 3: idem, WAQUA style)
+UnifFrictCoef1D                           = 1.5d-2              # Uniform friction coefficient in 1D links (0: no friction)
+UnifFrictCoef1D2D                         = 1.5d-2              # Uniform friction coefficient in 1D links (0: no friction)
+UnifFrictCoefLin                          = 0.                  # Uniform linear friction coefficient (0: no friction)
+UnifFrictCoef1DgrLay                      = 5.d-2               # Uniform ground layer friction coefficient for ocean models (m/s) (0: no friction)
+Umodlin                                   = 0.                  # Linear friction umod, for ifrctyp=4,5,6
+Vicouv                                    = 10.                 # Uniform horizontal eddy viscosity (m2/s)
+Dicouv                                    = 100.                # Uniform horizontal eddy diffusivity (m2/s)
+Vicoww                                    = 5.d-5               # Uniform vertical eddy viscosity (m2/s)
+Dicoww                                    = 5.d-5               # Uniform vertical eddy diffusivity (m2/s)
+Vicwminb                                  = 0.                  # Minimum visc in prod and buoyancy term (m2/s)
+Xlozmidov                                 = 0.                  # Ozmidov length scale (m), default=0.0, no contribution of internal waves to vertical diffusion
+Smagorinsky                               = 0.                  # Smagorinsky factor in horizontal turbulence, e.g. 0.15
+Elder                                     = 1.                  # Elder factor in horizontal turbulence
+irov                                      = 0                   # 0=free slip, 1 = partial slip using wall_ks
+wall_ks                                   = 0.                  # Wall roughness type (0: free slip, 1: partial slip using wall_ks)
+Rhomean                                   = 1000.               # Average water density (kg/m3)
+Idensform                                 = 2                   # Density calulation (0: uniform, 1: Eckart, 2: Unesco, 3: baroclinic case)
+Ag                                        = 9.81                # Gravitational acceleration
+TidalForcing                              = 0                   # Tidal forcing, if jsferic=1 (0: no, 1: yes)
+SelfAttractionLoading                     = 0                   # Self attraction and loading (0=no, 1=yes, 2=only self attraction)
+SelfAttractionLoading_correct_wl_with_ini = 0                   # correct water level with initial water level in Self attraction and loading (0=no, 1=yes)
+ITcap                                     = 0.                  # Upper limit on internal tides dissipation (W/m^2)
+Doodsonstart                              = 55.565              # TRIWAQ: 55.565, D3D: 57.555
+Doodsonstop                               = 375.575             # TRIWAQ: 375.575, D3D: 275.555
+Doodsoneps                                = 0.                  # TRIWAQ = 0.0  400 cmps , D3D = 0.03   60 cmps
+VillemonteCD1                             = 1.                  # Calibration coefficient for Villemonte. Default = 1.0.  NB. For Bloemberg data set 0.8 is recommended.
+VillemonteCD2                             = 10.                 # Calibration coefficient for Villemonte. Default = 10.0. NB. For Bloemberg data set 0.8 is recommended.
+Salinity                                  = 1                   # Include salinity, (0=no, 1=yes)
+InitialSalinity                           = 25.                 # Uniform initial salinity concentration (ppt)
+Sal0abovezlev                             = -999.               # Vertical level (m) above which salinity is set 0
+DeltaSalinity                             = -999.               # for testcases
+Salimax                                   = -999.               # Limit the salinity
+Salimin                                   = 0.                  # Limit the salinity
+Backgroundsalinity                        = 30.                 # Background salinity for eqn. of state (ppt)
+Backgroundwatertemperature                = 6.                  # Background water temperature for eqn. of state (deg C)
+Temperature                               = 0                   # Include temperature (0: no, 1: only transport, 3: excess model of D3D, 5: composite (ocean) model)
+InitialTemperature                        = 6.                  # Uniform initial water temperature (degC)
+Secchidepth                               = 2.                  # Water clarity parameter (m)
+Stanton                                   = -1.                 # Coefficient for convective heat flux, if negative, Ccon = abs(Stanton)*Cdwind
+Dalton                                    = -1.                 # Coefficient for evaporative heat flux, if negative, Ceva = abs(Dalton)*Cdwind
+Tempmax                                   = -999.               # Limit the temperature
+Tempmin                                   = 0.                  # Limit the temperature
+Surftempsmofac                            = 0.                  # Hor . Smoothing factor for surface water in heatflx comp. (0.0-1.0), 0=no
+Soiltempthick                             = 0.1                 # Use soil temperature buffer if > 0, e.g. 0.2 (m)
+Heat_eachstep                             = 1                   # 1=heat each timestep, 0=heat each usertimestep
+SecondaryFlow                             = 0                   # Secondary flow (0: no, 1: yes)
+BetaSpiral                                = 0.                  # Weight factor of the spiral flow intensity on flow dispersion stresses
+Equili                                    = 0                   # Equilibrium spiral flow intensity (0: no, 1: yes)
+
+[sediment]
+Sedimentmodelnr                           = 0                   # Sediment model nr, (0=no, 1=Krone, 2=SvR2007, 3=E-H, 4=MorphologyModule)
+Nr_of_sedfractions                        = 0                   # Nr of sediment fractions, (specify the next parameters for each fraction)
+MxgrKrone                                 = 0                   # Highest fraction index treated by Krone
+Seddenscoupling                           = 0                   # Sed rho coupling (0=no, 1 =yes
+
+[veg]
+Vegetationmodelnr                         = 0                   # Vegetation model nr, (0=no, 1=Baptist DFM)
+Clveg                                     = 0.8                 # Stem distance factor, default 0.8 ()
+Cdveg                                     = 0.7                 # Stem Cd coefficient , default 0.7 ()
+Cbveg                                     = 0.                  # Stem stiffness coefficient , default 0.7 ()
+Rhoveg                                    = 0.                  # Stem Rho, if > 0, -> bouyant stick procedure, default 0.0 ()
+Stemheightstd                             = 0.                  # Stem height standard deviation fraction, e.g. 0.1  ()
+Densvegminbap                             = 0.                  # Minimum vegetation density in Baptist formula  (1/m2)
+
+[wind]
+ICdtyp                                    = 2                   # Wind drag coefficient type (1=Const; 2=Smith&Banke (2 pts); 3=S&B (3 pts); 4=Charnock 1955, 5=Hwang 2005, 6=Wuest 2005, 7=Hersbach 2010 (2 pts)
+Cdbreakpoints                             = 6.3d-4 7.23d-3      # Wind drag coefficient break points
+Windspeedbreakpoints                      = 0. 100.             # Wind speed break points (m/s)
+Relativewind                              = 0                   # Wind speed relative to top-layer water speed, 1=yes, 0 = no)
+Windpartialdry                            = 0                   # Reduce windstress on water if link partially dry, only for bedlevtyp=3, 0 = no, 1 = yes = default
+Rhoair                                    = 1.205               # Air density (kg/m3)
+PavBnd                                    = 0.                  # Average air pressure on open boundaries (N/m2) (only applied if > 0)
+Pavini                                    = 0.                  # Average air pressure for initial water level correction (N/m2) (only applied if > 0)
+Stericcorrection                          = 0                   # Steric correction on waterlevel bnds, for which sal + temp should be prescribed
+
+[grw]
+groundwater                               = 0                   # 0=No (horizontal) groundwater flow, 1=With groundwater flow
+Infiltrationmodel                         = 0                   # 0=No infiltration, 1=infiltration=interceptionlayer (with grw), 2=infiltration=Infiltrationcapacity, 3=model unsaturated/saturated (with grw) ( )
+Hinterceptionlayer                        = 0.                  # Intercept this amount of rain (m)
+UnifInfiltrationCapacity                  = 0.                  # Uniform maximum infiltration capacity (m/s)
+Conductivity                              = 0.                  # non dimensionless K conductivity   saturated (m/s), Q = K*A*i (m3/s)
+h_aquiferuni                              = 20.                 # bgrw = bl - h_aquiferuni (m), if negative, bgrw = bgrwuni
+h_unsatini                                = 0.200000002980232   # initial level groundwater is bedlevel - h_unsatini (m), if negative, sgrw = sgrwini
+
+[waves]
+Wavemodelnr                               = 0                   # Wave model nr. (0: none, 1: fetch/depth limited hurdlestive, 2: Young-Verhagen, 3: SWAN, 5: uniform
+Wavenikuradse                             = 1.d-2               # Wave friction Nikuradse ks coefficient (m), used in Krone-Swart
+Rouwav                                    = FR84                # Friction model for wave induced shear stress: FR84 (default) or: MS90, HT91, GM79, DS88, BK67, CJ85, OY88, VR04
+Gammax                                    = 1.                  # Maximum wave height/water depth ratio
+uorbfac                                   = 0                   # Orbital velocities: 0=D3D style; 1=Guza style
+jahissigwav                               = 1                   # 1: sign wave height on his output; 0: hrms wave height on his output. Default=1.
+jamapsigwav                               = 0                   # 1: sign wave height on map output; 0: hrms wave height on map output. Default=0 (legacy behaviour).
+hminlw                                    = 0.2                 # Cut-off depth for application of wave forces in momentum balance
+
+[time]
+RefDate                                   = 20000101            # Reference date (yyyymmdd)
+Tzone                                     = 0.                  # Time zone assigned to input time series
+DtUser                                    = 600.                # Time interval (s) for external forcing update
+DtNodal                                   = 21600.              # Time interval (s) for updating nodal factors in astronomical boundary conditions
+DtMax                                     = 60.                 # Maximal computation timestep (s)
+Dtfacmax                                  = 1.1                 # Max timestep increase factor ( )
+DtInit                                    = 1.                  # Initial computation timestep (s)
+Timestepanalysis                          = 0                   # 0=no, 1=see file *.steps
+Autotimestepvisc                          = 0                   # 0 = no, 1 = yes (Time limitation based on explicit diffusive term)
+Tunit                                     = H                   # Time unit for start/stop times (D, H, M or S)
+TStart                                    = 22392.              # Start time w.r.t. RefDate (in TUnit)
+TStop                                     = 22416.              # Stop  time w.r.t. RefDate (in TUnit)
+
+[restart]
+RestartFile                               =                     # Restart netcdf-file, either *_rst.nc or *_map.nc
+RestartDateTime                           = yyyymmddhhmmss      # Restart date and time (yyyymmddhhmmss) when restarting from *_map.nc
+
+[external forcing]
+ExtForceFile                              = FlowFM_DFMWAQ.ext   # Old format for external forcings file *.ext, link with tim/cmp-format boundary conditions specification
+ExtForceFileNew                           = FlowFM_DFMWAQ_new.ext# New format for external forcings file *.ext, link with bc-format boundary conditions specification
+Rainfall                                  = 0                   # Include rainfall, (0=no, 1=yes)
+QinExt                                    = 0                   # Include user Qin, externally provided, (0=no, 1=yes)
+Evaporation                               = 0                   # Include evaporation in water balance, (0=no, 1=yes)
+WindExt                                   = 0                   # Include wind, externally provided, (0=no, 1=reserved for EC, 2=yes)
+
+[trachytopes]
+TrtRou                                    = N                   # Include alluvial and vegetation roughness (trachytopes) (Y: yes, N: no)
+TrtDef                                    =                     # File (*.ttd) including trachytope definitions
+TrtL                                      =                     # File (*.arl) including distribution of trachytope definitions
+DtTrt                                     = 60.                 # Trachytope roughness update time interval (s)
+TrtMxR                                    = 8                   # Maximum recursion level for combined trachytope definitions
+TrtCll                                    =                     # Calibration factor file for roughness from trachytopes (see also [calibration] block)
+TrtMnH                                    = 0.1                 # Minimum water depth for roughness computations
+TrtMth                                    = 1                   # Area averaging method, (1=Nikuradse k based, 2=Chezy C based (parallel and serial))
+
+[calibration]
+UseCalibration                            = 0                   # Activate calibration factor friction multiplier (1 = yes, 0 = no)
+DefinitionFile                            =                     # File (*.cld) including calibration definitions
+AreaFile                                  =                     # File (*.cll) including area distribution of calibration definitions
+
+[output]
+OutputDir                                 =                     # Output directory of map-, his-, rst-, dat- and timings-files, default: DFM_OUTPUT_<modelname>. Set to . for current dir.
+FlowGeomFile                              =                     # Flow geometry NetCDF *_flowgeom.nc
+ObsFile                                   = guayas_locations_obs.xyn# Points file *.xyn with observation stations with rows x, y, station name
+CrsFile                                   =                     # Polyline file *_crs.pli defining observation cross sections
+FouFile                                   =                     # Fourier analysis input file *.fou
+FouUpdateStep                             = 1                   # Fourier update step type: 0=every user time step, 1=every computational timestep.
+HisFile                                   =                     # HisFile name *_his.nc
+MapFile                                   =                     # MapFile name *_map.nc
+HisInterval                               = 600. 80611200. 80697600.# History output times, given as "interval" "start period" "end period" (s)
+XLSInterval                               = 0.                  # Interval (s) between XLS history
+MapInterval                               = 1800. 80611200. 80697600.# Map file output, given as "interval" "start period" "end period" (s)
+RstInterval                               = 21600. 80611200. 80697600.# Restart file output times, given as "interval" "start period" "end period" (s)
+WaqOutputDir                              =                     # Output directory of WAQ communication files (flowgeom, vol, flo, etc.), default: DFM_DELWAQ_<modelname>. Set to . for current dir.
+WaqInterval                               = 0. 80611200. 80697600.# DELWAQ output times, given as "interval" "start period" "end period" (s)
+WaqHorAggr                                =                     # DELWAQ output horizontal aggregation file (*.dwq)
+WaqVertAggr                               =                     # DELWAQ output vertical aggregation file (*.vag)
+ClassMapInterval                          = 0. 80611200. 80697600.# Class map output times, given as "interval" "start period" "end period" (s)
+ClassMapFile                              =                     # ClassMapFile name *_clm.nc
+WaterlevelClasses                         =                     # Class map's list of class values for water levels
+WaterDepthClasses                         =                     # Class map's list of class values for water depths
+VelocityMagnitudeClasses                  =                     # Class map's list of class values for velocity magnitudes
+StatsInterval                             = -60.                # Screen step output interval in seconds simulation time, if negative in seconds wall clock time
+WriteBalancefile                          = 0                   # Write balance file (1: yes, 0: no)
+TimingsInterval                           = 0.                  # Timings statistics output interval
+TimeSplitInterval                         = 0 s                 # Time splitting interval, after which a new output file is started. value+unit, e.g. '1 M', valid units: Y,M,D,h,m,s.
+MapFormat                                 = 4                   # Map file format, 1: netCDF, 2: Tecplot, 3: netCFD and Tecplot, 4: NetCDF-UGRID
+NcFormat                                  = 3                   # Format for all NetCDF output files (3: classic, 4: NetCDF4+HDF5)
+NcWriteLatLon                             = 0                   # Write extra lat-lon coordinates for all projected coordinate variables in each NetCDF file (for CF-compliancy).
+Wrihis_balance                            = 0                   # Write mass balance totals to his file (1: yes, 0: no)
+Wrihis_sourcesink                         = 1                   # Write sources-sinks statistics to his file (1=yes, 0=no)
+Wrihis_structure_gen                      = 1                   # Write general structure parameters to his file (1: yes, 0: no)
+Wrihis_structure_dam                      = 1                   # Write dam parameters to his file (1: yes, 0: no)
+Wrihis_structure_pump                     = 1                   # Write pump parameters to his file (1: yes, 0: no)
+Wrihis_structure_gate                     = 1                   # Write gate parameters to his file (1: yes, 0: no)
+Wrihis_structure_weir                     = 1                   # Write weir parameters to his file (1: yes, 0: no)
+Wrihis_structure_orifice                  = 1                   # Write orifice parameters to his file (1: yes, 0: no)
+Wrihis_structure_bridge                   = 1                   # Write bridge parameters to his file (1: yes, 0: no)
+Wrihis_structure_culvert                  = 1                   # Write culvert parameters to his file (1: yes, 0: no)
+Wrihis_structure_damBreak                 = 1                   # Write dam break parameters to his file (1: yes, 0: no)
+Wrihis_turbulence                         = 1                   # Write k, eps and vicww to his file (1: yes, 0: no)
+Wrihis_wind                               = 1                   # Write wind velocities to his file (1: yes, 0: no)
+Wrihis_rain                               = 1                   # Write precipitation to his file (1: yes, 0: no)
+Wrihis_temperature                        = 0                   # Write temperature to his file (1: yes, 0: no)
+Wrihis_waves                              = 0                   # Write wave data to his file (1: yes, 0: no)
+Wrihis_heat_fluxes                        = 0                   # Write heat fluxes to his file (1: yes, 0: no)
+Wrihis_salinity                           = 1                   # Write salinity to his file (1: yes, 0: no)
+Wrihis_density                            = 1                   # Write density to his file (1: yes, 0: no)
+Wrihis_waterlevel_s1                      = 1                   # Write water level to his file (1: yes, 0: no)
+Wrihis_bedlevel                           = 1                   # Write bed level to his file (1: yes, 0: no)
+Wrihis_waterdepth                         = 0                   # Write waterd epth to his file (1: yes, 0: no)
+Wrihis_velocity_vector                    = 1                   # Write velocity vectors to his file (1: yes, 0: no)
+Wrihis_upward_velocity_component          = 0                   # Write upward velocity to his file (1: yes, 0: no)
+Wrihis_sediment                           = 1                   # Write sediment transport to his file (1: yes, 0: no)
+Wrihis_constituents                       = 1                   # Write tracers to his file (1: yes, 0: no)
+Wrihis_zcor                               = 1                   # Write vertical coordinates to his file (1: yes, 0: no)
+Wrimap_waterlevel_s0                      = 0                   # Write water levels for previous time step to map file (1: yes, 0: no)
+Wrimap_waterlevel_s1                      = 1                   # Write water levels to map file (1: yes, 0: no)
+Wrimap_volume1                            = 0                   # Write volumes to map file (1: yes, 0: no)
+Wrimap_waterdepth_hu                      = 0                   # Write water depths on u-points to map file (1: yes, 0: no)
+Wrimap_ancillary_variables                = 0                   # Write ancillary_variables attributes to map file (1: yes, 0: no)
+Wrimap_flowarea_au                        = 0                   # Write flow areas au to map file (1: yes, 0: no)
+Wrimap_velocity_component_u0              = 0                   # Write velocity component for previous time step to map file (1: yes, 0: no)
+Wrimap_velocity_component_u1              = 1                   # Write velocity component to map file (1: yes, 0: no)
+Wrimap_velocity_vector                    = 1                   # Write cell-center velocity vectors to map file (1: yes, 0: no)
+Wrimap_velocity_magnitude                 = 1                   # Write cell-center velocity vector magnitude to map file (1: yes, 0: no)
+Wrimap_velocity_vectorq                   = 0                   # Write cell-center velocity vectors (discharge-based) to map file (1: yes, 0: no)
+Wrimap_upward_velocity_component          = 0                   # Write upward velocity component on cell interfaces (1: yes, 0: no)
+Wrimap_density_rho                        = 0                   # Write flow density to map file (1: yes, 0: no)
+Wrimap_horizontal_viscosity_viu           = 1                   # Write horizontal viscosity to map file (1: yes, 0: no)
+Wrimap_horizontal_diffusivity_diu         = 1                   # Write horizontal diffusivity to map file (1: yes, 0: no)
+Wrimap_flow_flux_q1                       = 1                   # Write flow flux to map file (1: yes, 0: no)
+Wrimap_flow_flux_q1_main                  = 0                   # Write flow flux in main channel to map file (1: yes, 0: no)
+Wrimap_numlimdt                           = 1                   # Write the number times a cell was Courant limiting to map file (1: yes, 0: no)
+Wrimap_taucurrent                         = 1                   # Write the shear stress to map file (1: yes, 0: no)
+Wrimap_chezy                              = 1                   # Write the chezy roughness to map file (1: yes, 0: no)
+Wrimap_salinity                           = 1                   # Write salinity to map file (1: yes, 0: no)
+Wrimap_turbulence                         = 1                   # Write vicww, k and eps to map file (1: yes, 0: no)
+Wrimap_constituents                       = 1                   # Write constituents to map file (1: yes, 0: no)
+Wrimap_wind                               = 1                   # Write wind velocities to map file (1: yes, 0: no)
+Wrimap_windstress                         = 0                   # Write wind stress to map file (1: yes, 0: no)
+Writek_CdWind                             = 1                   # Write wind friction coeffs to tek file (1: yes, 0: no)
+Wrimap_DTcell                             = 0                   # Write time step per cell based on CFL (1: yes, 0: no)
+Writepart_domain                          = 1                   # Write partition domain info. for postprocessing
+Richardsononoutput                        = 1                   # Write Richardson numbers (1: yes, 0: no)
+Wrishp_crs                                = 0                   # Write grid-snapped cross sections to shapefile (1: yes, 0: no)
+Wrishp_obs                                = 0                   # Write grid-snapped observation stations to shapefile (1: yes, 0: no)
+Wrishp_weir                               = 0                   # Write grid-snapped weirs to shapefile (1: yes, 0: no)
+Wrishp_thd                                = 0                   # Write grid-snapped thin dams to shapefile (1: yes, 0: no)
+Wrishp_gate                               = 0                   # Write grid-snapped gates to shapefile (1: yes, 0: no)
+Wrishp_emb                                = 0                   # Write grid-snapped 1d2d embankments to shapefile (1: yes, 0: no)
+Wrishp_fxw                                = 0                   # Write grid-snapped fixed weirs to shapefile (1: yes, 0: no)
+Wrishp_src                                = 0                   # Write grid-snapped source-sinks to shapefile (1: yes, 0: no)
+Wrishp_pump                               = 0                   # Write grid-snapped pumps to shapefile (1: yes, 0: no)
+Wrishp_dryarea                            = 0                   # Write a shape file for dry areas
+wrishp_genstruc                           = 0                   # Write a shape file for general structures
+WriteDFMinterpretedvalues                 = 0                   # Write DFMinterpretedvalues (1: yes, 0: no)
+MapOutputTimeVector                       =                     # File (*.mpt) containing fixed map output times (s) w.r.t. RefDate
+FullGridOutput                            = 0                   # Full grid output mode (0: compact, 1: full time-varying grid data)
+EulerVelocities                           = 0                   # Euler velocities output (0: GLM, 1: Euler velocities)
+Wrirst_bnd                                = 1                   # Write waterlevel, bedlevel and coordinates of boundaries to restart files
+
+[particles]
+ParticlesFile                             = 
+AddTracer                                 = 0                   # add tracer (1) or not (other)
+StartTime                                 = 0.                  # starttime (if >0)
+TimeStep                                  = 0.                  # time step (>0) or every computational time step
+3Dtype                                    = 0                   # 3D type: depth averaged (0) or free surface (1)
+
+[processes]
+SubstanceFile                             = d:\projects\dflowutil\tests\DSD\01_substances\guayas_V11.sub# substance file
+AdditionalHistoryOutputFile               =                     # extra history output file
+StatisticsFile                            =                     # statistics file
+ThetaVertical                             = 0.                  # theta vertical for waq
+DtProcesses                               = 600.                # waq processes time step
+DtMassBalance                             = 86400.              # waq mass balance output time step
+ProcessFluxIntegration                    = 1                   # Process fluxes integration option (1: WAQ, 2: D-Flow FM)
+VolumeDryThreshold                        = 1.d-3
+DepthDryThreshold                         = 1.d-3
+** INFO   : **
+** INFO   : Start of the computation time loop
+** INFO   : Writing initial output to file(s)...
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_his.nc' as #131072.
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_map.nc' as #196608.
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_000000_rst.nc' as #262144.
+** DEBUG  : Closed NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_000000_rst.nc.
+** INFO   : Done writing initial output to file(s).
+** INFO   :    Sim. time done   Sim. time left   Real time used   Real time left Steps left Complete% Interval-averaged time step
+** INFO   :           0d  0:20:00          0d 23:40:00          0d  0:00:08          0d  0:09:24        142     1.4%     0.00000
+** INFO   :           0d  3:00:00          0d 21:00:00          0d  0:01:06          0d  0:07:40        126    12.5%    30.76923
+** INFO   :           0d  5:10:00          0d 18:50:00          0d  0:02:03          0d  0:07:30        113    21.5%    16.73820
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_060000_rst.nc' as #262144.
+** DEBUG  : Closed NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_060000_rst.nc.
+** INFO   :           0d  7:20:00          0d 16:40:00          0d  0:02:59          0d  0:06:47        100    30.6%    15.53785
+** INFO   :           0d 10:00:00          0d 14:00:00          0d  0:03:55          0d  0:05:30         84    41.7%    21.52466
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_120000_rst.nc' as #262144.
+** DEBUG  : Closed NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_120000_rst.nc.
+** INFO   :           0d 12:00:00          0d 12:00:00          0d  0:04:56          0d  0:04:56         72    50.0%    10.77844
+** INFO   :           0d 14:20:00          0d  9:40:00          0d  0:05:53          0d  0:03:58         58    59.7%    18.46154
+** INFO   :           0d 16:40:00          0d  7:20:00          0d  0:06:52          0d  0:03:01         44    69.4%    15.70093
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_180000_rst.nc' as #262144.
+** DEBUG  : Closed NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020722_180000_rst.nc.
+** INFO   :           0d 18:50:00          0d  5:10:00          0d  0:07:49          0d  0:02:09         31    78.5%    13.75661
+** INFO   :           0d 21:30:00          0d  2:30:00          0d  0:08:48          0d  0:01:01         15    89.6%    17.97753
+** INFO   :           0d 23:30:00          0d  0:30:00          0d  0:09:48          0d  0:00:13          3    97.9%    10.63516
+** DEBUG  : Opened NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020723_000000_rst.nc' as #262144.
+** DEBUG  : Closed NetCDF file 'DFM_OUTPUT_current_situation\current_situation_20020723_000000_rst.nc.
+** INFO   : 
+** INFO   : 
+** INFO   : 
+** INFO   : nr of netnodes         ( )  :                    27067
+** INFO   : nr of netlinks         ( )  :                    51956
+** INFO   : nr of flownodes        ( )  :                    24859
+** INFO   : nr of openbnd cells    ( )  :                       68
+** INFO   : nr of 1D-flownodes     ( )  :                        0
+** INFO   : model area             (m2) :         0.1686256330E+11
+** INFO   : model volume           (m3) :         0.3225700469E+13
+** INFO   : 
+** INFO   : 
+** INFO   : 
+** INFO   : nr of timesteps        ( )  :          5366.0000000000
+** INFO   : average timestep       (s)  :            16.1013790533
+** INFO   : 
+** INFO   : 
+** INFO   : simulation period      (d)  :             1.0000000000
+** INFO   : total computation time (d)  :             0.0081392361
+** INFO   : time modelinit         (d)  :             0.0006005324
+** INFO   : time steps (+ plots)   (d)  :             0.0075387037
+** INFO   : 
+** INFO   : simulation period      (h)  :            24.0000000000
+** INFO   : total computation time (h)  :             0.1953416667
+** INFO   : time modelinit         (h)  :             0.0144127778
+** INFO   : time steps (+ plots)   (h)  :             0.1809288889
+** INFO   : 
+** INFO   : simulation period      (s)  :         86400.0000000000
+** INFO   : total computation time (s)  :           703.2300000000
+** INFO   : time modelinit         (s)  :            51.8860000000
+** INFO   : time steps (+ plots)   (s)  :           651.3440000000
+** INFO   : 
+** INFO   : 
+** INFO   : time iniexternalforc.  (s)  :            27.0190000000
+** INFO   : 
+** INFO   : time inistep           (s)  :            93.2900000003
+** INFO   : time setumod           (s)  :            52.5839999999
+** INFO   : time furu              (s)  :             4.1589999999
+** INFO   : time solve             (s)  :           364.6149999996
+** INFO   : time setexternalforc.  (s)  :             0.0270000000
+** INFO   : time setexternalfbnd.  (s)  :             5.0550000000
+** INFO   : time steps             (s)  :           601.9840000001
+** INFO   : fraction solve/steps   ( )  :             0.6056888555
+** INFO   : total/(dnt*ndx)        (s)  :             0.0000048829
+** INFO   : av nr of cont. it s1it ( )  :             0.0000000000
+** INFO   : time transport [s]         :           118.7739999999
+** INFO   : time processes [s]         :            39.4880000000
+** INFO   : time debug     [s]         :             9.2139999998
+** INFO   : time filter coeff.      [s]:             0.0000000000
+** INFO   : time filter solve       [s]:             0.0000000000
+** INFO   : time filter cnstr. mat. [s]:             0.0000000000
+** INFO   : time filter copy back   [s]:             0.0000000000
+** INFO   : time filter other       [s]:             0.0000000000
+** INFO   : time filter             [s]:             0.0000000000
+** INFO   : 
+** INFO   : 
+** INFO   : 
+** INFO   : Computation started  at: 17:23:01, 11-11-2019
+** INFO   : Computation finished at: 17:33:53, 11-11-2019
+** INFO   : 
+** INFO   : simulation period      (h)  :            24.0000000000
+** INFO   : total time in timeloop (h)  :             0.1809288889
+** INFO   : MPI    : no.
+** INFO   : OpenMP : yes.         #threads max : 12
+** INFO   : 
+** INFO   : 
+** INFO   : 
+** INFO   : Opened file : DFM_OUTPUT_current_situation\current_situation_numlimdt.xyz
+** INFO   : Closed file : DFM_OUTPUT_current_situation\current_situation_numlimdt.xyz
+** INFO   : finalising water quality timers and writing output to: DFM_OUTPUT_current_situation\current_situation_wq_proc_timers.txt
+** INFO   : 

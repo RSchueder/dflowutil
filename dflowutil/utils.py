@@ -126,12 +126,16 @@ def rst_to_xyz(mapdir, subfile, tind, out, rst = False):
 
     dflowutil.rst_to_xyz(mapdir, subfile, -1, out)
     """
+    if not os.path.exists(out):
+        os.makedirs(out)
 
     subs = SubFile(subfile)
     sublist = subs.substances
 
 
     files = list(glob.glob(mapdir + '*_map.nc'))
+    if len(files) == 0:
+        raise FileNotFoundError('No map files available')
 
     ds = netCDF4.Dataset(files[0])
     params = list(ds.variables.keys())

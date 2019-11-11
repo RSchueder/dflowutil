@@ -60,13 +60,17 @@ class DFMWAQModel():
         self.run_sys = run_sys
 
         if isinstance(loads_data, list):
+            print('processing loads...')
             self.loads_data = self.process_loads_data(loads_data)
+            print('loads processed')
         elif not isinstance(loads_data, dict):
             print('ERROR: loads data must be passed as list of strings')
             raise
 
         if isinstance(bounds_data, list):
+            print('processing boundaries')
             self.bounds_data = self.process_bounds_data(bounds_data)
+            print('boundaries processed')
         elif not isinstance(bounds_data, dict):
             print('ERROR: bounds data must be passed as list of strings')
             raise
@@ -76,7 +80,7 @@ class DFMWAQModel():
 
         self.ini = ini
         self.tref = tref
-
+        print('parsing mdu...')
         with open(self.mdu, 'w') as mdu_file:
             with open(self.source_mdu, 'r') as template:
                 lines = template.readlines()
@@ -135,7 +139,8 @@ class DFMWAQModel():
                 else:
                     print('using tool outside Deltares, please specify proc_def path')
                     raise
-
+        print('mdu created')
+        print('registering boundaries...')
         # register boundaries
         if isinstance(ext, list):
             self.boundaries = []
@@ -144,16 +149,20 @@ class DFMWAQModel():
         else:
             print('ERROR: *.ext must be passed as a list of files')
             raise
+        print('boundaries registered')
+        print('initialization complete')
 
     def build(self):
         '''
         builds model based solely on attributes from initialization
         '''
+        print('building model')
         self.soursin()
         self.open_bnd()
         self.administrate_ext_files()
         self.merge_ext_files()
         self.run_set_file()
+        print('model built')
 
     def soursin(self):
         '''
@@ -189,8 +198,6 @@ class DFMWAQModel():
 
                             # concatenation
                             arr = np.array(arr)
-                            print('file' + data + ' is apparently empty')
-                            print(arr)
                             times = np.array([self.tref + datetime.timedelta(minutes=int(tt)) for tt in arr[:, 0]])
                             times = pd.to_datetime(times)
                             flow_vals = arr[:, 1]
