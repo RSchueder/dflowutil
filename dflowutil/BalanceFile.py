@@ -169,7 +169,7 @@ class BalanceFile():
                             val_in = float(val[0])
                             val_out = float(val[1])
                         except:
-                            # NOTE: Change after balance file big is fixed!
+                            # NOTE: Change after balance file bug is fixed!
                             val_in = 0.0
                             val_out = 0.0
 
