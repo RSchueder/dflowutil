@@ -21,7 +21,7 @@ matplotlib==3.1.1
 mccabe==0.6.1
 motuclient==1.8.3
 netCDF4==1.5.2
-numpy==1.17.2
+numpy==1.22.0
 pandas==0.25.1
 pycparser==2.19
 pylint==2.4.2
